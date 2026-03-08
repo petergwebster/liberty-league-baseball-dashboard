@@ -1,63 +1,41 @@
-name: Update Liberty League stats
+name: Update stats
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
-
-permissions:
-  contents: write
-
-concurrency:
-  group: update-stats-main
-  cancel-in-progress: true
+    - cron: "0 * * * *"  # every hour; adjust if you want
 
 jobs:
-  update:
+  update-stats:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python -m playwright install --with-deps chromium
 
-      - name: Run scraper / generator
+      # (Optional) if you still use build_live_stats.py for players / glossary
+      - name: Build other stats (players, glossary, etc.)
         run: |
           python build_live_stats.py
 
-      - name: Commit and push live_team_stats.json
-        shell: bash
+      # THIS is the new bit that generates live_team_stats.json
+      - name: Generate live team stats JSON
         run: |
-          set -euo pipefail
+          python generate_live_team_stats.py
 
+      - name: Commit updated JSON files
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
-          git clean -fd
-
-          python build_live_stats.py
-
-          git add live_team_stats.json
-
-          if git diff --cached --quiet; then
-            echo No changes to commit
-            exit 0
-          fi
-
-          git commit -m "Update live stats"
-          git push origin HEAD:main
+          git add live_team_stats.json live_players.json stats_glossary.json || true
+          git commit -m "Update live stats JSON" || echo "No changes to commit"
+          git push
