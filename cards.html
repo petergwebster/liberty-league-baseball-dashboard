@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Liberty League Cards</title>
+    <title>Liberty League - Team Cards</title>
     <link rel="stylesheet" href="cards.css" />
   </head>
 
@@ -12,7 +12,7 @@
       <div class="nav">
         <a href="./index.html">Teams table</a>
         <span class="sep">|</span>
-        <strong>Cards</strong>
+        <strong>Team cards</strong>
       </div>
 
       <div class="meta">
@@ -25,17 +25,20 @@
       <input id="search" placeholder="Search team" />
       <label class="muted">Sort</label>
       <select id="sortBy">
-        <option value="era">ERA (low)</option>
-        <option value="so">SO (high)</option>
-        <option value="bb">BB (low)</option>
-        <option value="ip">IP (high)</option>
+        <option value="era">ERA low</option>
+        <option value="so">SO high</option>
+        <option value="bb">BB low</option>
+        <option value="ip">IP high</option>
+        <option value="w">Wins high</option>
       </select>
       <span id="count" class="count"></span>
     </div>
 
     <div class="layout">
       <div id="grid" class="grid"></div>
-      <div id="side" class="side">Click a card to see details.</div>
+      <div id="side" class="side">
+        Click a card to see details.
+      </div>
     </div>
 
     <script src="cards.js"></script>
