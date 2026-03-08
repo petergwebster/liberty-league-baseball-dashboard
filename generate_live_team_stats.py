@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
+print("SOURCE_URL=" + SOURCE_URL)
 SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 OUTFILE = "live_team_stats.json"
 
