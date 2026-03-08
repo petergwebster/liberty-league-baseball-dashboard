@@ -27,10 +27,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install playwright
+
+      - name: Install Playwright browsers and OS deps
+        run: |
+          python -m playwright install --with-deps chromium
 
       - name: Network sanity check
         run: |
@@ -41,10 +46,6 @@ jobs:
 
       - name: Run scraper / generator
         run: |
-          # IMPORTANT: replace this with the command your repo uses to generate live_team_stats.json
-          # Examples:
-          # python build_live_stats.py
-          # python scrape.py
           python build_live_stats.py
 
       - name: Commit and push changes (robust)
@@ -54,16 +55,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage only the file(s) you expect to change
           git add live_team_stats.json
-
-          # If nothing changed, exit cleanly
           git diff --cached --quiet && echo "No changes to commit" && exit 0
 
           git commit -m "Update live stats"
 
-          # Sync with latest main to avoid 'fetch first' rejection
           git pull --rebase origin main
-
-          # Push our commit
           git push origin HEAD:main
