@@ -1,7 +1,7 @@
 :root {
   --bg: #0b1220;
   --panel: rgba(255, 255, 255, 0.06);
-  --panel2: rgba(255, 255, 255, 0.08);
+  --panel2: rgba(255, 255, 255, 0.085);
   --text: rgba(255, 255, 255, 0.92);
   --muted: rgba(255, 255, 255, 0.70);
   --line: rgba(255, 255, 255, 0.12);
@@ -10,10 +10,14 @@
 
 * { box-sizing: border-box; }
 
+html, body { height: 100%; }
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: var(--bg);
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(120, 180, 255, 0.14), transparent 55%),
+              radial-gradient(900px 500px at 90% 20%, rgba(180, 120, 255, 0.10), transparent 60%),
+              var(--bg);
   color: var(--text);
 }
 
@@ -21,22 +25,20 @@ a { color: var(--text); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
   border-bottom: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(10, 16, 30, 0.85);
+  backdrop-filter: blur(10px);
 }
 
-.nav {
-  font-size: 14px;
-}
-
-.sep {
-  opacity: 0.65;
-  padding: 0 8px;
-}
+.nav { font-size: 14px; }
+.sep { opacity: 0.65; padding: 0 8px; }
 
 .meta {
   display: flex;
@@ -51,31 +53,46 @@ a:hover { text-decoration: underline; }
   display: inline-block;
   padding: 4px 10px;
   border-radius: 999px;
-  background: var(--panel2);
+  background: rgba(255, 255, 255, 0.10);
   border: 1px solid var(--line);
   font-size: 12px;
 }
 
 .controls {
+  position: sticky;
+  top: 54px;
+  z-index: 4;
   display: flex;
   gap: 10px;
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
+  background: rgba(10, 16, 30, 0.75);
+  backdrop-filter: blur(10px);
 }
 
 .controls input,
 .controls select {
-  background: var(--panel);
+  background: rgba(255, 255, 255, 0.07);
   border: 1px solid var(--line);
   color: var(--text);
-  padding: 8px 10px;
-  border-radius: 10px;
+  padding: 9px 10px;
+  border-radius: 12px;
   outline: none;
+}
+
+.controls input {
+  width: min(420px, 55vw);
 }
 
 .controls input::placeholder {
   color: rgba(255, 255, 255, 0.55);
+}
+
+.controls input:focus,
+.controls select:focus {
+  border-color: rgba(120, 180, 255, 0.55);
+  box-shadow: 0 0 0 3px rgba(120, 180, 255, 0.12);
 }
 
 #count {
@@ -86,49 +103,57 @@ a:hover { text-decoration: underline; }
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr 360px;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 12px 16px 18px 16px;
 }
 
 #grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 10px;
   align-content: start;
 }
 
 .card {
-  background: var(--panel);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.05));
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 12px 12px;
   cursor: pointer;
   user-select: none;
-  transition: transform 0.06s ease, background 0.12s ease, border-color 0.12s ease;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  font-weight: 650;
+  letter-spacing: 0.1px;
+  transition: transform 0.08s ease, background 0.12s ease, border-color 0.12s ease;
 }
 
 .card:hover {
   transform: translateY(-1px);
-  background: var(--panel2);
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
-/* This is the main thing Step 2 adds */
 .card.selected {
   outline: 2px solid var(--accent);
   border-color: rgba(120, 180, 255, 0.55);
 }
 
 #side {
-  background: var(--panel);
+  background: rgba(255, 255, 255, 0.055);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 12px 12px;
   min-height: 180px;
+  position: sticky;
+  top: 110px;
+  height: fit-content;
 }
 
 .sideTitle {
-  font-weight: 800;
+  font-weight: 850;
   font-size: 18px;
   margin-bottom: 4px;
 }
@@ -136,7 +161,7 @@ a:hover { text-decoration: underline; }
 .sideSub {
   opacity: 0.85;
   font-size: 12px;
-  margin: 8px 0;
+  margin: 8px 0 10px 0;
 }
 
 table.kv {
@@ -145,23 +170,40 @@ table.kv {
 }
 
 table.kv td {
-  padding: 6px 0;
+  padding: 7px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 table.kv td.k {
   opacity: 0.8;
-  width: 60%;
+  width: 62%;
 }
 
 table.kv td.v {
   text-align: right;
-  font-weight: 700;
+  font-weight: 750;
 }
 
-/* Simple mobile layout */
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+details {
+  margin-top: 12px;
+}
+
+details summary {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+pre {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  padding: 10px;
+  overflow: auto;
+}
+
+@media (max-width: 950px) {
+  .layout { grid-template-columns: 1fr; }
+  #side { position: relative; top: auto; }
+  .controls { top: 0; position: relative; }
+  .top { position: relative; }
 }
