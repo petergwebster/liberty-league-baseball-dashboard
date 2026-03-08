@@ -1,0 +1,17 @@
+[
+  { "stat": "Team", "definition": "School name." },
+  { "stat": "Record", "definition": "Overall W-L record shown on the site (if available)." },
+  { "stat": "Conf", "definition": "Conference W-L record (if available)." },
+  { "stat": "AVG", "definition": "Team batting average." },
+  { "stat": "OBP", "definition": "On-base percentage." },
+  { "stat": "SLG", "definition": "Slugging percentage." },
+  { "stat": "OPS", "definition": "On-base plus slugging." },
+  { "stat": "R", "definition": "Runs scored." },
+  { "stat": "H", "definition": "Hits." },
+  { "stat": "HR", "definition": "Home runs." },
+  { "stat": "RBI", "definition": "Runs batted in." },
+  { "stat": "SB", "definition": "Stolen bases." },
+  { "stat": "ERA", "definition": "Earned run average." },
+  { "stat": "WHIP", "definition": "Walks + hits per inning pitched." },
+  { "stat": "K", "definition": "Strikeouts." }
+]
