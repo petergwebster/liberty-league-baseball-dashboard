@@ -1,31 +1,6 @@
 {
-  "generated_at": "2026-03-08T20:54:06.177988+00:00",
+  "generated_at": "2026-03-08T21:36:51.351880+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
-  "rows": [
-    {
-      "metric": "scrape_status",
-      "value": "OK"
-    },
-    {
-      "metric": "page_title",
-      "value": "2026 Baseball - Overall Statistics - Liberty League"
-    },
-    {
-      "metric": "tables_count",
-      "value": "101"
-    },
-    {
-      "metric": "links_count",
-      "value": "169"
-    },
-    {
-      "metric": "html_text_len",
-      "value": "48309"
-    },
-    {
-      "metric": "source_url",
-      "value": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
-    }
-  ],
-  "error": null
+  "rows": [],
+  "error": "404 Client Error: Not Found for url: https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 }
