@@ -1,88 +1,115 @@
 import json
-import os
+import time
 from datetime import datetime, timezone
 
-from playwright.sync_api import sync_playwright
+import requests
+from bs4 import BeautifulSoup
 
-BASE_URL = "https://libertyleagueconference.com"
-SCOREBOARD_URL = BASE_URL + "/sports/bsb/scoreboard"
+# Optional fallback
+try:
+    from playwright.sync_api import sync_playwright
+    PLAYWRIGHT_AVAILABLE = True
+except Exception:
+    PLAYWRIGHT_AVAILABLE = False
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
-def safe_write_json(path, obj):
-    tmp_path = path + ".tmp"
-    with open(tmp_path, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=2, ensure_ascii=False)
-    os.replace(tmp_path, path)
+SCOREBOARD_URL = "https://libertyleagueconference.com/sports/bsb/scoreboard"
+OUTFILE = "live_team_stats.json"
 
-def ensure_files_exist():
-    if not os.path.exists("live_team_stats.json"):
-        safe_write_json("live_team_stats.json", {"generated_at": "", "source_url": "", "rows": []})
-    if not os.path.exists("live_players.json"):
-        safe_write_json("live_players.json", {"generated_at": "", "source_url": "", "rows": []})
-    if not os.path.exists("stats_glossary.json"):
-        safe_write_json("stats_glossary.json", [])
 
-def scrape_best_effort(url):
-    payload = {"generated_at": now_iso(), "source_url": url, "rows": []}
+def utc_now_iso():
+    return datetime.now(timezone.utc).isoformat()
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        page.set_default_timeout(45000)
 
+def fetch_with_requests(url, attempts=6, base_sleep=2):
+    last_err = None
+    headers = {
+        "User-Agent": "Mozilla/5.0 (compatible; LibertyLeagueStatsBot/1.0; +https://libertyleaguestats.netlify.app)"
+    }
+
+    for attempt_idx in range(1, attempts + 1):
         try:
-            page.goto(url, wait_until="domcontentloaded")
-            page.wait_for_timeout(1200)
-
-            tables = page.query_selector_all("table")
-            if len(tables) == 0:
-                browser.close()
-                return payload
-
-            table = tables[0]
-            headers = [th.inner_text().strip() for th in table.query_selector_all("thead tr th")]
-            if len(headers) == 0:
-                headers = [th.inner_text().strip() for th in table.query_selector_all("tr th")]
-
-            trs = table.query_selector_all("tbody tr")
-            if len(trs) == 0:
-                trs = table.query_selector_all("tr")
-
-            rows = []
-            for tr in trs:
-                tds = tr.query_selector_all("td")
-                if len(tds) == 0:
-                    continue
-                row = {}
-                for idx, td in enumerate(tds):
-                    key = headers[idx] if idx < len(headers) and headers[idx] else "col_" + str(idx + 1)
-                    row[key] = " ".join(td.inner_text().split()).strip()
-                rows.append(row)
-
-            payload["rows"] = rows
-            browser.close()
-            return payload
-
+            resp = requests.get(url, headers=headers, timeout=30)
+            resp.raise_for_status()
+            return resp.text, None
         except Exception as e:
-            # Critical change: do NOT fail the workflow on DNS / site issues.
-            payload["error"] = str(e)
-            browser.close()
-            return payload
+            last_err = str(e)
+            sleep_s = base_sleep * attempt_idx
+            time.sleep(sleep_s)
+
+    return None, "requests failed after " + str(attempts) + " attempts: " + str(last_err)
+
+
+def fetch_with_playwright(url, attempts=3):
+    if not PLAYWRIGHT_AVAILABLE:
+        return None, "playwright not available in environment"
+
+    last_err = None
+    for attempt_idx in range(1, attempts + 1):
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch(
+                    headless=True,
+                    args=["--dns-result-order=ipv4first"]
+                )
+                page = browser.new_page()
+                page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                html = page.content()
+                browser.close()
+                return html, None
+        except Exception as e:
+            last_err = str(e)
+            time.sleep(3 * attempt_idx)
+
+    return None, "playwright failed after " + str(attempts) + " attempts: " + str(last_err)
+
+
+def parse_scoreboard_minimal(html_text):
+    # NOTE: This is deliberately conservative.
+    # It just proves we can fetch and parse something stable.
+    # You can expand this later to match your exact table extraction logic.
+    soup = BeautifulSoup(html_text, "lxml")
+
+    title = soup.title.get_text(strip=True) if soup.title else ""
+    links_count = len(soup.find_all("a"))
+    tables_count = len(soup.find_all("table"))
+
+    # Placeholder "rows" structure so your dashboard can show something
+    # even before we implement the full stats extraction.
+    rows = [
+        {"metric": "page_title", "value": title},
+        {"metric": "links_count", "value": str(links_count)},
+        {"metric": "tables_count", "value": str(tables_count)},
+    ]
+    return rows
+
 
 def main():
-    ensure_files_exist()
+    payload = {
+        "generated_at": utc_now_iso(),
+        "source_url": SCOREBOARD_URL,
+        "rows": [],
+        "error": None
+    }
 
-    team_stats = scrape_best_effort(SCOREBOARD_URL)
+    html_text, err = fetch_with_requests(SCOREBOARD_URL)
+    if err is not None:
+        html_text, err2 = fetch_with_playwright(SCOREBOARD_URL)
+        if err2 is not None:
+            payload["error"] = "Requests error: " + str(err) + " | Playwright error: " + str(err2)
+            with open(OUTFILE, "w", encoding="utf-8") as f:
+                json.dump(payload, f, indent=2)
+            return
 
-    # Player scraping can be added later; keep it stable for now
-    players = {"generated_at": now_iso(), "source_url": "", "rows": []}
+    try:
+        rows = parse_scoreboard_minimal(html_text)
+        payload["rows"] = rows
+    except Exception as e:
+        payload["error"] = "Parse error: " + str(e)
 
-    safe_write_json("live_team_stats.json", team_stats)
-    safe_write_json("live_players.json", players)
+    with open(OUTFILE, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
 
-    print("Done. team rows " + str(len(team_stats.get("rows", []))))
 
 if __name__ == "__main__":
     main()
