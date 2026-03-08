@@ -3,49 +3,24 @@ async function loadLiveStats() {
   const lastGenEl = document.getElementById("lastGenerated");
   const tableWrapEl = document.getElementById("tableWrap");
 
-  function setState(text, isError) {
-    if (stateEl) {
-      stateEl.textContent = text;
-      stateEl.style.background = isError ? "#ffe5e5" : "#e8f5e9";
-      stateEl.style.border = "1px solid " + (isError ? "#ffb3b3" : "#b7e1bc");
-      stateEl.style.padding = "2px 8px";
-      stateEl.style.borderRadius = "999px";
-      stateEl.style.display = "inline-block";
-    }
-  }
-
-  function clearTable() {
-    if (tableWrapEl) tableWrapEl.innerHTML = "";
+  function setState(text) {
+    if (stateEl) stateEl.textContent = text;
   }
 
   function renderTable(rows) {
-    clearTable();
-
     if (!tableWrapEl) return;
+    tableWrapEl.innerHTML = "";
 
     if (!rows || rows.length === 0) {
-      tableWrapEl.innerHTML =
-        "<div style='padding:10px;border:1px solid #ddd;border-radius:8px;'>No rows yet</div>";
+      tableWrapEl.textContent = "No rows yet";
       return;
     }
 
     const colSet = new Set();
     rows.forEach((r) => {
-      if (r && typeof r === "object") {
-        Object.keys(r).forEach((k) => colSet.add(k));
-      }
+      if (r && typeof r === "object") Object.keys(r).forEach((k) => colSet.add(k));
     });
-
-    const preferredOrder = ["metric", "value", "team", "gp", "w", "l", "pct"];
-    const allCols = Array.from(colSet);
-
-    const orderedCols = [];
-    preferredOrder.forEach((k) => {
-      if (colSet.has(k)) orderedCols.push(k);
-    });
-    allCols.forEach((k) => {
-      if (!orderedCols.includes(k)) orderedCols.push(k);
-    });
+    const cols = Array.from(colSet);
 
     const tableEl = document.createElement("table");
     tableEl.style.width = "100%";
@@ -54,13 +29,12 @@ async function loadLiveStats() {
 
     const theadEl = document.createElement("thead");
     const headRowEl = document.createElement("tr");
-    orderedCols.forEach((col) => {
+    cols.forEach((c) => {
       const thEl = document.createElement("th");
-      thEl.textContent = col;
+      thEl.textContent = c;
       thEl.style.textAlign = "left";
       thEl.style.padding = "8px";
       thEl.style.borderBottom = "2px solid #ddd";
-      thEl.style.fontSize = "14px";
       headRowEl.appendChild(thEl);
     });
     theadEl.appendChild(headRowEl);
@@ -69,15 +43,12 @@ async function loadLiveStats() {
     const tbodyEl = document.createElement("tbody");
     rows.forEach((r) => {
       const trEl = document.createElement("tr");
-      orderedCols.forEach((col) => {
+      cols.forEach((c) => {
         const tdEl = document.createElement("td");
-        const cellVal =
-          r && Object.prototype.hasOwnProperty.call(r, col) ? r[col] : "";
-        tdEl.textContent =
-          cellVal === null || cellVal === undefined ? "" : String(cellVal);
+        const v = r && Object.prototype.hasOwnProperty.call(r, c) ? r[c] : "";
+        tdEl.textContent = v === null || v === undefined ? "" : String(v);
         tdEl.style.padding = "8px";
         tdEl.style.borderBottom = "1px solid #eee";
-        tdEl.style.verticalAlign = "top";
         trEl.appendChild(tdEl);
       });
       tbodyEl.appendChild(trEl);
@@ -88,31 +59,24 @@ async function loadLiveStats() {
   }
 
   try {
-    setState("Loading...", false);
-    clearTable();
+    setState("Loading...");
 
     const resp = await fetch("./live_team_stats.json", { cache: "no-store" });
-    if (!resp.ok) {
-      throw new Error("HTTP " + resp.status + " fetching live_team_stats.json");
-    }
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
 
     const data = await resp.json();
-
     const rows = data && Array.isArray(data.rows) ? data.rows : [];
     const generatedAt = data && data.generated_at ? data.generated_at : "";
 
     if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
 
-    if (data && data.error) {
-      setState("Loaded " + rows.length + " rows (with error)", true);
-    } else {
-      setState("Loaded " + rows.length + " rows", false);
-    }
-
+    setState("Loaded " + rows.length + " rows");
     renderTable(rows);
   } catch (e) {
-    setState("Failed to load JSON", true);
+    setState("Failed to load JSON");
     if (lastGenEl) lastGenEl.textContent = "(error)";
-    if (tableWrapEl) {
-      tableWrapEl.innerHTML =
-        "
+    if (tableWrapEl) tableWrapEl.textContent = String(e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadLiveStats);
