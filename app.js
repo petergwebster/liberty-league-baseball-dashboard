@@ -47,8 +47,11 @@ async function init() {
     var rows = Array.isArray(team.rows) ? team.rows : [];
     if (rows.length === 0) {
       setText("dataState", "No rows yet");
-      var msg = "The JSON loaded successfully, but rows is empty.\n\n";
-      if (team.error) msg += "Last scrape error recorded:\n" + team.error;
+      var msg = "The JSON loaded successfully, but rows is empty.
+
+";
+      if (team.error) msg += "Last scrape error recorded:
+" + team.error;
       setText("status", msg);
       return;
     }
