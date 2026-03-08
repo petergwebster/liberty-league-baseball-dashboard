@@ -110,5 +110,4 @@ async function loadLiveStats() {
     setState("Failed to load JSON", true);
     if (lastGenEl) lastGenEl.textContent = "(error)";
     if (tableWrapEl) {
-      tableWrapEl.innerHTML =
-        "
+      tableWrapEl.innerHTML = "
