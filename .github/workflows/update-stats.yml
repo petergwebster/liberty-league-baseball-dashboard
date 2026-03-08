@@ -30,19 +30,8 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install playwright
-
-      - name: Install Playwright browsers and OS deps
-        run: |
+          pip install -r requirements.txt
           python -m playwright install --with-deps chromium
-
-      - name: Network sanity check
-        run: |
-          echo DNS
-          nslookup libertyleagueconference.com || true
-          echo HTTP
-          curl -I -L https://libertyleagueconference.com/sports/bsb/scoreboard || true
 
       - name: Run scraper / generator
         run: |
@@ -56,21 +45,17 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Make the working directory exactly match the remote branch
-          # (prevents "unstaged changes" / rebase issues entirely)
           git fetch origin main
           git checkout main
           git reset --hard origin/main
           git clean -fd
 
-          # Re-run scraper after clean reset so the generated JSON is present
           python build_live_stats.py
 
-          # Commit only the JSON file we want tracked
           git add live_team_stats.json
 
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+            echo No changes to commit
             exit 0
           fi
 
