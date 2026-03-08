@@ -5,13 +5,12 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-# Optional fallback
+# Optional fallback (workflow installs it, but keep code safe if import fails)
 try:
     from playwright.sync_api import sync_playwright
     PLAYWRIGHT_AVAILABLE = True
 except Exception:
     PLAYWRIGHT_AVAILABLE = False
-
 
 SCOREBOARD_URL = "https://libertyleagueconference.com/sports/bsb/scoreboard"
 OUTFILE = "live_team_stats.json"
@@ -24,7 +23,7 @@ def utc_now_iso():
 def fetch_with_requests(url, attempts=6, base_sleep=2):
     last_err = None
     headers = {
-        "User-Agent": "Mozilla/5.0 (compatible; LibertyLeagueStatsBot/1.0; +https://libertyleaguestats.netlify.app)"
+        "User-Agent": "Mozilla/5.0 (compatible; LibertyLeagueStatsBot/1.0)"
     }
 
     for attempt_idx in range(1, attempts + 1):
@@ -34,15 +33,14 @@ def fetch_with_requests(url, attempts=6, base_sleep=2):
             return resp.text, None
         except Exception as e:
             last_err = str(e)
-            sleep_s = base_sleep * attempt_idx
-            time.sleep(sleep_s)
+            time.sleep(base_sleep * attempt_idx)
 
     return None, "requests failed after " + str(attempts) + " attempts: " + str(last_err)
 
 
 def fetch_with_playwright(url, attempts=3):
     if not PLAYWRIGHT_AVAILABLE:
-        return None, "playwright not available in environment"
+        return None, "playwright not available"
 
     last_err = None
     for attempt_idx in range(1, attempts + 1):
@@ -54,30 +52,28 @@ def fetch_with_playwright(url, attempts=3):
                 )
                 page = browser.new_page()
                 page.goto(url, wait_until="domcontentloaded", timeout=60000)
-                html = page.content()
+                html_text = page.content()
                 browser.close()
-                return html, None
+                return html_text, None
         except Exception as e:
             last_err = str(e)
-            time.sleep(3 * attempt_idx)
+            time.sleep(2 * attempt_idx)
 
     return None, "playwright failed after " + str(attempts) + " attempts: " + str(last_err)
 
 
 def parse_scoreboard_minimal(html_text):
-    # NOTE: This is deliberately conservative.
-    # It just proves we can fetch and parse something stable.
-    # You can expand this later to match your exact table extraction logic.
+    # Minimal parse so you can confirm fetch worked.
+    # You can replace this later with your real table extraction.
     soup = BeautifulSoup(html_text, "lxml")
 
-    title = soup.title.get_text(strip=True) if soup.title else ""
+    title_text = soup.title.get_text(strip=True) if soup.title else ""
     links_count = len(soup.find_all("a"))
     tables_count = len(soup.find_all("table"))
 
-    # Placeholder "rows" structure so your dashboard can show something
-    # even before we implement the full stats extraction.
     rows = [
-        {"metric": "page_title", "value": title},
+        {"metric": "scrape_status", "value": "OK"},
+        {"metric": "page_title", "value": title_text},
         {"metric": "links_count", "value": str(links_count)},
         {"metric": "tables_count", "value": str(tables_count)},
     ]
@@ -92,19 +88,34 @@ def main():
         "error": None
     }
 
-    html_text, err = fetch_with_requests(SCOREBOARD_URL)
-    if err is not None:
-        html_text, err2 = fetch_with_playwright(SCOREBOARD_URL)
-        if err2 is not None:
-            payload["error"] = "Requests error: " + str(err) + " | Playwright error: " + str(err2)
-            with open(OUTFILE, "w", encoding="utf-8") as f:
-                json.dump(payload, f, indent=2)
-            return
+    html_text, err_req = fetch_with_requests(SCOREBOARD_URL)
 
+    err_pw = None
+    if html_text is None:
+        html_text, err_pw = fetch_with_playwright(SCOREBOARD_URL)
+
+    # OPTION A CORE CHANGE: if we still can't fetch, write non-empty rows anyway
+    if html_text is None:
+        payload["rows"] = [
+            {"metric": "scrape_status", "value": "FAILED"},
+            {"metric": "reason", "value": "Could not resolve or reach source host from GitHub Actions runner"},
+            {"metric": "source_url", "value": SCOREBOARD_URL},
+            {"metric": "note", "value": "Dashboard is healthy; upstream fetch failed. Try again later."},
+        ]
+        payload["error"] = "Requests error: " + str(err_req) + " | Playwright error: " + str(err_pw)
+        with open(OUTFILE, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        return
+
+    # If we fetched HTML, parse it into rows (still guaranteed non-empty)
     try:
-        rows = parse_scoreboard_minimal(html_text)
-        payload["rows"] = rows
+        payload["rows"] = parse_scoreboard_minimal(html_text)
     except Exception as e:
+        payload["rows"] = [
+            {"metric": "scrape_status", "value": "FAILED"},
+            {"metric": "reason", "value": "Parse error"},
+            {"metric": "details", "value": str(e)},
+        ]
         payload["error"] = "Parse error: " + str(e)
 
     with open(OUTFILE, "w", encoding="utf-8") as f:
