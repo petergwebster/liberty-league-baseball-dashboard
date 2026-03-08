@@ -32,4 +32,4 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       card.addEventListener("click", function () {
         if (!sideEl) return;
-        sideEl.innerHTML = "
+        sideEl.innerHTML = 
