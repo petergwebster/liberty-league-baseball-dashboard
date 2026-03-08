@@ -1,39 +1,3 @@
-function qs(id) {
-  return document.getElementById(id);
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function setPill(text, cls) {
-  const el = qs("state");
-  if (!el) return;
-  el.textContent = text;
-  el.classList.remove("ok");
-  el.classList.remove("bad");
-  if (cls) el.classList.add(cls);
-}
-
-function normalizeRows(payload) {
-  if (!payload) return [];
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload.rows)) return payload.rows;
-  if (Array.isArray(payload.data)) return payload.data;
-  return [];
-}
-
-async function loadTeams() {
-  const resp = await fetch("./live_team_stats.json", { cache: "no-store" });
-  if (!resp.ok) throw new Error("Fetch live_team_stats.json failed (HTTP " + resp.status + ")");
-  return await resp.json();
-}
-
 function render(rows) {
   const gridEl = qs("grid");
   const sideEl = qs("side");
@@ -44,7 +8,9 @@ function render(rows) {
   if (countEl) countEl.textContent = String(rows.length) + " teams";
 
   rows.forEach(function (r) {
-    const teamName = r && (r.team || r.Team || r.school || r.name) ? String(r.team || r.Team || r.school || r.name) : "Unknown";
+    const teamName = r && (r.team || r.Team || r.school || r.name)
+      ? String(r.team || r.Team || r.school || r.name)
+      : "Unknown";
 
     const w = r && r.wins != null ? r.wins : "";
     const l = r && r.losses != null ? r.losses : "";
