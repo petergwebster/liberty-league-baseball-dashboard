@@ -1,17 +1,36 @@
-<body>
-  <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-    <a href="#/">Teams</a>
-    <a href="#/players">Players</a>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Liberty League - Teams</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
 
-    <span id="state"></span>
+  <body>
+    <div class="top">
+      <div class="nav">
+        <strong>Teams table</strong>
+        <span class="sep">|</span>
+        <a href="./cards.html">Team cards</a>
+      </div>
 
-    <span style="color:#666;">
-      Last generated:
-      <span id="lastGenerated"></span>
-    </span>
-  </div>
+      <div class="meta">
+        <span id="state" class="pill">Loading...</span>
+        <span class="muted">Last generated <span id="lastGenerated"></span></span>
+      </div>
+    </div>
 
-  <div id="tableWrap" style="margin-top:12px;"></div>
+    <div class="hero">
+      <div class="heroTitle">Liberty League</div>
+      <div class="heroSub">Search, sort, and click a team to jump to its card.</div>
+    </div>
 
-  <script src="app.js"></script>
-</body>
+    <div class="controls">
+      <input id="search" placeholder="Search team" />
+      <select id="sort"></select>
+      <span id="count"></span>
+    </div>
+
+    <div class="main">
+      <div class="panel">
