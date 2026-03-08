@@ -1,4 +1,4 @@
-console.log("cards.js version 1 functional");
+console.log("cards.js DEPLOY CHECK v2");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const stateEl = document.getElementById("state");
@@ -6,26 +6,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   const sideEl = document.getElementById("side");
   const countEl = document.getElementById("count");
 
-  const searchEl = document.getElementById("search");
-  const sortEl = document.getElementById("sort");
-
-  function setState(txt, cls) {
-    if (!stateEl) return;
-    stateEl.textContent = txt;
-    stateEl.classList.remove("ok");
-    stateEl.classList.remove("bad");
-    if (cls) stateEl.classList.add(cls);
-  }
-
-  function esc(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  function setState(txt) {
+    if (stateEl) stateEl.textContent = txt;
   }
 
   function getTeamName(r) {
     return r.team || r.Team || r.school || r.School || r.name || r.Name || "Unknown";
+  }
+
+  function pickFirst(obj, keys) {
+    for (let idx = 0; idx < keys.length; idx++) {
+      const key = keys[idx];
+      if (obj && Object.prototype.hasOwnProperty.call(obj, key) && obj[key] !== null && obj[key] !== undefined) return obj[key];
+    }
+    return null;
   }
 
   function asNum(v) {
@@ -33,111 +27,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     return Number.isFinite(n) ? n : null;
   }
 
-  function pickFirst(obj, keys) {
-    for (let i = 0; i < keys.length; i++) {
-      const k = keys[i];
-      if (obj && Object.prototype.hasOwnProperty.call(obj, k) && obj[k] !== null && obj[k] !== undefined) return obj[k];
-    }
-    return null;
-  }
-
   function computeGoalDiff(r) {
-    const gf = asNum(pickFirst(r, ["gf", "GF", "goals_for", "GoalsFor", "goalsFor"]));
-    const ga = asNum(pickFirst(r, ["ga", "GA", "goals_against", "GoalsAgainst", "goalsAgainst"]));
+    const gf = asNum(pickFirst(r, ["gf", "GF", "goals_for", "GoalsFor"]));
+    const ga = asNum(pickFirst(r, ["ga", "GA", "goals_against", "GoalsAgainst"]));
     if (gf === null || ga === null) return null;
     return gf - ga;
-  }
-
-  function buildSortOptions(rows) {
-    const options = [];
-    options.push({ value: "name_asc", label: "Team name (A-Z)" });
-    options.push({ value: "name_desc", label: "Team name (Z-A)" });
-
-    function anyHas(keys) {
-      for (let i = 0; i < rows.length; i++) {
-        for (let j = 0; j < keys.length; j++) {
-          const v = pickFirst(rows[i], [keys[j]]);
-          const n = asNum(v);
-          if (n !== null) return true;
-        }
-      }
-      return false;
-    }
-
-    const candidates = [
-      { id: "pts", label: "Points", keys: ["pts", "PTS", "points", "Points"] },
-      { id: "w", label: "Wins", keys: ["w", "W", "wins", "Wins"] },
-      { id: "gp", label: "Games played", keys: ["gp", "GP", "games", "Games"] },
-      { id: "gf", label: "Goals for", keys: ["gf", "GF", "goals_for", "GoalsFor"] },
-      { id: "ga", label: "Goals against", keys: ["ga", "GA", "goals_against", "GoalsAgainst"] }
-    ];
-
-    candidates.forEach(function (c) {
-      let present = false;
-      for (let i = 0; i < c.keys.length; i++) {
-        if (anyHas([c.keys[i]])) present = true;
-      }
-      if (present) options.push({ value: c.id + "_desc", label: c.label + " (high to low)" });
-    });
-
-    options.push({ value: "gd_desc", label: "Goal diff (high to low)" });
-    return options;
-  }
-
-  function sortRows(rows, sortValue) {
-    const cloned = rows.slice();
-
-    function numFromRow(r, keyId) {
-      if (keyId === "gd") {
-        const gd = computeGoalDiff(r);
-        return gd === null ? -Infinity : gd;
-      }
-
-      const map = {
-        pts: ["pts", "PTS", "points", "Points"],
-        w: ["w", "W", "wins", "Wins"],
-        gp: ["gp", "GP", "games", "Games"],
-        gf: ["gf", "GF", "goals_for", "GoalsFor"],
-        ga: ["ga", "GA", "goals_against", "GoalsAgainst"]
-      };
-
-      const keys = map[keyId] || [];
-      for (let i = 0; i < keys.length; i++) {
-        const n = asNum(r[keys[i]]);
-        if (n !== null) return n;
-      }
-      return -Infinity;
-    }
-
-    cloned.sort(function (a, b) {
-      const nameA = getTeamName(a).toLowerCase();
-      const nameB = getTeamName(b).toLowerCase();
-
-      if (sortValue === "name_asc") return nameA.localeCompare(nameB);
-      if (sortValue === "name_desc") return nameB.localeCompare(nameA);
-
-      const parts = String(sortValue).split("_");
-      const keyId = parts[0];
-      const direction = parts[1] || "desc";
-
-      const na = numFromRow(a, keyId);
-      const nb = numFromRow(b, keyId);
-
-      if (na !== nb) {
-        return direction === "asc" ? (na - nb) : (nb - na);
-      }
-
-      return nameA.localeCompare(nameB);
-    });
-
-    return cloned;
   }
 
   function renderDetails(r) {
     if (!sideEl) return;
 
     const name = getTeamName(r);
-
     const pts = pickFirst(r, ["pts", "PTS", "points", "Points"]);
     const w = pickFirst(r, ["w", "W", "wins", "Wins"]);
     const l = pickFirst(r, ["l", "L", "losses", "Losses"]);
@@ -147,8 +47,100 @@ document.addEventListener("DOMContentLoaded", async function () {
     const ga = pickFirst(r, ["ga", "GA", "goals_against", "GoalsAgainst"]);
     const gd = computeGoalDiff(r);
 
-    let html = "";
-    html += "<div class='sideTitle'>" + esc(name) + "</div>";
-    html += "<div class='sideSub'>Team summary</div>";
+    sideEl.innerHTML = "";
 
-    html += "
+    const titleEl = document.createElement("div");
+    titleEl.className = "sideTitle";
+    titleEl.textContent = String(name);
+    sideEl.appendChild(titleEl);
+
+    const subEl = document.createElement("div");
+    subEl.className = "sideSub";
+    subEl.textContent = "Team summary";
+    sideEl.appendChild(subEl);
+
+    const tableEl = document.createElement("table");
+    tableEl.className = "kv";
+
+    function addRow(label, value) {
+      if (value === null || value === undefined || value === "") return;
+      const trEl = document.createElement("tr");
+
+      const kEl = document.createElement("td");
+      kEl.className = "k";
+      kEl.textContent = String(label);
+
+      const vEl = document.createElement("td");
+      vEl.className = "v";
+      vEl.textContent = String(value);
+
+      trEl.appendChild(kEl);
+      trEl.appendChild(vEl);
+      tableEl.appendChild(trEl);
+    }
+
+    addRow("Games played", gp);
+    addRow("Wins", w);
+    addRow("Losses", l);
+    addRow("Ties", t);
+    addRow("Points", pts);
+    addRow("Goals for", gf);
+    addRow("Goals against", ga);
+    if (gd !== null) addRow("Goal differential", gd);
+
+    sideEl.appendChild(tableEl);
+
+    const preEl = document.createElement("pre");
+    preEl.style.whiteSpace = "pre-wrap";
+    preEl.style.marginTop = "12px";
+    preEl.textContent = JSON.stringify(r, null, 2);
+    sideEl.appendChild(preEl);
+  }
+
+  setState("Loading...");
+
+  let resp;
+  try {
+    resp = await fetch("./live_team_stats.json", { cache: "no-store" });
+  } catch (err) {
+    setState("Fetch failed");
+    if (gridEl) gridEl.textContent = String(err);
+    return;
+  }
+
+  if (!resp.ok) {
+    setState("HTTP " + String(resp.status));
+    if (gridEl) gridEl.textContent = "live_team_stats.json HTTP " + String(resp.status);
+    return;
+  }
+
+  let payload;
+  try {
+    payload = await resp.json();
+  } catch (err) {
+    setState("Bad JSON");
+    if (gridEl) gridEl.textContent = String(err);
+    return;
+  }
+
+  const rows = Array.isArray(payload) ? payload : (payload.rows || payload.data || []);
+  setState("Loaded " + String(rows.length));
+  if (countEl) countEl.textContent = String(rows.length);
+
+  if (!gridEl) return;
+  gridEl.innerHTML = "";
+
+  rows.forEach(function (r) {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.textContent = String(getTeamName(r));
+    card.addEventListener("click", function () {
+      renderDetails(r);
+    });
+    gridEl.appendChild(card);
+  });
+
+  if (sideEl) {
+    sideEl.textContent = "Click a team to see details.";
+  }
+});
