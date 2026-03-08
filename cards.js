@@ -1,4 +1,4 @@
-console.log("cards.js DEPLOY CHECK v3");
+console.log("cards.js DEPLOY CHECK v4");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const stateEl = document.getElementById("state");
@@ -58,6 +58,39 @@ document.addEventListener("DOMContentLoaded", async function () {
     return asNum(pickFirst(r, ["era", "ERA"]));
   }
 
+  function hasAnyNumeric(rows, getterFn) {
+    for (let idx = 0; idx < rows.length; idx++) {
+      const v = getterFn(rows[idx]);
+      if (v !== null && v !== undefined) return true;
+    }
+    return false;
+  }
+
+  function inferLastGenerated(payload, rows) {
+    const topVal = pickFirst(payload, [
+      "lastGenerated",
+      "last_generated",
+      "generatedAt",
+      "generated_at",
+      "updatedAt",
+      "updated_at"
+    ]);
+    if (topVal) return topVal;
+
+    for (let idx = 0; idx < rows.length; idx++) {
+      const rowVal = pickFirst(rows[idx], [
+        "lastGenerated",
+        "last_generated",
+        "generatedAt",
+        "generated_at",
+        "updatedAt",
+        "updated_at"
+      ]);
+      if (rowVal) return rowVal;
+    }
+    return null;
+  }
+
   function renderDetails(r) {
     if (!sideEl) return;
 
@@ -89,8 +122,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function addRow(label, value) {
       if (value === null || value === undefined || value === "") return;
-      const trEl = document.createElement("tr");
 
+      const trEl = document.createElement("tr");
       const kEl = document.createElement("td");
       kEl.className = "k";
       kEl.textContent = String(label);
@@ -134,62 +167,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     sideEl.appendChild(rawDetailsEl);
   }
 
-  function inferLastGenerated(payloadObj) {
-    const candidates = ["lastGenerated", "last_generated", "generatedAt", "generated_at", "timestamp", "ts"];
-    for (let idx = 0; idx < candidates.length; idx++) {
-      const k = candidates[idx];
-      if (payloadObj && Object.prototype.hasOwnProperty.call(payloadObj, k) && payloadObj[k]) {
-        return payloadObj[k];
-      }
-    }
-    return null;
-  }
-
-  function populateSortOptions(sampleRow) {
-    if (!sortEl) return;
-
-    sortEl.innerHTML = "";
-
-    function addOpt(val, label) {
-      const o = document.createElement("option");
-      o.value = val;
-      o.textContent = label;
-      sortEl.appendChild(o);
-    }
-
-    addOpt("name_asc", "Team name (A-Z)");
-    addOpt("name_desc", "Team name (Z-A)");
-
-    const hasWins = getWins(sampleRow) !== null;
-    const hasLosses = getLosses(sampleRow) !== null;
-    const hasPoints = getPoints(sampleRow) !== null;
-    const hasEra = getEra(sampleRow) !== null;
-
-    if (hasWins) addOpt("wins_desc", "Wins (high)");
-    if (hasLosses) addOpt("losses_asc", "Losses (low)");
-    if (hasPoints) addOpt("points_desc", "Points (high)");
-    if (hasEra) addOpt("era_asc", "ERA (low)");
-
-    sortEl.value = sortEl.options.length ? sortEl.options[0].value : "name_asc";
-  }
-
   function sortRows(rowsToSort, sortKey) {
     const copyRows = rowsToSort.slice(0);
 
-    function safeTeam(a) {
-      return String(getTeamName(a));
-    }
-
     if (sortKey === "name_asc") {
       copyRows.sort(function (a, b) {
-        return safeTeam(a).localeCompare(safeTeam(b));
+        return String(getTeamName(a)).localeCompare(String(getTeamName(b)));
       });
       return copyRows;
     }
 
     if (sortKey === "name_desc") {
       copyRows.sort(function (a, b) {
-        return safeTeam(b).localeCompare(safeTeam(a));
+        return String(getTeamName(b)).localeCompare(String(getTeamName(a)));
       });
       return copyRows;
     }
@@ -198,7 +188,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       copyRows.sort(function (a, b) {
         const av = getWins(a);
         const bv = getWins(b);
-        if (av === null && bv === null) return safeTeam(a).localeCompare(safeTeam(b));
+        if (av === null && bv === null) return 0;
         if (av === null) return 1;
         if (bv === null) return -1;
         return bv - av;
@@ -210,7 +200,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       copyRows.sort(function (a, b) {
         const av = getLosses(a);
         const bv = getLosses(b);
-        if (av === null && bv === null) return safeTeam(a).localeCompare(safeTeam(b));
+        if (av === null && bv === null) return 0;
         if (av === null) return 1;
         if (bv === null) return -1;
         return av - bv;
@@ -222,7 +212,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       copyRows.sort(function (a, b) {
         const av = getPoints(a);
         const bv = getPoints(b);
-        if (av === null && bv === null) return safeTeam(a).localeCompare(safeTeam(b));
+        if (av === null && bv === null) return 0;
         if (av === null) return 1;
         if (bv === null) return -1;
         return bv - av;
@@ -234,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       copyRows.sort(function (a, b) {
         const av = getEra(a);
         const bv = getEra(b);
-        if (av === null && bv === null) return safeTeam(a).localeCompare(safeTeam(b));
+        if (av === null && bv === null) return 0;
         if (av === null) return 1;
         if (bv === null) return -1;
         return av - bv;
@@ -243,6 +233,29 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     return copyRows;
+  }
+
+  function populateSortOptions(rows) {
+    if (!sortEl) return;
+
+    sortEl.innerHTML = "";
+
+    function addOpt(val, txt) {
+      const optEl = document.createElement("option");
+      optEl.value = val;
+      optEl.textContent = txt;
+      sortEl.appendChild(optEl);
+    }
+
+    addOpt("name_asc", "Team name (A-Z)");
+    addOpt("name_desc", "Team name (Z-A)");
+
+    if (hasAnyNumeric(rows, getWins)) addOpt("wins_desc", "Wins (high)");
+    if (hasAnyNumeric(rows, getLosses)) addOpt("losses_asc", "Losses (low)");
+    if (hasAnyNumeric(rows, getPoints)) addOpt("points_desc", "Points (high)");
+    if (hasAnyNumeric(rows, getEra)) addOpt("era_asc", "ERA (low)");
+
+    sortEl.value = "name_asc";
   }
 
   let selectedName = null;
@@ -309,14 +322,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   setState("Loaded " + String(allRows.length));
 
   if (lastGenEl) {
-    const genVal = inferLastGenerated(payload);
-    if (genVal) lastGenEl.textContent = String(genVal);
-    else lastGenEl.textContent = "";
+    const genVal = inferLastGenerated(payload, allRows);
+    lastGenEl.textContent = genVal ? String(genVal) : "";
   }
 
-  if (sortEl) {
-    populateSortOptions(allRows.length ? allRows[0] : {});
-  }
+  populateSortOptions(allRows);
 
   function applySearchAndSort() {
     const q = searchEl ? String(searchEl.value || "").toLowerCase().trim() : "";
