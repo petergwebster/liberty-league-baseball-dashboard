@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-03-08T19:48:26+00:00",
+  "generated_at": "2026-03-08T20:10:26.261208+00:00",
   "source_url": "https://libertyleagueconference.com/sports/bsb/scoreboard",
   "rows": [],
-  "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://libertyleagueconference.com/sports/bsb/scoreboard\nCall log:\n  - navigating to \"https://libertyleagueconference.com/sports/bsb/scoreboard\", waiting until \"domcontentloaded\"\n"
+  "error": "Requests error: requests failed after 6 attempts: HTTPSConnectionPool(host='libertyleagueconference.com', port=443): Max retries exceeded with url: /sports/bsb/scoreboard (Caused by NameResolutionError(\"HTTPSConnection(host='libertyleagueconference.com', port=443): Failed to resolve 'libertyleagueconference.com' ([Errno -2] Name or service not known)\")) | Playwright error: playwright failed after 3 attempts: Page.goto: net::ERR_NAME_NOT_RESOLVED at https://libertyleagueconference.com/sports/bsb/scoreboard\nCall log:\n  - navigating to \"https://libertyleagueconference.com/sports/bsb/scoreboard\", waiting until \"domcontentloaded\"\n"
 }
