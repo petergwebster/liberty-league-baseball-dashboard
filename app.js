@@ -1,130 +1,148 @@
-async function loadLiveStats() {
-  const stateEl = document.getElementById("state");
-  const lastGenEl = document.getElementById("lastGenerated");
-  const tableWrapEl = document.getElementById("tableWrap");
+// Simple drill-down stat dashboard using hash routes
+// Routes:
+//   #/                 Teams list
+//   #/team/<teamName>  Team detail
+//   #/players          Player list
+//   #/player/<name>    Player detail
+//
+// Data files expected at site root:
+//   /live_team_stats.json
+//   /live_players.json   (optional but strongly recommended)
 
-  function setState(text, isError) {
-    if (!stateEl) return;
-    stateEl.textContent = text;
-    stateEl.style.background = isError ? "#ffe5e5" : "#e8f5e9";
-    stateEl.style.border = "1px solid " + (isError ? "#ffb3b3" : "#b7e1bc");
-    stateEl.style.padding = "2px 8px";
-    stateEl.style.borderRadius = "999px";
-    stateEl.style.display = "inline-block";
+const state_obj = {
+  teamData: null,
+  playersData: null,
+  loaded: false,
+  sortKey: null,
+  sortDir: "desc"
+};
+
+function qs(sel) {
+  return document.querySelector(sel);
+}
+
+function htmEscape(str_val) {
+  return (str_val || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function loadJson(url_val) {
+  const resp = await fetch(url_val, { cache: "no-store" });
+  if (!resp.ok) {
+    throw new Error("Failed to fetch " + url_val + " status " + resp.status);
   }
+  return await resp.json();
+}
 
-  function showMessage(msg) {
-    if (!tableWrapEl) return;
-    tableWrapEl.innerHTML = "";
-    const preEl = document.createElement("pre");
-    preEl.style.whiteSpace = "pre-wrap";
-    preEl.style.padding = "10px";
-    preEl.style.border = "1px solid #ddd";
-    preEl.style.borderRadius = "8px";
-    preEl.textContent = msg;
-    tableWrapEl.appendChild(preEl);
-  }
+async function loadAllData() {
+  const teamPromise = loadJson("live_team_stats.json");
+  const playersPromise = loadJson("live_players.json").catch(() => null);
 
-  function renderTable(rows) {
-    if (!tableWrapEl) return;
+  const teamJson = await teamPromise;
+  const playersJson = await playersPromise;
 
-    tableWrapEl.innerHTML = "";
+  state_obj.teamData = teamJson;
+  state_obj.playersData = playersJson;
+  state_obj.loaded = true;
 
-    if (!rows || rows.length === 0) {
-      showMessage("No rows yet");
-      return;
-    }
-
-    const colSet = new Set();
-    rows.forEach((r) => {
-      if (r && typeof r === "object") {
-        Object.keys(r).forEach((k) => colSet.add(k));
-      }
-    });
-
-    const preferredOrder = ["metric", "value", "team", "gp", "w", "l", "pct"];
-    const allCols = Array.from(colSet);
-
-    const cols = [];
-    preferredOrder.forEach((k) => {
-      if (colSet.has(k)) cols.push(k);
-    });
-    allCols.forEach((k) => {
-      if (!cols.includes(k)) cols.push(k);
-    });
-
-    const tableEl = document.createElement("table");
-    tableEl.style.width = "100%";
-    tableEl.style.borderCollapse = "collapse";
-    tableEl.style.marginTop = "12px";
-
-    const theadEl = document.createElement("thead");
-    const headRowEl = document.createElement("tr");
-
-    cols.forEach((c) => {
-      const thEl = document.createElement("th");
-      thEl.textContent = c;
-      thEl.style.textAlign = "left";
-      thEl.style.padding = "8px";
-      thEl.style.borderBottom = "2px solid #ddd";
-      thEl.style.fontSize = "14px";
-      headRowEl.appendChild(thEl);
-    });
-
-    theadEl.appendChild(headRowEl);
-    tableEl.appendChild(theadEl);
-
-    const tbodyEl = document.createElement("tbody");
-
-    rows.forEach((r) => {
-      const trEl = document.createElement("tr");
-
-      cols.forEach((c) => {
-        const tdEl = document.createElement("td");
-        const val = r && Object.prototype.hasOwnProperty.call(r, c) ? r[c] : "";
-        tdEl.textContent = val === null || val === undefined ? "" : String(val);
-        tdEl.style.padding = "8px";
-        tdEl.style.borderBottom = "1px solid #eee";
-        tdEl.style.verticalAlign = "top";
-        trEl.appendChild(tdEl);
-      });
-
-      tbodyEl.appendChild(trEl);
-    });
-
-    tableEl.appendChild(tbodyEl);
-    tableWrapEl.appendChild(tableEl);
-  }
-
-  try {
-    setState("Loading...", false);
-    if (lastGenEl) lastGenEl.textContent = "";
-
-    const resp = await fetch("./live_team_stats.json", { cache: "no-store" });
-    if (!resp.ok) {
-      throw new Error("Failed to fetch live_team_stats.json (HTTP " + resp.status + ")");
-    }
-
-    const data = await resp.json();
-
-    const rows = data && Array.isArray(data.rows) ? data.rows : [];
-    const generatedAt = data && data.generated_at ? data.generated_at : "";
-
-    if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
-
-    if (data && data.error) {
-      setState("Loaded " + rows.length + " rows (upstream error)", true);
-      renderTable(rows);
-      return;
-    }
-
-    setState("Loaded " + rows.length + " rows", false);
-    renderTable(rows);
-  } catch (e) {
-    setState("Failed", true);
-    if (lastGenEl) lastGenEl.textContent = "(error)";
-    showMessage(String(e));
+  const updatedEl = qs("#lastUpdated");
+  if (updatedEl && teamJson && teamJson.generated_at) {
+    updatedEl.textContent = "Updated " + teamJson.generated_at;
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadLiveStats);
+function parseRoute() {
+  const hashVal = window.location.hash || "#/";
+  const cleanVal = hashVal.replace(/^#/, "");
+  const parts = cleanVal.split("/").filter(p => p.length > 0);
+
+  if (parts.length === 0) {
+    return { name: "teams" };
+  }
+
+  if (parts[0] === "team" && parts.length >= 2) {
+    return { name: "team", teamName: decodeURIComponent(parts.slice(1).join("/")) };
+  }
+
+  if (parts[0] === "players") {
+    return { name: "players" };
+  }
+
+  if (parts[0] === "player" && parts.length >= 2) {
+    return { name: "player", playerName: decodeURIComponent(parts.slice(1).join("/")) };
+  }
+
+  return { name: "teams" };
+}
+
+function setSort(keyVal) {
+  if (state_obj.sortKey === keyVal) {
+    state_obj.sortDir = state_obj.sortDir === "asc" ? "desc" : "asc";
+  } else {
+    state_obj.sortKey = keyVal;
+    state_obj.sortDir = "desc";
+  }
+  renderApp();
+}
+
+function sortRows(rowsArr) {
+  const keyVal = state_obj.sortKey;
+  if (!keyVal) return rowsArr;
+
+  const dirMult = state_obj.sortDir === "asc" ? 1 : -1;
+
+  const copyArr = rowsArr.slice();
+  copyArr.sort((a, b) => {
+    const av = a[keyVal];
+    const bv = b[keyVal];
+
+    const an = Number(av);
+    const bn = Number(bv);
+
+    const aIsNum = !Number.isNaN(an) && av !== "" && av !== null && av !== undefined;
+    const bIsNum = !Number.isNaN(bn) && bv !== "" && bv !== null && bv !== undefined;
+
+    if (aIsNum && bIsNum) {
+      return (an - bn) * dirMult;
+    }
+
+    const as = String(av || "");
+    const bs = String(bv || "");
+    return as.localeCompare(bs) * dirMult;
+  });
+
+  return copyArr;
+}
+
+function renderTable(containerEl, rowsArr, columnsArr, rowLinkFn) {
+  const sortKeyVal = state_obj.sortKey;
+  const sortDirVal = state_obj.sortDir;
+
+  const headerHtml = columnsArr.map(c => {
+    const label = htmEscape(c.label);
+    const sortMark = sortKeyVal === c.key ? (sortDirVal === "asc" ? " ▲" : " ▼") : "";
+    return "<th data-key=\"" + htmEscape(c.key) + "\">" + label + sortMark + "</th>";
+  }).join("");
+
+  const bodyHtml = rowsArr.map(r => {
+    const tds = columnsArr.map(c => {
+      const rawVal = r[c.key];
+      const shownVal = rawVal === undefined || rawVal === null ? "" : String(rawVal);
+      const cellVal = htmEscape(shownVal);
+
+      if (c.key === "team" && rowLinkFn) {
+        const hrefVal = rowLinkFn(r);
+        return "<td><a class=\"link\" href=\"" + htmEscape(hrefVal) + "\">" + cellVal + "</a></td>";
+      }
+      return "<td>" + cellVal + "</td>";
+    }).join("");
+
+    return "<tr>" + tds + "</tr>";
+  }).join("");
+
+  containerEl.innerHTML =
+    "
