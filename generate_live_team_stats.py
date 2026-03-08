@@ -8,10 +8,8 @@ from bs4 import BeautifulSoup
 SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 OUTFILE = "live_team_stats.json"
 
-
-def norm_header(txt):
-  return re.sub(r"\s+", " ", (txt or "").strip()).lower()
-
+def norm_header(txt_val):
+  return re.sub(r"\s+", " ", (txt_val or "").strip()).lower()
 
 def extract_table_rows(table_el):
   header_cells = table_el.select("thead th")
@@ -26,7 +24,7 @@ def extract_table_rows(table_el):
     all_rows = table_el.select("tr")
     body_rows = all_rows[1:] if len(all_rows) > 1 else []
 
-  parsed = []
+  parsed_rows = []
   for tr in body_rows:
     tds = tr.find_all(["td", "th"])
     if not tds:
@@ -39,16 +37,14 @@ def extract_table_rows(table_el):
       row_obj[key] = val
 
     if len(row_obj) > 0:
-      parsed.append(row_obj)
+      parsed_rows.append(row_obj)
 
-  return headers, parsed
+  return headers, parsed_rows
 
-
-def pick_team_table(soup):
+def pick_team_table_from_soup(soup):
   tables = soup.find_all("table")
-  best_table = None
-  best_headers = None
-  best_rows = None
+
+  best = None
   best_score = -1
 
   for t in tables:
@@ -70,15 +66,9 @@ def pick_team_table(soup):
 
     if score > best_score:
       best_score = score
-      best_table = t
-      best_headers = headers
-      best_rows = rows
+      best = (headers, rows)
 
-  if best_table is None:
-    return None
-
-  return best_table, best_headers, best_rows
-
+  return best
 
 def parse_wl(text_val):
   m = re.search(r"(\d+)\s*[-/]\s*(\d+)", text_val or "")
@@ -86,77 +76,111 @@ def parse_wl(text_val):
     return None, None
   return int(m.group(1)), int(m.group(2))
 
+def normalize_rows(rows):
+  normalized = []
+  for r in rows:
+    team_name = ""
+    wl_text = ""
+
+    for k in r.keys():
+      if k == "team" or k.startswith("team"):
+        team_name = r.get(k, "")
+      if "w-l" in k or k == "wl":
+        wl_text = r.get(k, "")
+
+    wins, losses = parse_wl(wl_text)
+
+    out_row = {"team": team_name}
+    out_row.update(r)
+
+    if wins is not None:
+      out_row["wins"] = wins
+    if losses is not None:
+      out_row["losses"] = losses
+
+    normalized.append(out_row)
+
+  return normalized
+
+def get_html_via_requests():
+  resp = requests.get(
+    SOURCE_URL,
+    timeout=30,
+    headers={
+      "User-Agent": "Mozilla/5.0 (compatible; liberty-league-stats-bot/1.0)"
+    },
+  )
+  resp.raise_for_status()
+  return resp.text
+
+def get_html_via_playwright():
+  from playwright.sync_api import sync_playwright
+
+  with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page()
+    page.goto(SOURCE_URL, wait_until="networkidle", timeout=60000)
+    page.wait_for_timeout(2000)
+    html = page.content()
+    browser.close()
+  return html
 
 def main():
   generated_at = datetime.now(timezone.utc).isoformat()
 
-  try:
-    resp = requests.get(SOURCE_URL, timeout=30)
-    resp.raise_for_status()
-    html = resp.text
+  mode_used = "requests"
+  html = ""
+  soup = None
 
-    soup = BeautifulSoup(html, "html.parser")
-    picked = pick_team_table(soup)
+  try:
+    html = get_html_via_requests()
+    soup = BeautifulSoup(html, "lxml")
+    picked = pick_team_table_from_soup(soup)
+
+    if not picked:
+      mode_used = "playwright"
+      html = get_html_via_playwright()
+      soup = BeautifulSoup(html, "lxml")
+      picked = pick_team_table_from_soup(soup)
 
     if not picked:
       payload = {
         "generated_at": generated_at,
         "source_url": SOURCE_URL,
+        "mode": mode_used,
         "rows": [
-          { "metric": "scrape_status", "value": "OK" },
-          { "metric": "page_title", "value": soup.title.get_text(strip=True) if soup.title else "" },
-          { "metric": "tables_count", "value": str(len(soup.find_all("table"))) },
-          { "metric": "links_count", "value": str(len(soup.find_all("a"))) },
-          { "metric": "html_text_len", "value": str(len(html)) },
-          { "metric": "note", "value": "Could not identify team stats table in static HTML; page may be JS-rendered." },
-          { "metric": "source_url_used", "value": SOURCE_URL }
+          {"metric": "scrape_status", "value": "OK"},
+          {"metric": "mode", "value": mode_used},
+          {"metric": "page_title", "value": soup.title.get_text(strip=True) if soup and soup.title else ""},
+          {"metric": "tables_count", "value": str(len(soup.find_all("table"))) if soup else "0"},
+          {"metric": "links_count", "value": str(len(soup.find_all("a"))) if soup else "0"},
+          {"metric": "html_text_len", "value": str(len(html))}
         ],
         "error": None
       }
     else:
-      table_el, headers, rows = picked
-
-      normalized_rows = []
-      for r in rows:
-        team_name = ""
-        wl_text = ""
-
-        for k in r.keys():
-          if k == "team" or k.startswith("team"):
-            team_name = r.get(k, "")
-          if "w-l" in k or k == "wl":
-            wl_text = r.get(k, "")
-
-        wins, losses = parse_wl(wl_text)
-
-        out_row = {"team": team_name}
-        out_row.update(r)
-
-        if wins is not None:
-          out_row["wins"] = wins
-        if losses is not None:
-          out_row["losses"] = losses
-
-        normalized_rows.append(out_row)
+      headers, rows = picked
+      normalized_rows = normalize_rows(rows)
 
       payload = {
         "generated_at": generated_at,
         "source_url": SOURCE_URL,
+        "mode": mode_used,
         "rows": normalized_rows,
         "error": None
       }
 
-  except Exception as e:
+  except Exception as exc:
     payload = {
       "generated_at": generated_at,
       "source_url": SOURCE_URL,
+      "mode": mode_used,
       "rows": [],
-      "error": str(e)
+      "error": str(exc)
     }
 
   with open(OUTFILE, "w", encoding="utf-8") as f:
     json.dump(payload, f, ensure_ascii=False, indent=2)
-
 
 if __name__ == "__main__":
   main()
