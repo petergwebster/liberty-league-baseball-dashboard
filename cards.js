@@ -8,13 +8,18 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function esc(s) {
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   try {
     setState("Loading...");
     const resp = await fetch("./live_team_stats.json", { cache: "no-store" });
-    if (!resp.ok) throw new Error("live_team_stats.json HTTP " + resp.status);
+    if (!resp.ok) {
+      throw new Error("live_team_stats.json HTTP " + resp.status);
+    }
 
     const payload = await resp.json();
     const rows = Array.isArray(payload) ? payload : (payload.rows || payload.data || []);
@@ -32,4 +37,5 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       card.addEventListener("click", function () {
         if (!sideEl) return;
-        sideEl.innerHTML = 
+        sideEl.innerHTML =
+          "
