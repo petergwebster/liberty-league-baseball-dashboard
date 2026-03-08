@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T20:36:01.712540+00:00",
+  "generated_at": "2026-03-08T20:54:06.177988+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "rows": [
     {
@@ -16,11 +16,11 @@
     },
     {
       "metric": "links_count",
-      "value": "167"
+      "value": "169"
     },
     {
       "metric": "html_text_len",
-      "value": "48165"
+      "value": "48309"
     },
     {
       "metric": "source_url",
