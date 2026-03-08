@@ -8,8 +8,10 @@ from bs4 import BeautifulSoup
 SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 OUTFILE = "live_team_stats.json"
 
+
 def norm_header(txt):
   return re.sub(r"\s+", " ", (txt or "").strip()).lower()
+
 
 def extract_table_rows(table_el):
   header_cells = table_el.select("thead th")
@@ -41,6 +43,7 @@ def extract_table_rows(table_el):
 
   return headers, parsed
 
+
 def pick_team_table(soup):
   tables = soup.find_all("table")
   best_table = None
@@ -56,7 +59,7 @@ def pick_team_table(soup):
     header_set = set(headers)
 
     score = 0
-    if any("team" == h or h.startswith("team") for h in header_set):
+    if any(h == "team" or h.startswith("team") for h in header_set):
       score += 6
     if any("w-l" in h or h == "wl" for h in header_set):
       score += 4
@@ -76,11 +79,13 @@ def pick_team_table(soup):
 
   return best_table, best_headers, best_rows
 
+
 def parse_wl(text_val):
   m = re.search(r"(\d+)\s*[-/]\s*(\d+)", text_val or "")
   if not m:
     return None, None
   return int(m.group(1)), int(m.group(2))
+
 
 def main():
   generated_at = datetime.now(timezone.utc).isoformat()
@@ -103,7 +108,8 @@ def main():
           { "metric": "tables_count", "value": str(len(soup.find_all("table"))) },
           { "metric": "links_count", "value": str(len(soup.find_all("a"))) },
           { "metric": "html_text_len", "value": str(len(html)) },
-          { "metric": "note", "value": "Could not identify team stats table in static HTML; page may be JS-rendered." }
+          { "metric": "note", "value": "Could not identify team stats table in static HTML; page may be JS-rendered." },
+          { "metric": "source_url_used", "value": SOURCE_URL }
         ],
         "error": None
       }
@@ -113,21 +119,19 @@ def main():
       normalized_rows = []
       for r in rows:
         team_name = ""
+        wl_text = ""
+
         for k in r.keys():
           if k == "team" or k.startswith("team"):
             team_name = r.get(k, "")
-            break
-
-        wl_text = ""
-        for k in r.keys():
           if "w-l" in k or k == "wl":
             wl_text = r.get(k, "")
-            break
 
         wins, losses = parse_wl(wl_text)
 
-        out_row = { "team": team_name }
+        out_row = {"team": team_name}
         out_row.update(r)
+
         if wins is not None:
           out_row["wins"] = wins
         if losses is not None:
@@ -152,6 +156,7 @@ def main():
 
   with open(OUTFILE, "w", encoding="utf-8") as f:
     json.dump(payload, f, ensure_ascii=False, indent=2)
+
 
 if __name__ == "__main__":
   main()
