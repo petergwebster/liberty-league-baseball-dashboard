@@ -1,33 +1,17 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Liberty League Baseball Dashboard</title>
-    <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; }
-      .nav a { margin-right: 12px; }
-      table { border-collapse: collapse; width: 100%; margin-top: 12px; }
-      th, td { border: 1px solid #ddd; padding: 8px; font-size: 14px; }
-      th { background: #f6f6f6; text-align: left; cursor: pointer; }
-      tr:hover { background: #fafafa; }
-      .pill { display: inline-block; padding: 2px 8px; border: 1px solid #ccc; border-radius: 999px; font-size: 12px; }
-      .muted { color: #666; }
-      .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 12px; }
-      .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; }
-      input { padding: 8px; width: 320px; max-width: 100%; }
-      .link { color: #0b5fff; text-decoration: underline; cursor: pointer; }
-    </style>
-  </head>
-  <body>
-    <div class="nav">
-      <a href="#/">Teams</a>
-      <a href="#/players">Players</a>
-      <span class="muted" id="lastUpdated"></span>
-    </div>
+<body>
+  <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+    <a href="#/">Teams</a>
+    <a href="#/players">Players</a>
 
-    <div id="app"></div>
+    <span id="state"></span>
 
-    <script src="app.js"></script>
-  </body>
-</html>
+    <span style="color:#666;">
+      Last generated:
+      <span id="lastGenerated"></span>
+    </span>
+  </div>
+
+  <div id="tableWrap" style="margin-top:12px;"></div>
+
+  <script src="app.js"></script>
+</body>
