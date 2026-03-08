@@ -20,6 +20,7 @@ async function loadLiveStats() {
 
   function renderTable(rows) {
     clearTable();
+
     if (!tableWrapEl) return;
 
     if (!rows || rows.length === 0) {
@@ -70,8 +71,10 @@ async function loadLiveStats() {
       const trEl = document.createElement("tr");
       orderedCols.forEach((col) => {
         const tdEl = document.createElement("td");
-        const cellVal = r && Object.prototype.hasOwnProperty.call(r, col) ? r[col] : "";
-        tdEl.textContent = cellVal === null || cellVal === undefined ? "" : String(cellVal);
+        const cellVal =
+          r && Object.prototype.hasOwnProperty.call(r, col) ? r[col] : "";
+        tdEl.textContent =
+          cellVal === null || cellVal === undefined ? "" : String(cellVal);
         tdEl.style.padding = "8px";
         tdEl.style.borderBottom = "1px solid #eee";
         tdEl.style.verticalAlign = "top";
@@ -94,6 +97,7 @@ async function loadLiveStats() {
     }
 
     const data = await resp.json();
+
     const rows = data && Array.isArray(data.rows) ? data.rows : [];
     const generatedAt = data && data.generated_at ? data.generated_at : "";
 
@@ -110,4 +114,5 @@ async function loadLiveStats() {
     setState("Failed to load JSON", true);
     if (lastGenEl) lastGenEl.textContent = "(error)";
     if (tableWrapEl) {
-      tableWrapEl.innerHTML = 
+      tableWrapEl.innerHTML =
+        "
