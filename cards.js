@@ -69,5 +69,4 @@ function render(rows) {
       if (!sideEl) return;
       sideEl.innerHTML =
         "<div class='title'>" + escapeHtml(teamName) + "</div>" +
-        "<div class='sub'>Raw row</div>" +
-        "
+        "<div class='sub'>Raw row</div>" + "
