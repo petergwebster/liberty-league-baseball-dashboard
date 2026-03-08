@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T17:37:21+00:00",
+  "generated_at": "2026-03-08T17:57:16+00:00",
   "source_url": "https://libertyleagueconference.com/sports/bsb/scoreboard",
   "rows": [],
   "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://libertyleagueconference.com/sports/bsb/scoreboard\nCall log:\n  - navigating to \"https://libertyleagueconference.com/sports/bsb/scoreboard\", waiting until \"domcontentloaded\"\n"
