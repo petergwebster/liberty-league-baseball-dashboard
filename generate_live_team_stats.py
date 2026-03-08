@@ -5,9 +5,9 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-print("SOURCE_URL=" + SOURCE_URL)
 SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 OUTFILE = "live_team_stats.json"
+print("SOURCE_URL=" + SOURCE_URL)
 
 def norm_header(txt_val):
   return re.sub(r"\s+", " ", (txt_val or "").strip()).lower()
