@@ -21,11 +21,11 @@ async function loadLiveStats() {
     if (!tableWrapEl) return;
 
     if (!rows || rows.length === 0) {
-      tableWrapEl.innerHTML = "<div style='padding:10px;border:1px solid #ddd;border-radius:8px;'>No rows yet</div>";
+      tableWrapEl.innerHTML =
+        "<div style='padding:10px;border:1px solid #ddd;border-radius:8px;'>No rows yet</div>";
       return;
     }
 
-    // Collect all possible keys across rows to build columns
     const colSet = new Set();
     rows.forEach((r) => {
       if (r && typeof r === "object") {
@@ -33,7 +33,6 @@ async function loadLiveStats() {
       }
     });
 
-    // Friendly default ordering if present
     const preferredOrder = ["metric", "value", "team", "gp", "w", "l", "pct"];
     const allCols = Array.from(colSet);
 
@@ -69,8 +68,10 @@ async function loadLiveStats() {
       const trEl = document.createElement("tr");
       orderedCols.forEach((col) => {
         const tdEl = document.createElement("td");
-        const cellVal = (r && Object.prototype.hasOwnProperty.call(r, col)) ? r[col] : "";
-        tdEl.textContent = cellVal === null || cellVal === undefined ? "" : String(cellVal);
+        const cellVal =
+          r && Object.prototype.hasOwnProperty.call(r, col) ? r[col] : "";
+        tdEl.textContent =
+          cellVal === null || cellVal === undefined ? "" : String(cellVal);
         tdEl.style.padding = "8px";
         tdEl.style.borderBottom = "1px solid #eee";
         tdEl.style.verticalAlign = "top";
@@ -91,6 +92,7 @@ async function loadLiveStats() {
     if (!resp.ok) {
       throw new Error("HTTP " + resp.status + " fetching live_team_stats.json");
     }
+
     const data = await resp.json();
 
     const rows = data && Array.isArray(data.rows) ? data.rows : [];
@@ -109,4 +111,5 @@ async function loadLiveStats() {
     setState("Failed to load JSON", true);
     if (lastGenEl) lastGenEl.textContent = "(error)";
     if (tableWrapEl) {
-      tableWrapEl.innerHTML = "
+      tableWrapEl.innerHTML =
+        "
