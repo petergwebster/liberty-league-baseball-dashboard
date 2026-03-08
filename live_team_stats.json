@@ -1,23 +1,31 @@
 {
-  "generated_at": "2026-03-08T20:25:04.708302+00:00",
-  "source_url": "https://libertyleagueconference.com/sports/bsb/scoreboard",
+  "generated_at": "2026-03-08T20:36:01.712540+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "rows": [
     {
       "metric": "scrape_status",
-      "value": "FAILED"
+      "value": "OK"
     },
     {
-      "metric": "reason",
-      "value": "Could not resolve or reach source host from GitHub Actions runner"
+      "metric": "page_title",
+      "value": "2026 Baseball - Overall Statistics - Liberty League"
+    },
+    {
+      "metric": "tables_count",
+      "value": "101"
+    },
+    {
+      "metric": "links_count",
+      "value": "167"
+    },
+    {
+      "metric": "html_text_len",
+      "value": "48165"
     },
     {
       "metric": "source_url",
-      "value": "https://libertyleagueconference.com/sports/bsb/scoreboard"
-    },
-    {
-      "metric": "note",
-      "value": "Dashboard is healthy; upstream fetch failed. Try again later."
+      "value": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
     }
   ],
-  "error": "Requests error: requests failed after 6 attempts: HTTPSConnectionPool(host='libertyleagueconference.com', port=443): Max retries exceeded with url: /sports/bsb/scoreboard (Caused by NameResolutionError(\"HTTPSConnection(host='libertyleagueconference.com', port=443): Failed to resolve 'libertyleagueconference.com' ([Errno -2] Name or service not known)\")) | Playwright error: playwright failed after 3 attempts: Page.goto: net::ERR_NAME_NOT_RESOLVED at https://libertyleagueconference.com/sports/bsb/scoreboard\nCall log:\n  - navigating to \"https://libertyleagueconference.com/sports/bsb/scoreboard\", waiting until \"domcontentloaded\"\n"
+  "error": null
 }
