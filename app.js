@@ -1,3 +1,6 @@
+console.log("loadLiveStats ran");
+alert("app.js is running");
+
 async function loadLiveStats() {
   const stateEl = document.getElementById("state");
   const lastGenEl = document.getElementById("lastGenerated");
