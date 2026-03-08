@@ -1,58 +1,25 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Liberty League Baseball Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
-    body { margin: 0; background: #0b1724; color: #f5f7fb; }
-    header { background: #111d2e; border-bottom: 1px solid #25324a; padding: 14px 18px; }
-    .title { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-    .sub { color: #9fb4dd; font-size: 12px; margin-top: 4px; }
-    main { padding: 16px 18px; max-width: 1200px; margin: 0 auto; }
-    .panel { background: rgba(17,29,46,0.65); border: 1px solid #25324a; border-radius: 14px; padding: 14px; }
-    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; background: #0b1625; border: 1px solid #334569; color: #e5edff; font-size: 13px; }
-    .status { margin-top: 12px; color: #d5e2ff; font-size: 14px; white-space: pre-wrap; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; display: none; }
-    thead { background: #101b30; }
-    th, td { padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid #172338; }
-    th:first-child, td:first-child { text-align: left; }
-    th { color: #9fb4dd; font-weight: 600; position: sticky; top: 0; background: #101b30; }
-    a { color: #9fb4dd; }
-  </style>
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Liberty League Stats</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+      .meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+      .label { color: #555; }
+    </style>
+  </head>
+  <body>
+    <h1>Liberty League Stats</h1>
 
-<body>
-  <header>
-    <div class="title">Liberty League Baseball Dashboard</div>
-    <div class="sub">Auto-updated via GitHub Actions + Netlify</div>
-  </header>
-
-  <main>
-    <div class="panel">
-      <div class="row">
-        <div class="pill">State: <strong id="dataState">Loading…</strong></div>
-        <div class="pill">Last generated: <strong id="generatedAt">—</strong></div>
-      </div>
-
-      <div id="status" class="status"></div>
-
-      <table id="teamTable">
-        <thead><tr id="teamHead"></tr></thead>
-        <tbody id="teamBody"></tbody>
-      </table>
-
-      <div class="status" style="margin-top: 10px;">
-        Raw files:
-        <a href="/live_team_stats.json" target="_blank" rel="noopener">live_team_stats.json</a>
-        |
-        <a href="/app.js" target="_blank" rel="noopener">app.js</a>
-      </div>
+    <div class="meta">
+      <div><span class="label">State</span> <span id="state">Loading...</span></div>
+      <div><span class="label">Last generated</span> <span id="lastGenerated"></span></div>
     </div>
-  </main>
 
-  <script src="/app.js"></script>
-</body>
+    <div id="tableWrap"></div>
+
+    <script defer src="./app.js"></script>
+  </body>
 </html>
