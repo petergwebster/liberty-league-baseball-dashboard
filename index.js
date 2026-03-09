@@ -13,6 +13,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (stateEl) stateEl.textContent = txt;
   }
 
+  function getTeamName(r) {
+    return r.team || r.Team || r.school || r.School || r.name || r.Name || "Unknown";
+  }
+
+  function normalize(s) {
+    return String(s || "").toLowerCase().trim().replace(/\s+/g, " ");
+  }
+
   function pickFirst(obj, keys) {
     for (let idx = 0; idx < keys.length; idx++) {
       const key = keys[idx];
@@ -24,10 +32,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       ) return obj[key];
     }
     return null;
-  }
-
-  function getTeamName(r) {
-    return r.team || r.Team || r.school || r.School || r.name || r.Name || "Unknown";
   }
 
   function asNum(v) {
@@ -63,120 +67,86 @@ document.addEventListener("DOMContentLoaded", async function () {
   function computeDerived(r) {
     const w = asNum(pickFirst(r, ["w", "W", "wins", "Wins"]));
     const l = asNum(pickFirst(r, ["l", "L", "losses", "Losses"]));
-    const t = asNum(pickFirst(r, ["t", "T", "ties", "Ties"]));
     const pts = asNum(pickFirst(r, ["pts", "PTS", "points", "Points"]));
-    const gf = asNum(pickFirst(r, ["gf", "GF", "goals_for", "GoalsFor"]));
-    const ga = asNum(pickFirst(r, ["ga", "GA", "goals_against", "GoalsAgainst"]));
     const era = asNum(pickFirst(r, ["era", "ERA"]));
-    const gd = (gf !== null && ga !== null) ? (gf - ga) : null;
-
-    return { w, l, t, pts, gf, ga, gd, era };
+    return { w: w, l: l, pts: pts, era: era };
   }
 
   function buildColumns(rows) {
-    const hasW = rows.some(function (r) { return computeDerived(r).w !== null; });
-    const hasL = rows.some(function (r) { return computeDerived(r).l !== null; });
-    const hasT = rows.some(function (r) { return computeDerived(r).t !== null; });
-    const hasPTS = rows.some(function (r) { return computeDerived(r).pts !== null; });
-    const hasGF = rows.some(function (r) { return computeDerived(r).gf !== null; });
-    const hasGA = rows.some(function (r) { return computeDerived(r).ga !== null; });
-    const hasGD = rows.some(function (r) { return computeDerived(r).gd !== null; });
-    const hasERA = rows.some(function (r) { return computeDerived(r).era !== null; });
+    const haveW = rows.some(function (r) { return computeDerived(r).w !== null; });
+    const haveL = rows.some(function (r) { return computeDerived(r).l !== null; });
+    const havePts = rows.some(function (r) { return computeDerived(r).pts !== null; });
+    const haveEra = rows.some(function (r) { return computeDerived(r).era !== null; });
 
-    const cols = [];
-    cols.push({ key: "team", label: "Team", type: "text" });
-    if (hasW) cols.push({ key: "w", label: "W", type: "num" });
-    if (hasL) cols.push({ key: "l", label: "L", type: "num" });
-    if (hasT) cols.push({ key: "t", label: "T", type: "num" });
-    if (hasPTS) cols.push({ key: "pts", label: "PTS", type: "num" });
-    if (hasGF) cols.push({ key: "gf", label: "GF", type: "num" });
-    if (hasGA) cols.push({ key: "ga", label: "GA", type: "num" });
-    if (hasGD) cols.push({ key: "gd", label: "GD", type: "num" });
-    if (hasERA) cols.push({ key: "era", label: "ERA", type: "num" });
-
+    const cols = [{ key: "team", label: "Team" }];
+    if (haveW) cols.push({ key: "w", label: "W" });
+    if (haveL) cols.push({ key: "l", label: "L" });
+    if (havePts) cols.push({ key: "pts", label: "PTS" });
+    if (haveEra) cols.push({ key: "era", label: "ERA" });
     return cols;
-  }
-
-  function populateSortOptions(cols) {
-    if (!sortEl) return;
-    sortEl.innerHTML = "";
-
-    function addOpt(val, label) {
-      const opt = document.createElement("option");
-      opt.value = val;
-      opt.textContent = label;
-      sortEl.appendChild(opt);
-    }
-
-    addOpt("team_asc", "Team name (A-Z)");
-    addOpt("team_desc", "Team name (Z-A)");
-
-    cols.forEach(function (c) {
-      if (c.type !== "num") return;
-      addOpt(c.key + "_desc", c.label + " (high)");
-      addOpt(c.key + "_asc", c.label + " (low)");
-    });
-
-    sortEl.value = "team_asc";
-  }
-
-  function sortRows(rows, sortKey) {
-    const copyRows = rows.slice(0);
-
-    function cmpText(a, b) {
-      return String(a).localeCompare(String(b));
-    }
-
-    function cmpNum(a, b) {
-      if (a === null && b === null) return 0;
-      if (a === null) return 1;
-      if (b === null) return -1;
-      return a - b;
-    }
-
-    if (sortKey === "team_asc") {
-      copyRows.sort(function (a, b) {
-        return cmpText(getTeamName(a), getTeamName(b));
-      });
-      return copyRows;
-    }
-
-    if (sortKey === "team_desc") {
-      copyRows.sort(function (a, b) {
-        return cmpText(getTeamName(b), getTeamName(a));
-      });
-      return copyRows;
-    }
-
-    const parts = String(sortKey).split("_");
-    const colKey = parts[0];
-    const dir = parts[1] || "desc";
-
-    copyRows.sort(function (a, b) {
-      const da = computeDerived(a);
-      const db = computeDerived(b);
-      const va = (Object.prototype.hasOwnProperty.call(da, colKey)) ? da[colKey] : null;
-      const vb = (Object.prototype.hasOwnProperty.call(db, colKey)) ? db[colKey] : null;
-
-      const base = cmpNum(va, vb);
-      return dir === "asc" ? base : (-base);
-    });
-
-    return copyRows;
   }
 
   function renderHeader(cols) {
     if (!theadEl) return;
     theadEl.innerHTML = "";
-
     const tr = document.createElement("tr");
     cols.forEach(function (c) {
       const th = document.createElement("th");
       th.textContent = c.label;
       tr.appendChild(th);
     });
-
     theadEl.appendChild(tr);
+  }
+
+  function populateSort(cols) {
+    if (!sortEl) return;
+
+    sortEl.innerHTML = "";
+
+    function addOpt(val, txt) {
+      const opt = document.createElement("option");
+      opt.value = val;
+      opt.textContent = txt;
+      sortEl.appendChild(opt);
+    }
+
+    addOpt("team_asc", "Team name (A-Z)");
+    addOpt("team_desc", "Team name (Z-A)");
+
+    const colKeys = cols.map(function (c) { return c.key; });
+
+    if (colKeys.indexOf("w") !== -1) addOpt("w_desc", "Wins (high)");
+    if (colKeys.indexOf("pts") !== -1) addOpt("pts_desc", "Points (high)");
+    if (colKeys.indexOf("era") !== -1) addOpt("era_asc", "ERA (low)");
+
+    sortEl.value = "team_asc";
+  }
+
+  function sortRows(rows, sortKey) {
+    const out = rows.slice(0);
+
+    function cmpStr(a, b) {
+      return normalize(a).localeCompare(normalize(b));
+    }
+
+    out.sort(function (ra, rb) {
+      const aName = getTeamName(ra);
+      const bName = getTeamName(rb);
+
+      if (sortKey === "team_desc") return -cmpStr(aName, bName);
+      if (sortKey === "team_asc") return cmpStr(aName, bName);
+
+      const da = computeDerived(ra);
+      const db = computeDerived(rb);
+
+      if (sortKey === "w_desc") return (db.w || -1) - (da.w || -1);
+      if (sortKey === "pts_desc") return (db.pts || -1) - (da.pts || -1);
+      if (sortKey === "era_asc") return (da.era || 1e18) - (db.era || 1e18);
+
+      return cmpStr(aName, bName);
+    });
+
+    return out;
   }
 
   function renderBody(rows, cols) {
@@ -194,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (c.key === "team") {
           td.textContent = teamName;
         } else {
-          const val = (Object.prototype.hasOwnProperty.call(d, c.key)) ? d[c.key] : null;
+          const val = Object.prototype.hasOwnProperty.call(d, c.key) ? d[c.key] : null;
           td.textContent = (val === null || val === undefined) ? "" : String(val);
           td.className = "num";
         }
@@ -203,14 +173,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
 
       tr.addEventListener("click", function () {
-        const url = "./cards.html";
-        const hasHashSupport = true;
-
-        if (hasHashSupport) {
-          window.location.href = url + "#" + encodeURIComponent(teamName);
-        } else {
-          window.location.href = url;
-        }
+        window.location.href = "./cards.html#" + encodeURIComponent(teamName);
       });
 
       tbodyEl.appendChild(tr);
@@ -221,18 +184,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   setState("Loading...");
 
+  const jsonUrl = "./live_team_stats.json";
+  console.log("Fetching: " + jsonUrl);
+
   let resp;
   try {
-    resp = await fetch("./live_team_stats.json", { cache: "no-store" });
+    resp = await fetch(jsonUrl, { cache: "no-store" });
   } catch (err) {
-    setState("Fetch failed");
-    if (tbodyEl) tbodyEl.textContent = String(err);
+    setState("Fetch failed (are you on file:// ?)");
+    if (tbodyEl) tbodyEl.innerHTML = "<tr><td>Fetch error: " + String(err) + "</td></tr>";
     return;
   }
 
   if (!resp.ok) {
     setState("HTTP " + String(resp.status));
-    if (tbodyEl) tbodyEl.textContent = "live_team_stats.json HTTP " + String(resp.status);
+    if (tbodyEl) tbodyEl.innerHTML = "<tr><td>Fetch failed: " + jsonUrl + " HTTP " + String(resp.status) + "</td></tr>";
     return;
   }
 
@@ -241,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     payload = await resp.json();
   } catch (err) {
     setState("Bad JSON");
-    if (tbodyEl) tbodyEl.textContent = String(err);
+    if (tbodyEl) tbodyEl.innerHTML = "<tr><td>JSON parse error: " + String(err) + "</td></tr>";
     return;
   }
 
@@ -257,14 +223,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const cols = buildColumns(allRows);
   renderHeader(cols);
-  populateSortOptions(cols);
+  populateSort(cols);
 
   function applySearchAndSort() {
-    const q = searchEl ? String(searchEl.value || "").toLowerCase().trim() : "";
+    const q = searchEl ? normalize(searchEl.value) : "";
     const sortKey = sortEl ? String(sortEl.value || "team_asc") : "team_asc";
 
     const filtered = allRows.filter(function (r) {
-      return String(getTeamName(r)).toLowerCase().indexOf(q) !== -1;
+      return normalize(getTeamName(r)).indexOf(q) !== -1;
     });
 
     const sorted = sortRows(filtered, sortKey);
@@ -273,10 +239,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   applySearchAndSort();
 
-  if (searchEl) {
-    searchEl.addEventListener("input", applySearchAndSort);
-  }
-  if (sortEl) {
-    sortEl.addEventListener("change", applySearchAndSort);
-  }
+  if (searchEl) searchEl.addEventListener("input", applySearchAndSort);
+  if (sortEl) sortEl.addEventListener("change", applySearchAndSort);
 });
