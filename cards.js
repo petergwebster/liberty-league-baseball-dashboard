@@ -1,4 +1,4 @@
-console.log("cards.js DEPLOY CHECK v4");
+console.log("cards.js DEPLOY CHECK v6 (hash auto-select)");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const stateEl = document.getElementById("state");
@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       ]);
       if (rowVal) return rowVal;
     }
+
     return null;
   }
 
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const titleEl = document.createElement("div");
     titleEl.className = "sideTitle";
-    titleEl.textContent = String(name);
+    titleEl.textContent = name;
     sideEl.appendChild(titleEl);
 
     const subEl = document.createElement("div");
@@ -120,32 +121,30 @@ document.addEventListener("DOMContentLoaded", async function () {
     const tableEl = document.createElement("table");
     tableEl.className = "kv";
 
-    function addRow(label, value) {
-      if (value === null || value === undefined || value === "") return;
-
+    function addRow(k, v) {
       const trEl = document.createElement("tr");
-      const kEl = document.createElement("td");
-      kEl.className = "k";
-      kEl.textContent = String(label);
-
-      const vEl = document.createElement("td");
-      vEl.className = "v";
-      vEl.textContent = String(value);
-
-      trEl.appendChild(kEl);
-      trEl.appendChild(vEl);
+      const tdK = document.createElement("td");
+      const tdV = document.createElement("td");
+      tdK.className = "k";
+      tdV.className = "v";
+      tdK.textContent = k;
+      tdV.textContent = (v === null || v === undefined || v === "") ? "" : String(v);
+      trEl.appendChild(tdK);
+      trEl.appendChild(tdV);
       tableEl.appendChild(trEl);
     }
 
-    addRow("Games played", gp);
-    addRow("Wins", w);
-    addRow("Losses", l);
-    addRow("Ties", t);
-    addRow("Points", pts);
-    addRow("Goals for", gf);
-    addRow("Goals against", ga);
+    if (w !== null || l !== null) addRow("Wins", w);
+    if (l !== null) addRow("Losses", l);
+    if (t !== null) addRow("Ties", t);
+    if (gp !== null) addRow("Games", gp);
+    if (pts !== null) addRow("Points", pts);
+
+    if (gf !== null) addRow("GF", gf);
+    if (ga !== null) addRow("GA", ga);
     if (gd !== null) addRow("Goal differential", gd);
-    addRow("ERA", eraVal);
+
+    if (eraVal !== null) addRow("ERA", eraVal);
 
     sideEl.appendChild(tableEl);
 
@@ -184,7 +183,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return copyRows;
     }
 
-    if (sortKey === "wins_desc") {
+    if (sortKey === "w_desc") {
       copyRows.sort(function (a, b) {
         const av = getWins(a);
         const bv = getWins(b);
@@ -196,19 +195,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return copyRows;
     }
 
-    if (sortKey === "losses_asc") {
-      copyRows.sort(function (a, b) {
-        const av = getLosses(a);
-        const bv = getLosses(b);
-        if (av === null && bv === null) return 0;
-        if (av === null) return 1;
-        if (bv === null) return -1;
-        return av - bv;
-      });
-      return copyRows;
-    }
-
-    if (sortKey === "points_desc") {
+    if (sortKey === "pts_desc") {
       copyRows.sort(function (a, b) {
         const av = getPoints(a);
         const bv = getPoints(b);
@@ -240,25 +227,41 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     sortEl.innerHTML = "";
 
-    function addOpt(val, txt) {
-      const optEl = document.createElement("option");
-      optEl.value = val;
-      optEl.textContent = txt;
-      sortEl.appendChild(optEl);
+    function addOpt(val, label) {
+      const opt = document.createElement("option");
+      opt.value = val;
+      opt.textContent = label;
+      sortEl.appendChild(opt);
     }
 
     addOpt("name_asc", "Team name (A-Z)");
     addOpt("name_desc", "Team name (Z-A)");
 
-    if (hasAnyNumeric(rows, getWins)) addOpt("wins_desc", "Wins (high)");
-    if (hasAnyNumeric(rows, getLosses)) addOpt("losses_asc", "Losses (low)");
-    if (hasAnyNumeric(rows, getPoints)) addOpt("points_desc", "Points (high)");
+    if (hasAnyNumeric(rows, getWins)) addOpt("w_desc", "Wins (high)");
+    if (hasAnyNumeric(rows, getPoints)) addOpt("pts_desc", "Points (high)");
     if (hasAnyNumeric(rows, getEra)) addOpt("era_asc", "ERA (low)");
 
     sortEl.value = "name_asc";
   }
 
   let selectedName = null;
+
+  function normalizeName(s) {
+    return String(s || "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function getHashTeam() {
+    const h = String(window.location.hash || "");
+    if (!h || h.length < 2) return null;
+    try {
+      return decodeURIComponent(h.substring(1));
+    } catch (err) {
+      return h.substring(1);
+    }
+  }
 
   function renderCards(rowsToRender) {
     if (!gridEl) return;
@@ -272,6 +275,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const card = document.createElement("div");
       card.className = "card";
       card.textContent = teamName;
+      card.dataset.team = teamName;
 
       if (selectedName && selectedName === teamName) {
         card.classList.add("selected");
@@ -284,10 +288,55 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         selectedName = teamName;
         renderDetails(r);
+
+        try {
+          window.location.hash = encodeURIComponent(teamName);
+        } catch (err) {
+          // ignore
+        }
       });
 
       gridEl.appendChild(card);
     });
+  }
+
+  function autoSelectFromHash(allRows) {
+    const wanted = getHashTeam();
+    if (!wanted) return false;
+
+    const wantedNorm = normalizeName(wanted);
+
+    let matchedRow = null;
+    for (let idx = 0; idx < allRows.length; idx++) {
+      const nm = String(getTeamName(allRows[idx]));
+      if (normalizeName(nm) === wantedNorm) {
+        matchedRow = allRows[idx];
+        break;
+      }
+    }
+    if (!matchedRow) return false;
+
+    selectedName = String(getTeamName(matchedRow));
+    renderDetails(matchedRow);
+
+    const cardEls = document.querySelectorAll(".card");
+    for (let idx = 0; idx < cardEls.length; idx++) {
+      const cardEl = cardEls[idx];
+      const nm = cardEl.dataset.team;
+      if (normalizeName(nm) === wantedNorm) {
+        const prevSel = document.querySelector(".card.selected");
+        if (prevSel) prevSel.classList.remove("selected");
+        cardEl.classList.add("selected");
+        try {
+          cardEl.scrollIntoView({ block: "center" });
+        } catch (err) {
+          // ignore
+        }
+        break;
+      }
+    }
+
+    return true;
   }
 
   setState("Loading...");
@@ -315,42 +364,3 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (gridEl) gridEl.textContent = String(err);
     return;
   }
-
-  const rows = Array.isArray(payload) ? payload : (payload.rows || payload.data || []);
-  const allRows = rows.slice(0);
-
-  setState("Loaded " + String(allRows.length));
-
-  if (lastGenEl) {
-    const genVal = inferLastGenerated(payload, allRows);
-    lastGenEl.textContent = genVal ? String(genVal) : "";
-  }
-
-  populateSortOptions(allRows);
-
-  function applySearchAndSort() {
-    const q = searchEl ? String(searchEl.value || "").toLowerCase().trim() : "";
-    const sortKey = sortEl ? String(sortEl.value || "name_asc") : "name_asc";
-
-    const filteredRows = allRows.filter(function (r) {
-      return String(getTeamName(r)).toLowerCase().indexOf(q) !== -1;
-    });
-
-    const sortedRows = sortRows(filteredRows, sortKey);
-    renderCards(sortedRows);
-  }
-
-  applySearchAndSort();
-
-  if (searchEl) {
-    searchEl.addEventListener("input", applySearchAndSort);
-  }
-
-  if (sortEl) {
-    sortEl.addEventListener("change", applySearchAndSort);
-  }
-
-  if (sideEl) {
-    sideEl.textContent = "Click a team to see details.";
-  }
-});
