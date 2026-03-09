@@ -1,4 +1,4 @@
-console.log("index.js DEPLOY CHECK v5 (table render hardcheck)");
+console.log("index.js DEPLOY CHECK v6");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const stateEl = document.getElementById("state");
@@ -15,10 +15,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function normalize(s) {
     return String(s || "").toLowerCase().trim().replace(/\s+/g, " ");
-  }
-
-  function getTeamName(r) {
-    return r.team || r.Team || r.school || r.School || r.name || r.Name || "Unknown";
   }
 
   function pickFirst(obj, keys) {
@@ -39,77 +35,79 @@ document.addEventListener("DOMContentLoaded", async function () {
     return Number.isFinite(n) ? n : null;
   }
 
+  function getTeamName(r) {
+    return r.team || r.Team || r.school || r.School || r.name || r.Name || "Unknown";
+  }
+
   function inferLastGenerated(payload, rows) {
-    const direct = payload && (payload.generated_at || payload.generatedAt || payload.last_generated);
-    if (direct) return direct;
-
+    const top = pickFirst(payload, ["lastGenerated", "last_generated", "generatedAt", "generated_at"]);
+    if (top) return top;
     if (rows && rows.length > 0) {
-      const r0 = rows[0];
-      const fromRow = r0.generated_at || r0.generatedAt || r0.last_generated;
-      if (fromRow) return fromRow;
+      const v = pickFirst(rows[0], ["lastGenerated", "last_generated", "generatedAt", "generated_at"]);
+      if (v) return v;
     }
-
     return "";
   }
 
   function buildCols(rows) {
-    const candidates = [
-      { key: "team", label: "Team" },
-      { key: "w", label: "W" },
-      { key: "l", label: "L" },
-      { key: "pts", label: "PTS" },
-      { key: "gf", label: "GF" },
-      { key: "ga", label: "GA" }
-    ];
+    const seen = {};
+    const cols = [];
 
-    if (!rows || rows.length === 0) return candidates;
+    cols.push({ key: "team", label: "Team", numeric: false });
 
-    const sample = rows[0];
-    const out = [];
-    for (let idx = 0; idx < candidates.length; idx++) {
-      const c = candidates[idx];
-      if (c.key === "team") {
-        out.push(c);
-      } else {
-        const v = pickFirst(sample, [c.key, c.key.toUpperCase()]);
-        if (v !== null && v !== undefined) out.push(c);
+    const sample = rows && rows.length ? rows[0] : null;
+    if (!sample) return cols;
+
+    Object.keys(sample).forEach(function (k) {
+      const lk = String(k || "").toLowerCase();
+      if (lk === "team" || lk === "name" || lk === "school") return;
+      if (lk.indexOf("lastgenerated") !== -1) return;
+
+      if (!seen[k]) {
+        seen[k] = true;
+        cols.push({ key: k, label: k, numeric: true });
       }
-    }
-    return out;
+    });
+
+    return cols;
   }
 
   function renderHeader(cols) {
     if (!theadEl) return;
-    theadEl.innerHTML = "";
-
     const tr = document.createElement("tr");
+
     cols.forEach(function (c) {
       const th = document.createElement("th");
       th.textContent = c.label;
-      if (c.key !== "team") th.className = "num";
+      if (c.numeric) th.className = "num";
       tr.appendChild(th);
     });
 
+    theadEl.innerHTML = "";
     theadEl.appendChild(tr);
   }
 
   function renderBody(rows, cols) {
     if (!tbodyEl) return;
+
     tbodyEl.innerHTML = "";
 
     rows.forEach(function (r) {
       const tr = document.createElement("tr");
-      tr.style.cursor = "pointer";
 
       cols.forEach(function (c) {
         const td = document.createElement("td");
+
         if (c.key === "team") {
           td.textContent = getTeamName(r);
         } else {
           const v = pickFirst(r, [c.key, c.key.toUpperCase()]);
           td.textContent = (v === null || v === undefined) ? "" : String(v);
-          td.className = "num";
+
+          const n = asNum(v);
+          if (n !== null) td.className = "num";
         }
+
         tr.appendChild(td);
       });
 
@@ -124,62 +122,64 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (countEl) countEl.textContent = String(rows.length);
   }
 
-  function populateSort() {
+  function populateSortOptions(cols) {
     if (!sortEl) return;
 
     sortEl.innerHTML = "";
-    const opts = [
-      { v: "team_asc", t: "Team (A–Z)" },
-      { v: "w_desc", t: "W (high–low)" },
-      { v: "pts_desc", t: "PTS (high–low)" }
-    ];
 
-    opts.forEach(function (o) {
-      const op = document.createElement("option");
-      op.value = o.v;
-      op.textContent = o.t;
-      sortEl.appendChild(op);
+    const opts = [];
+    opts.push({ value: "team_asc", label: "Team (A-Z)" });
+
+    cols.forEach(function (c) {
+      if (c.key === "team") return;
+      opts.push({ value: c.key + "_desc", label: c.label + " (high-low)" });
     });
 
-    sortEl.value = "team_asc";
+    opts.forEach(function (o) {
+      const opt = document.createElement("option");
+      opt.value = o.value;
+      opt.textContent = o.label;
+      sortEl.appendChild(opt);
+    });
   }
 
   function sortRows(rows, sortKey) {
     const tmp = rows.slice(0);
 
-    if (sortKey === "w_desc") {
+    if (sortKey === "team_asc") {
       tmp.sort(function (a, b) {
-        const aw = asNum(pickFirst(a, ["w", "W", "wins", "Wins"])) || 0;
-        const bw = asNum(pickFirst(b, ["w", "W", "wins", "Wins"])) || 0;
-        return bw - aw;
+        const an = normalize(getTeamName(a));
+        const bn = normalize(getTeamName(b));
+        if (an < bn) return -1;
+        if (an > bn) return 1;
+        return 0;
       });
       return tmp;
     }
 
-    if (sortKey === "pts_desc") {
-      tmp.sort(function (a, b) {
-        const ap = asNum(pickFirst(a, ["pts", "PTS", "points", "Points"])) || 0;
-        const bp = asNum(pickFirst(b, ["pts", "PTS", "points", "Points"])) || 0;
-        return bp - ap;
-      });
-      return tmp;
-    }
+    const parts = String(sortKey || "").split("_");
+    const key = parts[0];
+    const dir = parts.length > 1 ? parts[1] : "desc";
 
     tmp.sort(function (a, b) {
-      const an = normalize(getTeamName(a));
-      const bn = normalize(getTeamName(b));
-      if (an < bn) return -1;
-      if (an > bn) return 1;
-      return 0;
+      const av = asNum(pickFirst(a, [key, key.toUpperCase()]));
+      const bv = asNum(pickFirst(b, [key, key.toUpperCase()]));
+
+      if (av === null && bv === null) return 0;
+      if (av === null) return 1;
+      if (bv === null) return -1;
+
+      return dir === "asc" ? (av - bv) : (bv - av);
     });
+
     return tmp;
   }
 
-  function apply(allRows, cols) {
+  function apply(rows, cols) {
     const q = searchEl ? normalize(searchEl.value) : "";
     const sortKey = sortEl ? String(sortEl.value || "team_asc") : "team_asc";
 
-    const filtered = allRows.filter(function (r) {
+    const filtered = rows.filter(function (r) {
       return normalize(getTeamName(r)).indexOf(q) !== -1;
     });
 
@@ -187,17 +187,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     renderBody(sorted, cols);
   }
 
-  setState("Running…");
-
-  if (!tbodyEl || !theadEl) {
+  if (!theadEl || !tbodyEl) {
     setState("Missing table IDs");
     console.log("theadEl", theadEl);
     console.log("tbodyEl", tbodyEl);
     return;
   }
 
+  setState("Fetching…");
+
   const jsonUrl = "./live_team_stats.json";
   let resp;
+
   try {
     resp = await fetch(jsonUrl, { cache: "no-store" });
   } catch (err) {
@@ -224,15 +225,19 @@ document.addEventListener("DOMContentLoaded", async function () {
   setState("Loaded " + String(allRows.length));
 
   if (lastGenEl) {
-    const genVal = inferLastGenerated(payload, allRows);
-    lastGenEl.textContent = genVal ? String(genVal) : "";
+    lastGenEl.textContent = String(inferLastGenerated(payload, allRows) || "");
   }
 
   const cols = buildCols(allRows);
   renderHeader(cols);
-  populateSort();
+  populateSortOptions(cols);
   apply(allRows, cols);
 
-  if (searchEl) searchEl.addEventListener("input", function () { apply(allRows, cols); });
-  if (sortEl) sortEl.addEventListener("change", function () { apply(allRows, cols); });
+  if (searchEl) {
+    searchEl.addEventListener("input", function () { apply(allRows, cols); });
+  }
+
+  if (sortEl) {
+    sortEl.addEventListener("change", function () { apply(allRows, cols); });
+  }
 });
