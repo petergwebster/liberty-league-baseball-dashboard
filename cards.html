@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Liberty League - Team Cards</title>
-    <link rel="stylesheet" href="cards.css" />
+    <title>Liberty League - Cards</title>
+    <link rel="stylesheet" href="./cards.css" />
+    <script defer src="./cards.js"></script>
   </head>
 
   <body>
     <div class="top">
       <div class="nav">
-        <a href="./index.html">Teams table</a>
+        <a href="/">Teams table</a>
         <span class="sep">|</span>
         <strong>Team cards</strong>
       </div>
-
       <div class="meta">
         <span id="state" class="pill">Loading...</span>
         <span class="muted">Last generated <span id="lastGenerated"></span></span>
@@ -28,11 +28,8 @@
     </div>
 
     <div class="layout">
-      <div id="grid"></div>
-      <div id="side"></div>
+      <div id="grid" class="grid"></div>
+      <div id="side" class="side"></div>
     </div>
-
-    <!-- defer makes script execution wait until HTML is parsed -->
-    <script defer src="cards.js"></script>
   </body>
 </html>
