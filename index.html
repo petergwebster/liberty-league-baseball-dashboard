@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Liberty League - Teams</title>
+
+    <!-- CSS + JS for this page -->
     <link rel="stylesheet" href="./index.css" />
     <script defer src="./index.js"></script>
   </head>
@@ -18,13 +20,17 @@
 
       <div class="meta">
         <span id="state" class="pill">Loading...</span>
-        <span class="muted">Last generated <span id="lastGenerated"></span></span>
+        <span class="muted">
+          Last generated <span id="lastGenerated"></span>
+        </span>
       </div>
     </div>
 
     <div class="hero">
       <div class="heroTitle">Liberty League</div>
-      <div class="heroSub">Search, sort, and click a team to jump to its card.</div>
+      <div class="heroSub">
+        Search, sort, and click a team to jump to its card.
+      </div>
     </div>
 
     <div class="controls">
@@ -35,3 +41,4 @@
 
     <div class="main">
       <div class="panel">
+        <!-- This table is what index.js expects -->
