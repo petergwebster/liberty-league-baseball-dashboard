@@ -1,7 +1,6 @@
 :root {
   --bg: #0b1220;
   --panel: rgba(255, 255, 255, 0.06);
-  --panel2: rgba(255, 255, 255, 0.085);
   --text: rgba(255, 255, 255, 0.92);
   --muted: rgba(255, 255, 255, 0.70);
   --line: rgba(255, 255, 255, 0.12);
@@ -9,15 +8,15 @@
 }
 
 * { box-sizing: border-box; }
-
 html, body { height: 100%; }
 
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: radial-gradient(1200px 600px at 20% 0%, rgba(120, 180, 255, 0.14), transparent 55%),
-              radial-gradient(900px 500px at 90% 20%, rgba(180, 120, 255, 0.10), transparent 60%),
-              var(--bg);
+  background:
+    radial-gradient(1200px 600px at 20% 0%, rgba(120, 180, 255, 0.14), transparent 55%),
+    radial-gradient(900px 500px at 90% 20%, rgba(180, 120, 255, 0.10), transparent 60%),
+    var(--bg);
   color: var(--text);
 }
 
@@ -27,7 +26,7 @@ a:hover { text-decoration: underline; }
 .top {
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -58,27 +57,15 @@ a:hover { text-decoration: underline; }
   font-size: 12px;
 }
 
-.hero {
-  padding: 18px 16px 10px 16px;
-}
-
-.heroTitle {
-  font-weight: 850;
-  font-size: 26px;
-  letter-spacing: 0.3px;
-  margin-bottom: 4px;
-}
-
-.heroSub {
-  font-size: 13px;
-  color: var(--muted);
-}
+.hero { padding: 18px 16px 10px 16px; }
+.heroTitle { font-weight: 850; font-size: 26px; margin-bottom: 4px; }
+.heroSub { font-size: 13px; color: var(--muted); }
 
 .controls {
   display: flex;
   gap: 10px;
   align-items: center;
-  padding: 10px 16px 6px 16px;
+  padding: 10px 16px 8px 16px;
 }
 
 .controls input,
@@ -91,13 +78,8 @@ a:hover { text-decoration: underline; }
   outline: none;
 }
 
-.controls input {
-  width: min(420px, 55vw);
-}
-
-.controls input::placeholder {
-  color: rgba(255, 255, 255, 0.55);
-}
+.controls input { width: min(420px, 55vw); }
+.controls input::placeholder { color: rgba(255, 255, 255, 0.55); }
 
 .controls input:focus,
 .controls select:focus {
@@ -105,19 +87,46 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 0 0 3px rgba(120, 180, 255, 0.12);
 }
 
-#count {
-  margin-left: auto;
-  color: var(--muted);
-  font-size: 12px;
-}
+#count { margin-left: auto; color: var(--muted); font-size: 12px; }
 
-.main {
-  padding: 6px 16px 20px 16px;
-}
+.main { padding: 6px 16px 20px 16px; }
 
 .panel {
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 6px 12px 10px 12px;
-  overflow
+  overflow: hidden;
+}
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tbl thead th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 56px;
+  background: rgba(10, 16, 30, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.tbl tbody td {
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.tbl tbody tr:hover {
+  background: rgba(120, 180, 255, 0.08);
+}
+
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.hint { padding: 10px 2px 0 2px; font-size: 12px; }
