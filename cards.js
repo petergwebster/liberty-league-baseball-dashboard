@@ -1,13 +1,3 @@
-const sampleKeys = Object.keys(rows[0] || {}).sort();
-showBox("Sample keys from first row:\n" + sampleKeys.join(", "));
-That removes the “Sample keys from first row…” box at the top.
-
-Clean “final” cards.js (copy/paste)
-If you’d rather not hunt lines, here’s a cleaned full file (no debug box), keeping your resilient key-picking and forced readable text color:
-
-js
-
-
 document.addEventListener("DOMContentLoaded", async function () {
   const stateEl = document.getElementById("state");
   const lastGenEl = document.getElementById("lastGenerated");
