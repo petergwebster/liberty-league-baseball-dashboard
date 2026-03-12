@@ -1,3 +1,6 @@
+console.log("PLAYERS.JS LOADED", new Date().toISOString());
+alert("players.js loaded");
+
 document.addEventListener("DOMContentLoaded", function () {
   function q(idVal) {
     return document.getElementById(idVal);
