@@ -33,6 +33,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     lastGenEl.textContent = txt;
   }
 
+  function pillCount(n) {
+    if (!countPillEl) return;
+    countPillEl.textContent = "Players " + String(n);
+  }
+
   function safeStr(v) {
     if (v === null || v === undefined) return "";
     return String(v);
@@ -43,12 +48,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const n = Number(v);
     if (Number.isFinite(n)) return n;
     return null;
-  }
-
-  function fmt0(v) {
-    const n = safeNum(v);
-    if (n === null) return "—";
-    return String(Math.round(n));
   }
 
   function fmt3(v) {
@@ -75,78 +74,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     return null;
   }
 
-  function pillCount(n) {
-    if (!countPillEl) return;
-    countPillEl.textContent = "Players " + String(n);
-  }
-
   function pickId(r, idx) {
     const rid = safeStr(r && r.id);
     if (rid.trim() !== "") return rid;
-
     const nm = safeStr((r && (r.player || r.name)) || "Unknown");
     const tm = safeStr((r && r.team) || "");
     return nm + "|" + tm + "|" + String(idx);
-  }
-
-  function getName(r) {
-    const nm = safeStr((r && (r.player || r.name)) || "Unknown");
-    return nm.trim() === "" ? "Unknown" : nm;
-  }
-
-  function getTeam(r) {
-    return safeStr((r && r.team) || "").trim();
-  }
-
-  function getPA(r) {
-    const pa0 = safeNum(r && (r.pa !== undefined ? r.pa : r.PA));
-    if (pa0 !== null) return pa0;
-
-    const ab = safeNum(r && (r.ab !== undefined ? r.ab : r.AB));
-    const bb = safeNum(r && (r.bb !== undefined ? r.bb : r.BB));
-    const hbp = safeNum(r && (r.hbp !== undefined ? r.hbp : r.HBP));
-    const sf = safeNum(r && (r.sf !== undefined ? r.sf : r.SF));
-
-    if (ab === null && bb === null && hbp === null && sf === null) return null;
-
-    return (ab || 0) + (bb || 0) + (hbp || 0) + (sf || 0);
-  }
-
-  function computePaPercentiles(rows) {
-    const paVals = rows
-      .map(function (r) {
-        return r._pa;
-      })
-      .filter(function (v) {
-        return v !== null;
-      })
-      .slice()
-      .sort(function (a, b) {
-        return a - b;
-      });
-
-    if (paVals.length === 0) {
-      rows.forEach(function (r) {
-        r._paPct = null;
-      });
-      return;
-    }
-
-    function pctOf(v) {
-      if (v === null) return null;
-      let lo = 0;
-      let hi = paVals.length;
-      while (lo < hi) {
-        const mid = Math.floor((lo + hi) / 2);
-        if (paVals[mid] <= v) lo = mid + 1;
-        else hi = mid;
-      }
-      return lo / paVals.length;
-    }
-
-    rows.forEach(function (r) {
-      r._paPct = pctOf(r._pa);
-    });
   }
 
   async function fetchJsonOrThrow(urlPath) {
@@ -156,200 +89,404 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     if (!resp.ok) {
       throw new Error(
-        "Fetch failed " +
-          urlPath +
-          " HTTP " +
-          String(resp.status) +
-          " CT " +
-          ct +
-          " Head " +
-          txt.slice(0, 160)
+        "Fetch failed " + urlPath + " HTTP " + String(resp.status) + " CT " + ct + " Head " + txt.slice(0, 140)
       );
     }
 
     const trimmed = txt.trim();
-    if (trimmed.startsWith("<")) {
-      throw new Error("Expected JSON but got HTML from " + urlPath + " Head " + trimmed.slice(0, 160));
-    }
-
     try {
       return JSON.parse(trimmed);
     } catch (e) {
-      throw new Error("Invalid JSON from " + urlPath + " Head " + trimmed.slice(0, 160));
+      throw new Error("Invalid JSON at " + urlPath + " Head " + trimmed.slice(0, 140));
     }
   }
 
-  function normalizeRows(rawRows) {
-    const norm = rawRows.map(function (r, idx) {
-      const rr = r || {};
-      const out = Object.assign({}, rr);
+  function normalizeRow(r, idx) {
+    const out = Object.assign({}, r || {});
+    out._id = pickId(r, idx);
 
-      out._id = pickId(rr, idx);
-      out._name = getName(rr);
-      out._team = getTeam(rr);
+    out._name = safeStr((r && (r.player || r.name)) || "Unknown");
+    out._team = safeStr((r && (r.team || r.tm || r.Tm)) || "");
 
-      out._ab = safeNum(rr.ab !== undefined ? rr.ab : rr.AB);
-      out._h = safeNum(rr.h !== undefined ? rr.h : rr.H);
-      out._hr = safeNum(rr.hr !== undefined ? rr.hr : rr.HR);
-      out._rbi = safeNum(rr.rbi !== undefined ? rr.rbi : rr.RBI);
+    out._ab = safeNum(r && (r.ab !== undefined ? r.ab : r.AB));
+    out._pa = safeNum(r && (r.pa !== undefined ? r.pa : r.PA));
 
-      out._avg = safeNum(rr.avg !== undefined ? rr.avg : rr.AVG);
-      out._obp = safeNum(rr.obp !== undefined ? rr.obp : rr.OBP);
-      out._slg = safeNum(rr.slg !== undefined ? rr.slg : rr.SLG);
-      out._ops = safeNum(rr.ops !== undefined ? rr.ops : rr.OPS);
+    out._avg = safeNum(r && (r.avg !== undefined ? r.avg : r.AVG));
+    out._obp = safeNum(r && (r.obp !== undefined ? r.obp : r.OBP));
+    out._slg = safeNum(r && (r.slg !== undefined ? r.slg : r.SLG));
+    out._ops = safeNum(r && (r.ops !== undefined ? r.ops : r.OPS));
 
-      out._pa = getPA(rr);
-      out._paPct = null;
+    out._paPct = null;
+    if (r && (r.pa_pct !== undefined || r.paPct !== undefined || r.PA_PCT !== undefined)) {
+      out._paPct = asPct01(r.pa_pct !== undefined ? r.pa_pct : (r.paPct !== undefined ? r.paPct : r.PA_PCT));
+    }
 
-      return out;
-    });
+    return out;
+  }
 
-    computePaPercentiles(norm);
-    return norm;
+  function normalizeRows(rows) {
+    const out = [];
+    for (let i = 0; i < rows.length; i++) out.push(normalizeRow(rows[i], i));
+    return out;
+  }
+
+  function computePaPercentiles(rows) {
+    const paVals = rows
+      .map(function (r) {
+        return r._pa;
+      })
+      .filter(function (v) {
+        return v !== null && Number.isFinite(v);
+      })
+      .slice()
+      .sort(function (a, b) {
+        return a - b;
+      });
+
+    if (paVals.length === 0) return;
+
+    function pctRank(v) {
+      let lo = 0;
+      let hi = paVals.length;
+      while (lo < hi) {
+        const mid = (lo + hi) >> 1;
+        if (paVals[mid] <= v) lo = mid + 1;
+        else hi = mid;
+      }
+      return lo / paVals.length;
+    }
+
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i];
+      if (r._paPct === null && r._pa !== null) r._paPct = pctRank(r._pa);
+    }
   }
 
   function cardHtml(r) {
-    const pinnedOn = pinned.has(r._id);
-    const selectedOn = selectedId === r._id;
+    const isSelected = selectedId && r._id === selectedId;
+    const isPinned = pinned.has(r._id);
+    const cls = "playerCard" + (isSelected ? " selected" : "");
 
-    const cls =
-      "playerCard" +
-      (pinnedOn ? " pinned" : "") +
-      (selectedOn ? " selected" : "");
-
-    const statsLine =
-      '<div class="cardStats">' +
-      '<div class="stat"><div class="k">OPS</div><div class="v">' +
-      fmt3(r._ops) +
-      "</div></div>" +
-      '<div class="stat"><div class="k">AVG</div><div class="v">' +
-      fmt3(r._avg) +
-      "</div></div>" +
-      '<div class="stat"><div class="k">HR</div><div class="v">' +
-      fmt0(r._hr) +
-      "</div></div>" +
-      '<div class="stat"><div class="k">RBI</div><div class="v">' +
-      fmt0(r._rbi) +
-      "</div></div>" +
-      "</div>";
-
-    const pinTxt = pinnedOn ? "Unpin" : "Pin";
+    const abTxt = r._ab === null ? "—" : String(r._ab);
+    const paTxt = r._pa === null ? "—" : String(r._pa);
+    const paPctTxt = r._paPct === null ? "—" : String(Math.round(r._paPct * 100)) + "%";
 
     return (
-      '<div class="' +
-      cls +
-      '" data-id="' +
-      escHtml(r._id) +
-      '">' +
+      '<div class="' + cls + '" data-id="' + escHtml(r._id) + '">' +
       '<div class="cardTop">' +
-      '<div class="cardName">' +
-      escHtml(r._name) +
+      '<div class="cardName">' + escHtml(r._name) + "</div>" +
+      '<div class="cardTeam">' + escHtml(r._team) + "</div>" +
+      '<button class="pinBtn" data-id="' + escHtml(r._id) + '">' + (isPinned ? "Unpin" : "Pin") + "</button>" +
       "</div>" +
-      '<div class="cardTeam">' +
-      escHtml(r._team) +
-      "</div>" +
-      "</div>" +
-      statsLine +
-      '<div class="cardActions">' +
-      '<button class="pinBtn" data-id="' +
-      escHtml(r._id) +
-      '">' +
-      pinTxt +
-      "</button>" +
+      '<div class="cardStats">' +
+      '<div class="stat"><div class="k">OPS</div><div class="v">' + escHtml(fmt3(r._ops)) + "</div></div>" +
+      '<div class="stat"><div class="k">AVG</div><div class="v">' + escHtml(fmt3(r._avg)) + "</div></div>" +
+      '<div class="stat"><div class="k">OBP</div><div class="v">' + escHtml(fmt3(r._obp)) + "</div></div>" +
+      '<div class="stat"><div class="k">SLG</div><div class="v">' + escHtml(fmt3(r._slg)) + "</div></div>" +
+      '<div class="stat"><div class="k">AB</div><div class="v">' + escHtml(abTxt) + "</div></div>" +
+      '<div class="stat"><div class="k">PA</div><div class="v">' + escHtml(paTxt) + "</div></div>" +
+      '<div class="stat"><div class="k">PA %tile</div><div class="v">' + escHtml(paPctTxt) + "</div></div>" +
       "</div>" +
       "</div>"
     );
   }
 
-  function renderPinnedRow() {
-    if (!pinnedRowEl) return;
-
-    const pinnedIds = Array.from(pinned.values());
-    if (pinnedIds.length === 0) {
-      pinnedRowEl.innerHTML = "";
-      pinnedRowEl.style.display = "none";
+  function renderGrid(rows) {
+    if (!playersGridEl) return;
+    if (!rows || rows.length === 0) {
+      playersGridEl.innerHTML = '<div class="empty">No players match the filters.</div>';
       return;
     }
+    playersGridEl.innerHTML = rows.map(cardHtml).join("");
+  }
+
+  function pinnedHtml(r) {
+    return (
+      '<div class="pinItem">' +
+      '<div class="pinMain">' +
+      '<div class="pinName">' + escHtml(r._name) + "</div>" +
+      '<div class="pinTeam">' + escHtml(r._team) + "</div>" +
+      "</div>" +
+      '<div class="pinMeta">' +
+      '<div class="pinOps">OPS ' + escHtml(fmt3(r._ops)) + "</div>" +
+      '<button class="pinRemove" data-id="' + escHtml(r._id) + '">Remove</button>' +
+      "</div>" +
+      "</div>"
+    );
+  }
+
+  function renderPinned() {
+    if (!pinnedRowEl) return;
+    const pins = allRows.filter(function (r) {
+      return pinned.has(r._id);
+    });
+    if (pins.length === 0) {
+      pinnedRowEl.innerHTML = '<div class="emptyPins">Pinned players will show up here.</div>';
+      return;
+    }
+    pinnedRowEl.innerHTML = pins.map(pinnedHtml).join("");
+  }
+
+  function detailHtml(r) {
+    if (!r) return '<div class="detailEmpty">Click a player card to see details.</div>';
+
+    const paPctTxt = r._paPct === null ? "—" : String(Math.round(r._paPct * 100)) + "%";
+
+    return (
+      '<div class="detailCard">' +
+      '<div class="detailHeader">' +
+      '<div class="detailName">' + escHtml(r._name) + "</div>" +
+      '<div class="detailTeam">' + escHtml(r._team) + "</div>" +
+      "</div>" +
+      '<div class="detailGrid">' +
+      '<div class="drow"><div class="k">AB</div><div class="v">' + escHtml(r._ab === null ? "—" : String(r._ab)) + "</div></div>" +
+      '<div class="drow"><div class="k">PA</div><div class="v">' + escHtml(r._pa === null ? "—" : String(r._pa)) + "</div></div>" +
+      '<div class="drow"><div class="k">PA %tile</div><div class="v">' + escHtml(paPctTxt) + "</div></div>" +
+      '<div class="drow"><div class="k">AVG</div><div class="v">' + escHtml(fmt3(r._avg)) + "</div></div>" +
+      '<div class="drow"><div class="k">OBP</div><div class="v">' + escHtml(fmt3(r._obp)) + "</div></div>" +
+      '<div class="drow"><div class="k">SLG</div><div class="v">' + escHtml(fmt3(r._slg)) + "</div></div>" +
+      '<div class="drow"><div class="k">OPS</div><div class="v">' + escHtml(fmt3(r._ops)) + "</div></div>" +
+      "</div>" +
+      "</div>"
+    );
+  }
+
+  function renderDetail() {
+    if (!detailEl) return;
+    const r = allRows.find(function (x) {
+      return x._id === selectedId;
+    });
+    detailEl.innerHTML = detailHtml(r || null);
+  }
+
+  function readFilters() {
+    const q = qEl ? qEl.value.trim().toLowerCase() : "";
+    const minAB = minABEl ? safeNum(minABEl.value) : 0;
+    const minPaPct = minPaPctEl ? safeNum(minPaPctEl.value) : 0;
+    const sortBy = sortByEl ? sortByEl.value : "ops";
+
+    const minABVal = minAB === null ? 0 : minAB;
+    const minPaPctVal = minPaPct === null ? 0 : minPaPct / 100.0;
+
+    if (pctPaLabelEl) pctPaLabelEl.textContent = String(Math.round(minPaPctVal * 100)) + "%";
+
+    return { q: q, minAB: minABVal, minPaPct: minPaPctVal, sortBy: sortBy };
+  }
+    function applyFiltersAndSort() {
+    const f = readFilters();
+
+    viewRows = allRows.filter(function (r) {
+      if (f.q) {
+        const hay = (r._name + " " + r._team).toLowerCase();
+        if (!hay.includes(f.q)) return false;
+      }
+      if (r._ab !== null && r._ab < f.minAB) return false;
+      if (r._ab === null && f.minAB > 0) return false;
+
+      if (f.minPaPct > 0) {
+        if (r._paPct === null) return false;
+        if (r._paPct < f.minPaPct) return false;
+      }
+
+      return true;
+    });
+
+    function cmpNum(a, b) {
+      const av = a === null ? -Infinity : a;
+      const bv = b === null ? -Infinity : b;
+      return bv - av;
+    }
+
+    viewRows.sort(function (a, b) {
+      if (sortByEl && sortByEl.value === "avg") return cmpNum(a._avg, b._avg);
+      const sortBy = f.sortBy;
+      if (sortBy === "avg") return cmpNum(a._avg, b._avg);
+      if (sortBy === "obp") return cmpNum(a._obp, b._obp);
+      if (sortBy === "slg") return cmpNum(a._slg, b._slg);
+      if (sortBy === "ab") return cmpNum(a._ab, b._ab);
+      if (sortBy === "pa") return cmpNum(a._pa, b._pa);
+      if (sortBy === "paPct") return cmpNum(a._paPct, b._paPct);
+      return cmpNum(a._ops, b._ops);
+    });
+
+    pillCount(viewRows.length);
+    renderGrid(viewRows);
+    renderPinned();
+    renderDetail();
+  }
+
+  function onGridClick(ev) {
+    const t = ev.target;
+    if (!t) return;
+
+    const pinBtn = t.closest ? t.closest(".pinBtn") : null;
+    if (pinBtn) {
+      const pid = pinBtn.getAttribute("data-id") || "";
+      if (pid) {
+        if (pinned.has(pid)) pinned.delete(pid);
+        else pinned.add(pid);
+        applyFiltersAndSort();
+      }
+      ev.preventDefault();
+      return;
+    }
+
+    const card = t.closest ? t.closest(".playerCard") : null;
+    if (!card) return;
+    const pid = card.getAttribute("data-id") || "";
+    if (!pid) return;
+
+    selectedId = pid;
+    applyFiltersAndSort();
+  }
+
+  function onPinnedClick(ev) {
+    const t = ev.target;
+    if (!t) return;
+    const rm = t.closest ? t.closest(".pinRemove") : null;
+    if (!rm) return;
+    const pid = rm.getAttribute("data-id") || "";
+    if (pid) {
+      pinned.delete(pid);
+      applyFiltersAndSort();
+    }
+  }
+
+  function exportCsv() {
+    const cols = ["player", "team", "ab", "pa", "pa_percentile", "avg", "obp", "slg", "ops"];
+
+    function csvCell(v) {
+      const s = safeStr(v);
+      if (s.includes(",") || s.includes("\n") || s.includes('"')) {
+        return '"' + s.replaceAll('"', '""') + '"';
+      }
+      return s;
+    }
+
+    const lines = [];
+    lines.push(cols.join(","));
 
     const pinnedRows = allRows.filter(function (r) {
       return pinned.has(r._id);
     });
 
-    pinnedRowEl.style.display = "block";
-    pinnedRowEl.innerHTML =
-      '<div class="pinnedTitle">Pinned</div>' +
-      '<div class="pinnedGrid">' +
-      pinnedRows
-        .map(function (r) {
-          return '<div class="pinnedCardWrap">' + cardHtml(r) + "</div>";
-        })
-        .join("") +
-      "</div>";
+    const exportRows = pinnedRows.length > 0 ? pinnedRows : viewRows;
+
+    for (let i = 0; i < exportRows.length; i++) {
+      const r = exportRows[i];
+      const row = [
+        r._name,
+        r._team,
+        r._ab === null ? "" : String(r._ab),
+        r._pa === null ? "" : String(r._pa),
+        r._paPct === null ? "" : String(Math.round(r._paPct * 100)),
+        r._avg === null ? "" : String(r._avg),
+        r._obp === null ? "" : String(r._obp),
+        r._slg === null ? "" : String(r._slg),
+        r._ops === null ? "" : String(r._ops)
+      ];
+      lines.push(row.map(csvCell).join(","));
+    }
+
+    const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "players_export.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1000);
   }
 
-  function renderGrid() {
-    if (!playersGridEl) return;
-    playersGridEl.innerHTML = viewRows.map(function (r) {
-      return cardHtml(r);
-    }).join("");
+  function wireEvents() {
+    if (qEl) qEl.addEventListener("input", applyFiltersAndSort);
+    if (minABEl) minABEl.addEventListener("input", applyFiltersAndSort);
+    if (minPaPctEl) minPaPctEl.addEventListener("input", applyFiltersAndSort);
+    if (sortByEl) sortByEl.addEventListener("change", applyFiltersAndSort);
+
+    if (playersGridEl) playersGridEl.addEventListener("click", onGridClick);
+    if (pinnedRowEl) pinnedRowEl.addEventListener("click", onPinnedClick);
+
+    if (exportBtn) exportBtn.addEventListener("click", exportCsv);
+
+    if (clearPinsBtn)
+      clearPinsBtn.addEventListener("click", function () {
+        pinned = new Set();
+        applyFiltersAndSort();
+      });
+
+    if (clearAllBtn)
+      clearAllBtn.addEventListener("click", function () {
+        if (qEl) qEl.value = "";
+        if (minABEl) minABEl.value = "0";
+        if (minPaPctEl) minPaPctEl.value = "0";
+        if (sortByEl) sortByEl.value = "ops";
+        selectedId = null;
+        applyFiltersAndSort();
+      });
   }
 
-  function renderDetailById(id) {
-    if (!detailEl) return;
+  function renderErrorBox(msg) {
+    return (
+      '<div style="border:1px solid #fecaca; background:#fff1f2; padding:12px; border-radius:12px;">' +
+      '<div style="font-weight:700; margin-bottom:6px;">Could not load players data</div>' +
+      '<div style="font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:12px; color:#991b1b;">' +
+      escHtml(msg) +
+      "</div>" +
+      "</div>"
+    );
+  }
+    async function init() {
+    setState("Loading…", false);
 
-    const r = allRows.find(function (x) {
-      return x._id === id;
-    });
+    let payload = null;
+    try {
+      payload = await fetchJsonOrThrow("players.json");
+    } catch (e1) {
+      try {
+        payload = await fetchJsonOrThrow("./players.json");
+      } catch (e2) {
+        if (playersGridEl) playersGridEl.innerHTML = renderErrorBox(String(e2 && e2.message ? e2.message : e2));
+        setState("Load failed", true);
+        return;
+      }
+    }
 
-    if (!r) {
-      detailEl.innerHTML = "<div>Pick a player to see details.</div>";
+    let rows = payload;
+    let meta = null;
+
+    if (payload && typeof payload === "object" && Array.isArray(payload.rows)) {
+      rows = payload.rows;
+      meta = payload.meta || null;
+    }
+
+    if (!Array.isArray(rows)) {
+      if (playersGridEl) playersGridEl.innerHTML = renderErrorBox("players.json must be an array, or an object with a rows array.");
+      setState("Bad data", true);
       return;
     }
 
-    const paTxt = r._pa === null ? "—" : String(r._pa);
-    const paPctTxt = r._paPct === null ? "—" : String(Math.round(r._paPct * 100)) + "%";
+    allRows = normalizeRows(rows);
+    computePaPercentiles(allRows);
 
-    detailEl.innerHTML =
-      '<div class="detailHeader">' +
-      '<div class="detailName">' +
-      escHtml(r._name) +
-      "</div>" +
-      '<div class="detailTeam">' +
-      escHtml(r._team) +
-      "</div>" +
-      "</div>" +
-      '<div class="detailGrid">' +
-      '<div class="detailCell"><div class="detailK">AB</div><div class="detailV">' +
-      (r._ab === null ? "—" : String(r._ab)) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">H</div><div class="detailV">' +
-      (r._h === null ? "—" : String(r._h)) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">HR</div><div class="detailV">' +
-      fmt0(r._hr) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">RBI</div><div class="detailV">' +
-      fmt0(r._rbi) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">AVG</div><div class="detailV">' +
-      fmt3(r._avg) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">OBP</div><div class="detailV">' +
-      fmt3(r._obp) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">SLG</div><div class="detailV">' +
-      fmt3(r._slg) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">OPS</div><div class="detailV">' +
-      fmt3(r._ops) +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">PA</div><div class="detailV">' +
-      paTxt +
-      "</div></div>" +
-      '<div class="detailCell"><div class="detailK">PA %tile</div><div class="detailV">' +
-      paPctTxt +
-      "</div></div>" +
-      "</div>" +
-      '<div class="detailRaw">' +
-      "<h4>Raw row</h4>" +
-      "
+    if (meta && meta.generated_at) setLastGenerated(String(meta.generated_at));
+    else setLastGenerated("");
+
+    wireEvents();
+    applyFiltersAndSort();
+
+    setState("Ready", false);
+  }
+
+  try {
+    await init();
+  } catch (err) {
+    if (playersGridEl) playersGridEl.innerHTML = renderErrorBox(String(err && err.message ? err.message : err));
+    setState("Error", true);
+  }
+});
