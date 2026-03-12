@@ -6,53 +6,139 @@
   <title>Liberty League – Players</title>
 
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #fafafa; }
-    header { padding: 16px 18px; border-bottom: 1px solid #e6e6e6; background: #fff; position: sticky; top: 0; }
-    h1 { margin: 0; font-size: 18px; font-weight: 800; }
-    .sub { margin-top: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #444; }
-    .pill { padding: 4px 10px; border-radius: 999px; background: #f2f2f2; color: #333; font-weight: 700; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #050816; color: #e5e7eb; }
+    header { padding: 16px 18px; border-bottom: 1px solid #202234; background: #050816; position: sticky; top: 0; z-index: 10; }
+    h1 { margin: 0; font-size: 18px; font-weight: 800; color: #f9fafb; }
+    .sub { margin-top: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #9ca3af; }
+    .pill { padding: 4px 10px; border-radius: 999px; background: #111827; color: #e5e7eb; font-weight: 700; }
 
-    main { padding: 16px 18px; max-width: 1100px; margin: 0 auto; }
-    .controls { display: grid; grid-template-columns: 1fr 140px 200px 180px; gap: 10px; align-items: end; }
-    label { display: block; font-size: 12px; color: #555; margin-bottom: 6px; font-weight: 700; }
-    input[type="text"], input[type="number"], select {
+    main { padding: 16px 18px 32px; max-width: 1120px; margin: 0 auto; }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) 120px 210px 190px;
+      gap: 12px;
+      align-items: end;
+      background: #020617;
+      border-radius: 18px;
+      padding: 16px 18px 14px;
+      border: 1px solid #111827;
+    }
+
+    label { display: block; font-size: 11px; letter-spacing: .03em; text-transform: uppercase; color: #9ca3af; margin-bottom: 6px; font-weight: 700; }
+
+    input[type="text"],
+    input[type="number"],
+    select {
       width: 100%;
       padding: 8px 10px;
-      border: 1px solid #d9d9d9;
-      border-radius: 10px;
-      font-size: 14px;
-      background: #fff;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
     }
+
     input[type="range"] { width: 100%; }
 
-    .btnrow { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btnrow { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+
     button {
-      padding: 9px 12px;
-      border-radius: 12px;
-      border: 1px solid #d9d9d9;
-      background: #fff;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: #f9fafb;
       cursor: pointer;
       font-weight: 800;
+      font-size: 13px;
+      color: #0b1020;
     }
 
-    #playersGrid { margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-    .card { border: 1px solid #ececec; border-radius: 14px; padding: 12px; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,0.02); }
-    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .card-name { font-size: 16px; font-weight: 900; }
-    .card-sub { font-size: 12px; color: #666; margin-top: 2px; font-weight: 700; }
+    button.secondary {
+      background: #020617;
+      color: #e5e7eb;
+    }
 
-    .btn-pin { padding: 6px 10px; border-radius: 999px; font-size: 12px; }
-    .btn-pin.pinned { background: #111; color: #fff; border-color: #111; }
+    #playersGrid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
 
-    .card-body { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .metric { padding: 8px 10px; border-radius: 12px; background: #f7f7f7; border: 1px solid #eee; }
-    .label { display: block; font-size: 11px; color: #666; font-weight: 800; }
-    .value { display: block; font-size: 14px; font-weight: 900; margin-top: 2px; }
+    .card {
+      border-radius: 18px;
+      border: 1px solid #111827;
+      background: radial-gradient(circle at 0 0, #111827 0, #020617 45%, #020617 100%);
+      padding: 12px 13px;
+      color: #e5e7eb;
+    }
 
-    .error { border: 1px solid #ffcccc; background: #fff3f3; padding: 10px 12px; border-radius: 12px; font-weight: 800; }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-name { font-size: 15px; font-weight: 800; }
+    .card-sub { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+
+    .btn-pin {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-pin.pinned {
+      background: #f97316;
+      border-color: #f97316;
+      color: #020617;
+    }
+
+    .card-body {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .metric {
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: #020617;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+    }
+
+    .metric .label { color: #9ca3af; text-transform: uppercase; letter-spacing: .04em; font-size: 10px; font-weight: 800; }
+    .metric .value { font-weight: 800; }
+
+    .error {
+      border-radius: 12px;
+      border: 1px solid #fca5a5;
+      background: #7f1d1d;
+      color: #fee2e2;
+      padding: 10px 12px;
+      font-size: 13px;
+      margin-top: 14px;
+    }
 
     @media (max-width: 900px) {
       .controls { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .controls { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -63,15 +149,15 @@
     <div class="sub">
       <span id="state" class="pill">Loading</span>
       <span class="pill">Count <span id="countPill">0</span></span>
-      <span style="color:#666;font-weight:700;">Last generated <span id="lastGenerated">-</span></span>
+      <span class="pill">Generated <span id="lastGenerated">-</span></span>
     </div>
   </header>
 
   <main>
-    <div class="controls">
+    <section class="controls">
       <div>
         <label for="q">Search</label>
-        <input id="q" type="text" placeholder="Search name, team" />
+        <input id="q" type="text" placeholder="Search player or team" />
       </div>
 
       <div>
@@ -80,32 +166,32 @@
       </div>
 
       <div>
-        <label for="minPaPct">Min PA % <span id="paPctLabel" style="color:#666;font-weight:800;"></span></label>
+        <label for="minPaPct">Min PA % <span id="paPctLabel"></span></label>
         <input id="minPaPct" type="range" value="0" min="0" max="100" step="1" />
       </div>
 
       <div>
         <label for="sortBy">Sort</label>
         <select id="sortBy">
-          <option value="ops" selected>OPS</option>
-          <option value="ab">AB</option>
-          <option value="pa">PA</option>
-          <option value="name">Name</option>
-          <option value="team">Team</option>
+          <option value="ops" selected>OPS desc</option>
+          <option value="ab">AB desc</option>
+          <option value="pa">PA desc</option>
+          <option value="name">Name A→Z</option>
+          <option value="team">Team A→Z</option>
         </select>
       </div>
-    </div>
+    </section>
 
     <div class="btnrow">
-      <button id="exportBtn" type="button">Export filtered JSON</button>
-      <button id="clearPinsBtn" type="button">Clear pins</button>
-      <button id="clearAllBtn" type="button">Clear all</button>
+      <button id="exportBtn">Export filtered JSON</button>
+      <button id="clearPinsBtn" class="secondary">Clear pins</button>
+      <button id="clearAllBtn" class="secondary">Clear all</button>
     </div>
 
-    <div id="playersGrid"></div>
+    <section id="playersGrid"></section>
   </main>
 
-  <!-- IMPORTANT: absolute path, so /players/ loads the root script -->
+  <!-- IMPORTANT: absolute path -->
   <script src="/players.js" defer></script>
 </body>
 </html>
