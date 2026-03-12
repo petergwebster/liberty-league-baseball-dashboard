@@ -26,28 +26,53 @@ document.addEventListener("DOMContentLoaded", async function () {
     tableWrapEl.appendChild(pre);
   }
 
+  function inferRows(payload) {
+    if (!payload) return [];
+
+    // Most of your new files look like { data: [...] }
+    if (Array.isArray(payload.data)) return payload.data;
+
+    // Some pages might later point to { rows: [...] } (keep backward-compatible)
+    if (Array.isArray(payload.rows)) return payload.rows;
+
+    // Leaders files look like { tables: [ { rows: [...] } , ... ] }
+    if (Array.isArray(payload.tables) && payload.tables.length) {
+      const t0 = payload.tables[0];
+      if (t0 && Array.isArray(t0.rows)) return t0.rows;
+      if (t0 && Array.isArray(t0.data)) return t0.data;
+    }
+
+    return [];
+  }
+
   try {
     setState("Loading...", false);
     if (lastGenEl) lastGenEl.textContent = "";
 
-    const resp = await fetch("./live_team_stats.json", { cache: "no-store" });
-    if (!resp.ok) {
-      throw new Error("Failed to fetch live_team_stats.json (HTTP " + resp.status + ")");
+    // 1) Load manifest for a single authoritative generated_at
+    const manifestResp = await fetch("./data/manifest.json", { cache: "no-store" });
+    if (!manifestResp.ok) {
+      throw new Error("Failed to fetch data/manifest.json (HTTP " + manifestResp.status + ")");
     }
-
-    const data = await resp.json();
-    const rows = data && Array.isArray(data.rows) ? data.rows : [];
-    const generatedAt = data && data.generated_at ? data.generated_at : "";
-
+    const manifest = await manifestResp.json();
+    const generatedAt = manifest && manifest.generated_at ? manifest.generated_at : "";
     if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
-    setState("Loaded teams", false);
+
+    // 2) Load one dataset to show (start with overall batting)
+    const statsResp = await fetch("./data/overall_batting.json", { cache: "no-store" });
+    if (!statsResp.ok) {
+      throw new Error("Failed to fetch data/overall_batting.json (HTTP " + statsResp.status + ")");
+    }
+    const payload = await statsResp.json();
+    const rows = inferRows(payload);
+
+    setState("Loaded overall batting", false);
 
     if (!tableWrapEl) return;
 
-    // build table
     tableWrapEl.innerHTML = "";
     if (!rows.length) {
-      showMessage("No rows in live_team_stats.json");
+      showMessage("No rows in data/overall_batting.json");
       return;
     }
 
@@ -60,6 +85,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const table = document.createElement("table");
     table.border = "1";
+
     const thead = document.createElement("thead");
     const trHead = document.createElement("tr");
     cols.forEach((c) => {
