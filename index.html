@@ -6,23 +6,54 @@
   <title>Liberty League – Players</title>
 
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #fafafa; }
     header { padding: 16px 18px; border-bottom: 1px solid #e6e6e6; background: #fff; position: sticky; top: 0; }
-    h1 { margin: 0; font-size: 18px; font-weight: 700; }
-    .sub { margin-top: 6px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #444; }
-    .pill { padding: 4px 10px; border-radius: 999px; background: #f2f2f2; color: #333; font-weight: 600; }
-    main { padding: 16px 18px; }
-    .controls { display: grid; grid-template-columns: 1fr 160px 220px 220px; gap: 10px; align-items: end; }
-    label { display: block; font-size: 12px; color: #555; margin-bottom: 6px; }
-    input[type="text"], input[type="number"], select { width: 100%; padding: 8px 10px; border: 1px solid #d9d9d9; border-radius: 8px; font-size: 14px; }
+    h1 { margin: 0; font-size: 18px; font-weight: 800; }
+    .sub { margin-top: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #444; }
+    .pill { padding: 4px 10px; border-radius: 999px; background: #f2f2f2; color: #333; font-weight: 700; }
+
+    main { padding: 16px 18px; max-width: 1100px; margin: 0 auto; }
+    .controls { display: grid; grid-template-columns: 1fr 140px 200px 180px; gap: 10px; align-items: end; }
+    label { display: block; font-size: 12px; color: #555; margin-bottom: 6px; font-weight: 700; }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #d9d9d9;
+      border-radius: 10px;
+      font-size: 14px;
+      background: #fff;
+    }
     input[type="range"] { width: 100%; }
-    .btnrow { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
-    button { padding: 9px 12px; border-radius: 10px; border: 1px solid #d9d9d9; background: #fff; cursor: pointer; font-weight: 700; }
+
+    .btnrow { margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      padding: 9px 12px;
+      border-radius: 12px;
+      border: 1px solid #d9d9d9;
+      background: #fff;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
     #playersGrid { margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-    .card { border: 1px solid #ececec; border-radius: 14px; padding: 12px; background: #fff; }
-    .muted { color: #666; font-size: 12px; }
-    .error { border: 1px solid #ffcccc; background: #fff3f3; padding: 10px 12px; border-radius: 10px; }
-    @media (max-width: 880px) { .controls { grid-template-columns: 1fr 1fr; } }
+    .card { border: 1px solid #ececec; border-radius: 14px; padding: 12px; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,0.02); }
+    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .card-name { font-size: 16px; font-weight: 900; }
+    .card-sub { font-size: 12px; color: #666; margin-top: 2px; font-weight: 700; }
+
+    .btn-pin { padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+    .btn-pin.pinned { background: #111; color: #fff; border-color: #111; }
+
+    .card-body { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric { padding: 8px 10px; border-radius: 12px; background: #f7f7f7; border: 1px solid #eee; }
+    .label { display: block; font-size: 11px; color: #666; font-weight: 800; }
+    .value { display: block; font-size: 14px; font-weight: 900; margin-top: 2px; }
+
+    .error { border: 1px solid #ffcccc; background: #fff3f3; padding: 10px 12px; border-radius: 12px; font-weight: 800; }
+
+    @media (max-width: 900px) {
+      .controls { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 
@@ -31,8 +62,8 @@
     <h1>Liberty League – Players</h1>
     <div class="sub">
       <span id="state" class="pill">Loading</span>
-      <span class="muted">Last generated <span id="lastGenerated">-</span></span>
       <span class="pill">Count <span id="countPill">0</span></span>
+      <span style="color:#666;font-weight:700;">Last generated <span id="lastGenerated">-</span></span>
     </div>
   </header>
 
@@ -49,7 +80,7 @@
       </div>
 
       <div>
-        <label for="minPaPct">Min PA % <span id="paPctLabel" class="muted"></span></label>
+        <label for="minPaPct">Min PA % <span id="paPctLabel" style="color:#666;font-weight:800;"></span></label>
         <input id="minPaPct" type="range" value="0" min="0" max="100" step="1" />
       </div>
 
@@ -59,21 +90,22 @@
           <option value="ops" selected>OPS</option>
           <option value="ab">AB</option>
           <option value="pa">PA</option>
-          <option value="player">Player (A-Z)</option>
-          <option value="team">Team (A-Z)</option>
+          <option value="name">Name</option>
+          <option value="team">Team</option>
         </select>
       </div>
     </div>
 
     <div class="btnrow">
       <button id="exportBtn" type="button">Export filtered JSON</button>
+      <button id="clearPinsBtn" type="button">Clear pins</button>
       <button id="clearAllBtn" type="button">Clear all</button>
     </div>
 
     <div id="playersGrid"></div>
   </main>
 
-  <!-- IMPORTANT: absolute path so /players/ loads the root script -->
+  <!-- IMPORTANT: absolute path, so /players/ loads the root script -->
   <script src="/players.js" defer></script>
 </body>
 </html>
