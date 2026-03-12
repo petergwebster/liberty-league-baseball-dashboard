@@ -1,0 +1,481 @@
+{
+  "generated_at": "2026-03-11T23:35:40.110942+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
+  "tables": [
+    {
+      "caption": "Fielding Percentage",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "John Donnellan (SLU)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Cloutier (SLU)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Owen Mcclintock (SLU)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Caelan Kim (RIT)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Christian Petry (HOB)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Byrnes (HOB)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Farnen (HOB)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Aidan Davenport (HOB)",
+          "Fielding Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Rivlin (BARD)",
+          "Fielding Percentage": 1.0
+        }
+      ]
+    },
+    {
+      "caption": "Putouts",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Putouts": 92
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Putouts": 71
+        },
+        {
+          "Index": NaN,
+          "Player": "Roberto Reade (RIT)",
+          "Putouts": 58
+        },
+        {
+          "Index": NaN,
+          "Player": "Jake Bentivenga (ROC)",
+          "Putouts": 56
+        },
+        {
+          "Index": NaN,
+          "Player": "John Gannon (SLU)",
+          "Putouts": 54
+        },
+        {
+          "Index": NaN,
+          "Player": "Isaac Braegelmann (RIT)",
+          "Putouts": 47
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Putouts": 45
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Daddabbo (ITHACA)",
+          "Putouts": 38
+        },
+        {
+          "Index": NaN,
+          "Player": "Aidan Annello (VASSAR)",
+          "Putouts": 37
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Collins (SKIDMORE)",
+          "Putouts": 32
+        }
+      ]
+    },
+    {
+      "caption": "Assists",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Assists": 32
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Assists": 29
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Assists": 25
+        },
+        {
+          "Index": NaN,
+          "Player": "Carlos Barajas (ROC)",
+          "Assists": 25
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "Assists": 24
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Chotiner (RPI)",
+          "Assists": 24
+        },
+        {
+          "Index": NaN,
+          "Player": "Sammy Besztery (ROC)",
+          "Assists": 22
+        },
+        {
+          "Index": NaN,
+          "Player": "Christian Petry (HOB)",
+          "Assists": 19
+        },
+        {
+          "Index": NaN,
+          "Player": "Mike Siano (SLU)",
+          "Assists": 18
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Harris (SLU)",
+          "Assists": 16
+        }
+      ]
+    },
+    {
+      "caption": "Errors",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Michael Lebenson (RPI)",
+          "Errors": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Errors": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Noah Stockman (VASSAR)",
+          "Errors": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Dash Edwards (VASSAR)",
+          "Errors": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Huckabone (ROC)",
+          "Errors": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Errors": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Errors": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Chotiner (RPI)",
+          "Errors": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Curtis (ITHACA)",
+          "Errors": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Errors": 3
+        }
+      ]
+    },
+    {
+      "caption": "Fielding double plays",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Sammy Besztery (ROC)",
+          "Fielding double plays": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Jake Bentivenga (ROC)",
+          "Fielding double plays": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Carlos Barajas (ROC)",
+          "Fielding double plays": 8
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Fielding double plays": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Curtis (ITHACA)",
+          "Fielding double plays": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Fielding double plays": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Fielding double plays": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Fielding double plays": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Cooper Ames (UNI)",
+          "Fielding double plays": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "John Gannon (SLU)",
+          "Fielding double plays": 3
+        }
+      ]
+    },
+    {
+      "caption": "Stole Bases Against",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Isaac Braegelmann (RIT)",
+          "Stole Bases Against": 15
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Daddabbo (ITHACA)",
+          "Stole Bases Against": 15
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Figliolino (CLARKSON)",
+          "Stole Bases Against": 14
+        },
+        {
+          "Index": NaN,
+          "Player": "Caleb Miller (UNI)",
+          "Stole Bases Against": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Roberto Reade (RIT)",
+          "Stole Bases Against": 8
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fox-Fernandez (VASSAR)",
+          "Stole Bases Against": 8
+        },
+        {
+          "Index": NaN,
+          "Player": "John Donnellan (SLU)",
+          "Stole Bases Against": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Johnson (VASSAR)",
+          "Stole Bases Against": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lapp (RPI)",
+          "Stole Bases Against": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Willie Landman (SLU)",
+          "Stole Bases Against": 2
+        }
+      ]
+    },
+    {
+      "caption": "Caught Stealing By",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Caleb Miller (UNI)",
+          "Caught Stealing By": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "John Donnellan (SLU)",
+          "Caught Stealing By": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Roberto Reade (RIT)",
+          "Caught Stealing By": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Isaac Braegelmann (RIT)",
+          "Caught Stealing By": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Daddabbo (ITHACA)",
+          "Caught Stealing By": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fox-Fernandez (VASSAR)",
+          "Caught Stealing By": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Willie Landman (SLU)",
+          "Caught Stealing By": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Figliolino (CLARKSON)",
+          "Caught Stealing By": 1
+        }
+      ]
+    },
+    {
+      "caption": "Passed Balls",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Ethan Fox-Fernandez (VASSAR)",
+          "Passed Balls": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Johnson (VASSAR)",
+          "Passed Balls": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "John Donnellan (SLU)",
+          "Passed Balls": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Figliolino (CLARKSON)",
+          "Passed Balls": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Daddabbo (ITHACA)",
+          "Passed Balls": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Isaac Braegelmann (RIT)",
+          "Passed Balls": 1
+        }
+      ]
+    },
+    {
+      "caption": "Total Chances",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Total Chances": 98
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Total Chances": 76
+        },
+        {
+          "Index": NaN,
+          "Player": "Roberto Reade (RIT)",
+          "Total Chances": 66
+        },
+        {
+          "Index": NaN,
+          "Player": "Jake Bentivenga (ROC)",
+          "Total Chances": 61
+        },
+        {
+          "Index": NaN,
+          "Player": "John Gannon (SLU)",
+          "Total Chances": 57
+        },
+        {
+          "Index": NaN,
+          "Player": "Isaac Braegelmann (RIT)",
+          "Total Chances": 53
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Total Chances": 49
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Total Chances": 49
+        },
+        {
+          "Index": NaN,
+          "Player": "Caleb Miller (UNI)",
+          "Total Chances": 46
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Total Chances": 45
+        }
+      ]
+    },
+    {
+      "caption": "Catchers Interference",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Roberto Reade (RIT)",
+          "Catchers Interference": 1
+        }
+      ]
+    }
+  ]
+}

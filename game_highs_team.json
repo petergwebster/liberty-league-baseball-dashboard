@@ -1,0 +1,1491 @@
+{
+  "generated_at": "2026-03-11T23:35:40.110942+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
+  "data": [
+    {
+      "caption": "Game Team High At Bats",
+      "rows": [
+        {
+          "At Bats": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 62
+        },
+        {
+          "At Bats": "Skidmore at Hiram (3/11/2026)",
+          "Total": 45
+        },
+        {
+          "At Bats": "Rochester at Keystone (3/6/2026)",
+          "Total": 44
+        },
+        {
+          "At Bats": "Ithaca at Washington College (3/6/2026)",
+          "Total": 43
+        },
+        {
+          "At Bats": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 42
+        },
+        {
+          "At Bats": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 41
+        },
+        {
+          "At Bats": "Ithaca at Scranton (3/4/2026)",
+          "Total": 41
+        },
+        {
+          "At Bats": "RIT at John Carroll (2/27/2026)",
+          "Total": 39
+        },
+        {
+          "At Bats": "Union at Stevens (3/8/2026)",
+          "Total": 39
+        },
+        {
+          "At Bats": "Union vs Vermont State Castleton (3/11/2026)",
+          "Total": 39
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Runs Scored",
+      "rows": [
+        {
+          "Runs Scored": "Skidmore at Hiram (3/11/2026)",
+          "Total": 19
+        },
+        {
+          "Runs Scored": "Ithaca at Washington College (3/6/2026)",
+          "Total": 18
+        },
+        {
+          "Runs Scored": "Rochester at Keystone (3/6/2026)",
+          "Total": 18
+        },
+        {
+          "Runs Scored": "Hobart at Methodist (2/21/2026)",
+          "Total": 16
+        },
+        {
+          "Runs Scored": "Hobart at Franklin & Marshall (3/1/2026)",
+          "Total": 16
+        },
+        {
+          "Runs Scored": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 16
+        },
+        {
+          "Runs Scored": "Bard vs CCNY (3/8/2026)",
+          "Total": 15
+        },
+        {
+          "Runs Scored": "RIT at Sage (3/8/2026)",
+          "Total": 14
+        },
+        {
+          "Runs Scored": "Union vs Stockton (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Runs Scored": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 13
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Hits",
+      "rows": [
+        {
+          "Hits": "Skidmore at Hiram (3/11/2026)",
+          "Total": 20
+        },
+        {
+          "Hits": "Rochester at Keystone (3/6/2026)",
+          "Total": 18
+        },
+        {
+          "Hits": "Bard vs CCNY (3/8/2026)",
+          "Total": 16
+        },
+        {
+          "Hits": "Ithaca at Washington College (3/6/2026)",
+          "Total": 16
+        },
+        {
+          "Hits": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 16
+        },
+        {
+          "Hits": "St. Lawrence vs Bates (2/21/2026)",
+          "Total": 14
+        },
+        {
+          "Hits": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Hits": "RIT vs Dickinson (3/7/2026)",
+          "Total": 14
+        },
+        {
+          "Hits": "Hobart at Methodist (2/21/2026)",
+          "Total": 14
+        },
+        {
+          "Hits": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 14
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High RBI",
+      "rows": [
+        {
+          "RBI": "Rochester at Keystone (3/6/2026)",
+          "Total": 18
+        },
+        {
+          "RBI": "Skidmore at Hiram (3/11/2026)",
+          "Total": 18
+        },
+        {
+          "RBI": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 16
+        },
+        {
+          "RBI": "Hobart at Franklin & Marshall (3/1/2026)",
+          "Total": 15
+        },
+        {
+          "RBI": "Bard vs CCNY (3/8/2026)",
+          "Total": 14
+        },
+        {
+          "RBI": "Ithaca at Washington College (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "RBI": "Hobart at Methodist (2/21/2026)",
+          "Total": 13
+        },
+        {
+          "RBI": "Ithaca at Scranton (3/4/2026)",
+          "Total": 11
+        },
+        {
+          "RBI": "Ithaca at Washington College (3/6/2026)",
+          "Total": 11
+        },
+        {
+          "RBI": "Union vs Stockton (3/6/2026)",
+          "Total": 11
+        }
+      ]
+    },
+    {
+      "caption": "Game Team Highs Double",
+      "rows": [
+        {
+          "Doubles": "RIT at TCNJ (2/21/2026)",
+          "Total": 6
+        },
+        {
+          "Doubles": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 6
+        },
+        {
+          "Doubles": "Clarkson at Muhlenberg (2/28/2026)",
+          "Total": 5
+        },
+        {
+          "Doubles": "Skidmore at Rockford (3/11/2026)",
+          "Total": 5
+        },
+        {
+          "Doubles": "St. Lawrence vs Bates (2/21/2026)",
+          "Total": 4
+        },
+        {
+          "Doubles": "Hobart at Methodist (2/21/2026)",
+          "Total": 4
+        },
+        {
+          "Doubles": "RIT at TCNJ (2/20/2026)",
+          "Total": 3
+        },
+        {
+          "Doubles": "RIT at John Carroll (2/27/2026)",
+          "Total": 3
+        },
+        {
+          "Doubles": "RIT at Mount Union (2/28/2026)",
+          "Total": 3
+        },
+        {
+          "Doubles": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Triples",
+      "rows": [
+        {
+          "Triples": "RIT at Sage (3/8/2026)",
+          "Total": 2
+        },
+        {
+          "Triples": "Hobart at Methodist (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "Triples": "Ithaca at Scranton (3/4/2026)",
+          "Total": 2
+        },
+        {
+          "Triples": "St. Lawrence at Purchase St. (3/7/2026)",
+          "Total": 1
+        },
+        {
+          "Triples": "St. Lawrence at Keuka (3/8/2026)",
+          "Total": 1
+        },
+        {
+          "Triples": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 1
+        },
+        {
+          "Triples": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 1
+        },
+        {
+          "Triples": "Hobart at Tufts (3/7/2026)",
+          "Total": 1
+        },
+        {
+          "Triples": "Clarkson vs Oswego (3/8/2026)",
+          "Total": 1
+        },
+        {
+          "Triples": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Home Runs",
+      "rows": [
+        {
+          "Home Runs": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 4
+        },
+        {
+          "Home Runs": "RIT at Dickinson (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "RIT vs Wheaton (Mass.) (3/9/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "Ithaca at Washington College (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "Rochester at SUNY Maritime (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Home Runs": "RIT at Mount Union (2/28/2026)",
+          "Total": 1
+        },
+        {
+          "Home Runs": "RIT vs Dickinson (3/7/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Total Bases",
+      "rows": [
+        {
+          "Total Bases": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 29
+        },
+        {
+          "Total Bases": "Rochester at Keystone (3/6/2026)",
+          "Total": 26
+        },
+        {
+          "Total Bases": "Skidmore at Hiram (3/11/2026)",
+          "Total": 24
+        },
+        {
+          "Total Bases": "Skidmore at Rockford (3/11/2026)",
+          "Total": 23
+        },
+        {
+          "Total Bases": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 22
+        },
+        {
+          "Total Bases": "Ithaca at Washington College (3/6/2026)",
+          "Total": 22
+        },
+        {
+          "Total Bases": "RIT at Sage (3/8/2026)",
+          "Total": 20
+        },
+        {
+          "Total Bases": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 19
+        },
+        {
+          "Total Bases": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 19
+        },
+        {
+          "Total Bases": "Ithaca at Scranton (3/4/2026)",
+          "Total": 19
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Walks",
+      "rows": [
+        {
+          "Walks": "Union vs Stockton (3/6/2026)",
+          "Total": 10
+        },
+        {
+          "Walks": "RIT at TCNJ (2/20/2026)",
+          "Total": 9
+        },
+        {
+          "Walks": "RIT at Mount Union (2/28/2026)",
+          "Total": 9
+        },
+        {
+          "Walks": "Hobart at Franklin & Marshall (3/1/2026)",
+          "Total": 9
+        },
+        {
+          "Walks": "Union at Oneonta (3/10/2026)",
+          "Total": 9
+        },
+        {
+          "Walks": "RIT at Sage (3/8/2026)",
+          "Total": 7
+        },
+        {
+          "Walks": "Bard vs CCNY (3/8/2026)",
+          "Total": 7
+        },
+        {
+          "Walks": "Ithaca at Washington College (3/6/2026)",
+          "Total": 7
+        },
+        {
+          "Walks": "Ithaca at Washington College (3/6/2026)",
+          "Total": 7
+        },
+        {
+          "Walks": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 7
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Strikeouts",
+      "rows": [
+        {
+          "Strikeouts": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Strikeouts": "Vassar at Plattsburgh (3/1/2026)",
+          "Total": 14
+        },
+        {
+          "Strikeouts": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 14
+        },
+        {
+          "Strikeouts": "Bard vs Bates (2/28/2026)",
+          "Total": 13
+        },
+        {
+          "Strikeouts": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 13
+        },
+        {
+          "Strikeouts": "Vassar vs Saint Joseph's (Me.) (3/8/2026)",
+          "Total": 13
+        },
+        {
+          "Strikeouts": "Clarkson at Muhlenberg (2/28/2026)",
+          "Total": 11
+        },
+        {
+          "Strikeouts": "Clarkson vs Oswego (3/8/2026)",
+          "Total": 11
+        },
+        {
+          "Strikeouts": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 11
+        },
+        {
+          "Strikeouts": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 11
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Sacrifice Hits",
+      "rows": [
+        {
+          "Sac Hits": "RPI at Pfeiffer (3/5/2026)",
+          "Total": 3
+        },
+        {
+          "Sac Hits": "Skidmore at Baruch (3/8/2026)",
+          "Total": 3
+        },
+        {
+          "Sac Hits": "RIT at TCNJ (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Hits": "RPI at Mary Washington (3/1/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Hits": "Union vs Stockton (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Hits": "Rochester vs SUNY Maritime (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Hits": "Rochester at Wesleyan (CT) (3/10/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Hits": "Rochester vs Wheaton (Mass.) (3/11/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Hits": "St. Lawrence at Purchase St. (3/7/2026)",
+          "Total": 1
+        },
+        {
+          "Sac Hits": "St. Lawrence at Keuka (3/8/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Sacrifice Flies",
+      "rows": [
+        {
+          "Sac Flies": "Bard vs CCNY (3/8/2026)",
+          "Total": 3
+        },
+        {
+          "Sac Flies": "RIT at John Carroll (2/27/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Hobart vs Hanover (2/20/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Hobart at Methodist (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Hobart at Franklin & Marshall (3/1/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "RPI at Mary Washington (3/1/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Ithaca at Scranton (3/4/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Sac Flies": "Union vs Stockton (3/6/2026)",
+          "Total": 2
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Stolen Bases",
+      "rows": [
+        {
+          "Stolen Bases": "Skidmore at Hiram (3/11/2026)",
+          "Total": 8
+        },
+        {
+          "Stolen Bases": "Ithaca at Washington College (3/6/2026)",
+          "Total": 7
+        },
+        {
+          "Stolen Bases": "Ithaca at Scranton (3/4/2026)",
+          "Total": 6
+        },
+        {
+          "Stolen Bases": "Hobart at Franklin & Marshall (3/1/2026)",
+          "Total": 4
+        },
+        {
+          "Stolen Bases": "Ithaca at Washington College (3/6/2026)",
+          "Total": 4
+        },
+        {
+          "Stolen Bases": "Skidmore vs Rockford (3/9/2026)",
+          "Total": 4
+        },
+        {
+          "Stolen Bases": "Hobart vs Hanover (2/20/2026)",
+          "Total": 3
+        },
+        {
+          "Stolen Bases": "Hobart at Methodist (2/21/2026)",
+          "Total": 3
+        },
+        {
+          "Stolen Bases": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 3
+        },
+        {
+          "Stolen Bases": "Bard vs CCNY (3/8/2026)",
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Hit By Pitch",
+      "rows": [
+        {
+          "Hit by Pitch": "Vassar at Albertus Magnus (3/9/2026)",
+          "Total": 6
+        },
+        {
+          "Hit by Pitch": "Union vs Stockton (3/6/2026)",
+          "Total": 6
+        },
+        {
+          "Hit by Pitch": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 5
+        },
+        {
+          "Hit by Pitch": "Ithaca at Wilkes (3/10/2026)",
+          "Total": 5
+        },
+        {
+          "Hit by Pitch": "Hobart vs Hanover (2/20/2026)",
+          "Total": 4
+        },
+        {
+          "Hit by Pitch": "RPI at Pfeiffer (3/5/2026)",
+          "Total": 4
+        },
+        {
+          "Hit by Pitch": "Vassar vs Plattsburgh (3/1/2026)",
+          "Total": 4
+        },
+        {
+          "Hit by Pitch": "Rochester at Keystone (3/6/2026)",
+          "Total": 4
+        },
+        {
+          "Hit by Pitch": "Rochester at Wesleyan (CT) (3/10/2026)",
+          "Total": 4
+        },
+        {
+          "Hit by Pitch": "RIT at Sage (3/8/2026)",
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Caught Stealing",
+      "rows": [
+        {
+          "Caught Stealing": "RPI vs Hartford (3/11/2026)",
+          "Total": 3
+        },
+        {
+          "Caught Stealing": "Bard vs Bates (2/28/2026)",
+          "Total": 2
+        },
+        {
+          "Caught Stealing": "RPI at Catholic (2/28/2026)",
+          "Total": 2
+        },
+        {
+          "Caught Stealing": "Ithaca at Wilkes (3/10/2026)",
+          "Total": 2
+        },
+        {
+          "Caught Stealing": "Rochester at Keystone (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Caught Stealing": "Rochester at Wesleyan (CT) (3/10/2026)",
+          "Total": 2
+        },
+        {
+          "Caught Stealing": "St. Lawrence at Bates (2/21/2026)",
+          "Total": 1
+        },
+        {
+          "Caught Stealing": "Hobart at Methodist (2/21/2026)",
+          "Total": 1
+        },
+        {
+          "Caught Stealing": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 1
+        },
+        {
+          "Caught Stealing": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Runners Left On Base",
+      "rows": [
+        {
+          "Runners LOB": "Union at Stevens (3/8/2026)",
+          "Total": 15
+        },
+        {
+          "Runners LOB": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Runners LOB": "Union at Oneonta (3/10/2026)",
+          "Total": 14
+        },
+        {
+          "Runners LOB": "Vassar vs Plattsburgh (3/1/2026)",
+          "Total": 13
+        },
+        {
+          "Runners LOB": "Union vs Stockton (3/6/2026)",
+          "Total": 13
+        },
+        {
+          "Runners LOB": "Rochester at Wesleyan (CT) (3/10/2026)",
+          "Total": 13
+        },
+        {
+          "Runners LOB": "RIT at John Carroll (2/27/2026)",
+          "Total": 12
+        },
+        {
+          "Runners LOB": "RIT at Mount Union (2/28/2026)",
+          "Total": 12
+        },
+        {
+          "Runners LOB": "Vassar at Albertus Magnus (3/9/2026)",
+          "Total": 12
+        },
+        {
+          "Runners LOB": "Ithaca at Scranton (3/4/2026)",
+          "Total": 12
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Hit Into Double Play",
+      "rows": [
+        {
+          "Hit into DP": "Bard vs Bates (2/28/2026)",
+          "Total": 4
+        },
+        {
+          "Hit into DP": "St. Lawrence at Bates (2/20/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "RIT at TCNJ (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "Hobart at Methodist (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "Hobart at Tufts (3/8/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "Rochester vs SUNY Maritime (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "Skidmore at Rockford (3/9/2026)",
+          "Total": 2
+        },
+        {
+          "Hit into DP": "Skidmore at Rockford (3/11/2026)",
+          "Total": 2
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Putouts",
+      "rows": [
+        {
+          "Putouts": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 51
+        },
+        {
+          "Putouts": "RIT vs Wheaton (Mass.) (3/9/2026)",
+          "Total": 30
+        },
+        {
+          "Putouts": "Union vs Stockton (3/6/2026)",
+          "Total": 30
+        },
+        {
+          "Putouts": "RIT at TCNJ (2/21/2026)",
+          "Total": 27
+        },
+        {
+          "Putouts": "RIT at John Carroll (2/27/2026)",
+          "Total": 27
+        },
+        {
+          "Putouts": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 27
+        },
+        {
+          "Putouts": "Bard vs Bates (2/28/2026)",
+          "Total": 27
+        },
+        {
+          "Putouts": "Clarkson at Muhlenberg (2/28/2026)",
+          "Total": 27
+        },
+        {
+          "Putouts": "Clarkson vs Oswego (3/8/2026)",
+          "Total": 27
+        },
+        {
+          "Putouts": "RPI at Guilford (3/3/2026)",
+          "Total": 27
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Assists",
+      "rows": [
+        {
+          "Assists": "RIT at TCNJ (2/21/2026)",
+          "Total": 20
+        },
+        {
+          "Assists": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 20
+        },
+        {
+          "Assists": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 19
+        },
+        {
+          "Assists": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 16
+        },
+        {
+          "Assists": "Hobart at Franklin & Marshall (2/28/2026)",
+          "Total": 15
+        },
+        {
+          "Assists": "Rochester at Wesleyan (CT) (3/10/2026)",
+          "Total": 15
+        },
+        {
+          "Assists": "Hobart at Tufts (3/8/2026)",
+          "Total": 14
+        },
+        {
+          "Assists": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Assists": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 14
+        },
+        {
+          "Assists": "St. Lawrence vs Bates (2/21/2026)",
+          "Total": 13
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Errors",
+      "rows": [
+        {
+          "Errors": "Vassar vs Saint Joseph's (Me.) (3/8/2026)",
+          "Total": 6
+        },
+        {
+          "Errors": "Union vs Vermont State Castleton (3/11/2026)",
+          "Total": 6
+        },
+        {
+          "Errors": "Rochester at Wesleyan (CT) (3/10/2026)",
+          "Total": 5
+        },
+        {
+          "Errors": "Clarkson vs Oswego (3/8/2026)",
+          "Total": 4
+        },
+        {
+          "Errors": "RPI at Mary Washington (3/1/2026)",
+          "Total": 4
+        },
+        {
+          "Errors": "Vassar at Plattsburgh (3/1/2026)",
+          "Total": 4
+        },
+        {
+          "Errors": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 4
+        },
+        {
+          "Errors": "Ithaca at Wilkes (3/10/2026)",
+          "Total": 4
+        },
+        {
+          "Errors": "Skidmore vs Rockford (3/9/2026)",
+          "Total": 4
+        },
+        {
+          "Errors": "St. Lawrence at Keuka (3/8/2026)",
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Passed Balls",
+      "rows": [
+        {
+          "Passed Balls": "Vassar at Saint Joseph's (Me.) (3/8/2026)",
+          "Total": 6
+        },
+        {
+          "Passed Balls": "Vassar vs Saint Joseph's (Me.) (3/8/2026)",
+          "Total": 3
+        },
+        {
+          "Passed Balls": "St. Lawrence at Bates (2/20/2026)",
+          "Total": 2
+        },
+        {
+          "Passed Balls": "Hobart at Methodist (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "Passed Balls": "Clarkson vs Oswego (3/8/2026)",
+          "Total": 2
+        },
+        {
+          "Passed Balls": "Ithaca at Washington College (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Passed Balls": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 1
+        },
+        {
+          "Passed Balls": "Hobart vs Hanover (2/20/2026)",
+          "Total": 1
+        },
+        {
+          "Passed Balls": "Hobart at Tufts (3/7/2026)",
+          "Total": 1
+        },
+        {
+          "Passed Balls": "Bard vs Bates (2/28/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Double Plays Turned",
+      "rows": [
+        {
+          "DPs Turned": "Bard vs Bates (2/28/2026)",
+          "Total": 4
+        },
+        {
+          "DPs Turned": "St. Lawrence at Bates (2/20/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "RIT at TCNJ (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "Hobart at Methodist (2/21/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "Hobart at Tufts (3/8/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "RPI at Pfeiffer (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "Rochester vs SUNY Maritime (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "Skidmore at Rockford (3/9/2026)",
+          "Total": 2
+        },
+        {
+          "DPs Turned": "Skidmore at Rockford (3/11/2026)",
+          "Total": 2
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Innings Pitched",
+      "rows": [
+        {
+          "Innings Pitched": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "TOTAL": 17.0
+        },
+        {
+          "Innings Pitched": "RIT vs Wheaton (Mass.) (3/9/2026)",
+          "TOTAL": 10.0
+        },
+        {
+          "Innings Pitched": "Union vs Stockton (3/6/2026)",
+          "TOTAL": 10.0
+        },
+        {
+          "Innings Pitched": "RIT at TCNJ (2/21/2026)",
+          "TOTAL": 9.0
+        },
+        {
+          "Innings Pitched": "RIT at John Carroll (2/27/2026)",
+          "TOTAL": 9.0
+        },
+        {
+          "Innings Pitched": "Hobart at Franklin & Marshall (2/28/2026)",
+          "TOTAL": 9.0
+        },
+        {
+          "Innings Pitched": "Bard vs Bates (2/28/2026)",
+          "TOTAL": 9.0
+        },
+        {
+          "Innings Pitched": "Clarkson at Muhlenberg (2/28/2026)",
+          "TOTAL": 9.0
+        },
+        {
+          "Innings Pitched": "Clarkson vs Oswego (3/8/2026)",
+          "TOTAL": 9.0
+        },
+        {
+          "Innings Pitched": "RPI at Guilford (3/3/2026)",
+          "TOTAL": 9.0
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Runs Allowed",
+      "rows": [
+        {
+          "Runs Allowed": "RIT at Wash. & Jeff. (3/10/2026)",
+          "Total": 18
+        },
+        {
+          "Runs Allowed": "Bard vs New Paltz (3/11/2026)",
+          "Total": 18
+        },
+        {
+          "Runs Allowed": "Bard vs Bates (2/28/2026)",
+          "Total": 17
+        },
+        {
+          "Runs Allowed": "Vassar at Saint Joseph's (Me.) (3/8/2026)",
+          "Total": 17
+        },
+        {
+          "Runs Allowed": "Bard vs Bates (2/28/2026)",
+          "Total": 14
+        },
+        {
+          "Runs Allowed": "Ithaca at Washington College (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Runs Allowed": "Ithaca at Washington College (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Runs Allowed": "Rochester at Keystone (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Runs Allowed": "St. Lawrence at Bates (2/21/2026)",
+          "Total": 13
+        },
+        {
+          "Runs Allowed": "RIT at TCNJ (2/20/2026)",
+          "Total": 13
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Earned Runs",
+      "rows": [
+        {
+          "Earned Runs": "Bard vs Bates (2/28/2026)",
+          "Total": 17
+        },
+        {
+          "Earned Runs": "Bard vs New Paltz (3/11/2026)",
+          "Total": 17
+        },
+        {
+          "Earned Runs": "RIT at Wash. & Jeff. (3/10/2026)",
+          "Total": 16
+        },
+        {
+          "Earned Runs": "Rochester at Keystone (3/6/2026)",
+          "Total": 14
+        },
+        {
+          "Earned Runs": "Ithaca at Washington College (3/6/2026)",
+          "Total": 13
+        },
+        {
+          "Earned Runs": "St. Lawrence at Bates (2/20/2026)",
+          "Total": 12
+        },
+        {
+          "Earned Runs": "Bard vs Bates (2/28/2026)",
+          "Total": 12
+        },
+        {
+          "Earned Runs": "RPI vs Hartford (3/11/2026)",
+          "Total": 12
+        },
+        {
+          "Earned Runs": "Clarkson at Muhlenberg (2/28/2026)",
+          "Total": 11
+        },
+        {
+          "Earned Runs": "St. Lawrence at Bates (2/21/2026)",
+          "Total": 10
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Walks Allowed",
+      "rows": [
+        {
+          "Walks Allowed": "Vassar at Saint Joseph's (Me.) (3/8/2026)",
+          "Total": 14
+        },
+        {
+          "Walks Allowed": "Bard vs Bates (2/28/2026)",
+          "Total": 13
+        },
+        {
+          "Walks Allowed": "Bard vs New Paltz (3/11/2026)",
+          "Total": 12
+        },
+        {
+          "Walks Allowed": "RIT at Wash. & Jeff. (3/10/2026)",
+          "Total": 11
+        },
+        {
+          "Walks Allowed": "Ithaca at Washington College (3/6/2026)",
+          "Total": 10
+        },
+        {
+          "Walks Allowed": "Union vs Vermont State Castleton (3/11/2026)",
+          "Total": 10
+        },
+        {
+          "Walks Allowed": "RPI at Catholic (2/28/2026)",
+          "Total": 9
+        },
+        {
+          "Walks Allowed": "Vassar vs Plattsburgh (3/1/2026)",
+          "Total": 9
+        },
+        {
+          "Walks Allowed": "Ithaca at Scranton (3/4/2026)",
+          "Total": 9
+        },
+        {
+          "Walks Allowed": "Ithaca at Washington College (3/6/2026)",
+          "Total": 9
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Strikeouts",
+      "rows": [
+        {
+          "Strikeouts": "RIT vs Wheaton (Mass.) (3/9/2026)",
+          "Total": 20
+        },
+        {
+          "Strikeouts": "RIT vs Maritime (N.Y.) (3/6/2026)",
+          "Total": 17
+        },
+        {
+          "Strikeouts": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 16
+        },
+        {
+          "Strikeouts": "RIT at Dickinson (3/7/2026)",
+          "Total": 14
+        },
+        {
+          "Strikeouts": "Skidmore vs Baruch (3/8/2026)",
+          "Total": 14
+        },
+        {
+          "Strikeouts": "RIT at Sage (3/8/2026)",
+          "Total": 13
+        },
+        {
+          "Strikeouts": "Ithaca at Scranton (3/4/2026)",
+          "Total": 13
+        },
+        {
+          "Strikeouts": "Bard vs CCNY (3/8/2026)",
+          "Total": 12
+        },
+        {
+          "Strikeouts": "St. Lawrence at Purchase St. (3/7/2026)",
+          "Total": 11
+        },
+        {
+          "Strikeouts": "Bard vs CCNY (3/8/2026)",
+          "Total": 11
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Hits Allowed",
+      "rows": [
+        {
+          "Hits Allowed": "Rochester at Keystone (3/6/2026)",
+          "Total": 18
+        },
+        {
+          "Hits Allowed": "Hobart at Methodist (2/21/2026)",
+          "Total": 17
+        },
+        {
+          "Hits Allowed": "RIT at Wash. & Jeff. (3/10/2026)",
+          "Total": 16
+        },
+        {
+          "Hits Allowed": "RPI vs Hartford (3/11/2026)",
+          "Total": 16
+        },
+        {
+          "Hits Allowed": "St. Lawrence at Purchase St. (3/7/2026)",
+          "Total": 14
+        },
+        {
+          "Hits Allowed": "Bard vs Bates (2/28/2026)",
+          "Total": 14
+        },
+        {
+          "Hits Allowed": "Bard vs New Paltz (3/11/2026)",
+          "Total": 14
+        },
+        {
+          "Hits Allowed": "RPI at Mary Washington (3/1/2026)",
+          "Total": 14
+        },
+        {
+          "Hits Allowed": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 14
+        },
+        {
+          "Hits Allowed": "Rochester vs Wheaton (Mass.) (3/11/2026)",
+          "Total": 14
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Doubles Allowed",
+      "rows": [
+        {
+          "Doubles Allowed": "RPI vs Hartford (3/11/2026)",
+          "Total": 6
+        },
+        {
+          "Doubles Allowed": "Vassar vs Penn St.-Abington (3/10/2026)",
+          "Total": 6
+        },
+        {
+          "Doubles Allowed": "Ithaca at Washington College (3/6/2026)",
+          "Total": 6
+        },
+        {
+          "Doubles Allowed": "RPI at Mary Washington (3/1/2026)",
+          "Total": 5
+        },
+        {
+          "Doubles Allowed": "St. Lawrence at Bates (2/20/2026)",
+          "Total": 4
+        },
+        {
+          "Doubles Allowed": "St. Lawrence at Bates (2/21/2026)",
+          "Total": 4
+        },
+        {
+          "Doubles Allowed": "Bard vs New Paltz (3/11/2026)",
+          "Total": 4
+        },
+        {
+          "Doubles Allowed": "Ithaca at Washington College (3/6/2026)",
+          "Total": 4
+        },
+        {
+          "Doubles Allowed": "RIT at TCNJ (2/20/2026)",
+          "Total": 3
+        },
+        {
+          "Doubles Allowed": "RIT vs Dickinson (3/7/2026)",
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Triples Allowed",
+      "rows": [
+        {
+          "Triples Allowed": "RIT at Mount Union (2/28/2026)",
+          "Total": 2
+        },
+        {
+          "Triples Allowed": "Clarkson at Muhlenberg (2/28/2026)",
+          "Total": 2
+        },
+        {
+          "Triples Allowed": "RPI vs Hartford (3/11/2026)",
+          "Total": 2
+        },
+        {
+          "Triples Allowed": "Ithaca at Arcadia (3/7/2026)",
+          "Total": 2
+        },
+        {
+          "Triples Allowed": "St. Lawrence at Bates (2/21/2026)",
+          "Total": 1
+        },
+        {
+          "Triples Allowed": "RIT at John Carroll (2/27/2026)",
+          "Total": 1
+        },
+        {
+          "Triples Allowed": "Hobart at Methodist (2/21/2026)",
+          "Total": 1
+        },
+        {
+          "Triples Allowed": "Hobart at Tufts (3/7/2026)",
+          "Total": 1
+        },
+        {
+          "Triples Allowed": "Hobart at Tufts (3/7/2026)",
+          "Total": 1
+        },
+        {
+          "Triples Allowed": "Hobart at Tufts (3/8/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Home Runs Allowed",
+      "rows": [
+        {
+          "Homers Allowed": "Bard vs Bates (2/28/2026)",
+          "Total": 3
+        },
+        {
+          "Homers Allowed": "Bard vs Bates (2/28/2026)",
+          "Total": 2
+        },
+        {
+          "Homers Allowed": "Bard vs New Paltz (3/11/2026)",
+          "Total": 2
+        },
+        {
+          "Homers Allowed": "Union vs Vermont State Castleton (3/11/2026)",
+          "Total": 2
+        },
+        {
+          "Homers Allowed": "Rochester at Keystone (3/6/2026)",
+          "Total": 2
+        },
+        {
+          "Homers Allowed": "Skidmore vs Rockford (3/9/2026)",
+          "Total": 2
+        },
+        {
+          "Homers Allowed": "Skidmore at Rockford (3/9/2026)",
+          "Total": 2
+        },
+        {
+          "Homers Allowed": "St. Lawrence at Bates (2/21/2026)",
+          "Total": 1
+        },
+        {
+          "Homers Allowed": "RIT at TCNJ (2/21/2026)",
+          "Total": 1
+        },
+        {
+          "Homers Allowed": "RIT at Mount Union (2/28/2026)",
+          "Total": 1
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Wild Pitches",
+      "rows": [
+        {
+          "Wild Pitches": "Bard vs New Paltz (3/11/2026)",
+          "Total": 8
+        },
+        {
+          "Wild Pitches": "Union vs Vermont State Castleton (3/11/2026)",
+          "Total": 6
+        },
+        {
+          "Wild Pitches": "Clarkson vs Oswego (3/8/2026)",
+          "Total": 5
+        },
+        {
+          "Wild Pitches": "Bard vs Bates (2/28/2026)",
+          "Total": 4
+        },
+        {
+          "Wild Pitches": "Ithaca at Scranton (3/4/2026)",
+          "Total": 4
+        },
+        {
+          "Wild Pitches": "Rochester vs Wheaton (Mass.) (3/11/2026)",
+          "Total": 4
+        },
+        {
+          "Wild Pitches": "RIT at Dickinson (3/7/2026)",
+          "Total": 3
+        },
+        {
+          "Wild Pitches": "RIT vs Wheaton (Mass.) (3/9/2026)",
+          "Total": 3
+        },
+        {
+          "Wild Pitches": "Clarkson at Muhlenberg (2/28/2026)",
+          "Total": 3
+        },
+        {
+          "Wild Pitches": "RPI at Catholic (2/28/2026)",
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "caption": "Game Team High Hit Batters",
+      "rows": [
+        {
+          "Hit Batters": "Bard vs Bates (2/28/2026)",
+          "Total": 8
+        },
+        {
+          "Hit Batters": "Ithaca at Washington College (3/6/2026)",
+          "Total": 6
+        },
+        {
+          "Hit Batters": "RIT vs Wheaton (Mass.) (3/9/2026)",
+          "Total": 5
+        },
+        {
+          "Hit Batters": "Hobart at Franklin & Marshall (3/1/2026)",
+          "Total": 5
+        },
+        {
+          "Hit Batters": "Rochester at Keystone (3/6/2026)",
+          "Total": 5
+        },
+        {
+          "Hit Batters": "St. Lawrence at Bates (2/20/2026)",
+          "Total": 4
+        },
+        {
+          "Hit Batters": "RIT at TCNJ (2/20/2026)",
+          "Total": 4
+        },
+        {
+          "Hit Batters": "RIT at Wash. & Jeff. (3/10/2026)",
+          "Total": 4
+        },
+        {
+          "Hit Batters": "Hobart at Tufts (3/7/2026)",
+          "Total": 4
+        },
+        {
+          "Hit Batters": "Bard vs CCNY (3/8/2026)",
+          "Total": 4
+        }
+      ]
+    }
+  ]
+}

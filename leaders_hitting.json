@@ -1,0 +1,1051 @@
+{
+  "generated_at": "2026-03-11T23:35:40.110942+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
+  "tables": [
+    {
+      "caption": "Batting Average",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Zach Rider (CLARKSON)",
+          "Batting Average": 0.667
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Huckabone (ROC)",
+          "Batting Average": 0.583
+        },
+        {
+          "Index": NaN,
+          "Player": "Beau Vardion (CLARKSON)",
+          "Batting Average": 0.529
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Collins (SKIDMORE)",
+          "Batting Average": 0.529
+        },
+        {
+          "Index": NaN,
+          "Player": "Matthew O'Neill (SKIDMORE)",
+          "Batting Average": 0.524
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Batting Average": 0.52
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Batting Average": 0.478
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Batting Average": 0.471
+        },
+        {
+          "Index": NaN,
+          "Player": "Angus Lunt-Woodward (BARD)",
+          "Batting Average": 0.467
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Finnegan (SLU)",
+          "Batting Average": 0.462
+        }
+      ]
+    },
+    {
+      "caption": "Slugging Percentage",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Slugging Percentage": 1.235
+        },
+        {
+          "Index": NaN,
+          "Player": "Zach Rider (CLARKSON)",
+          "Slugging Percentage": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Slugging Percentage": 0.957
+        },
+        {
+          "Index": NaN,
+          "Player": "Eddie Galvao (SKIDMORE)",
+          "Slugging Percentage": 0.882
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Johnson (VASSAR)",
+          "Slugging Percentage": 0.813
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Finnegan (SLU)",
+          "Slugging Percentage": 0.769
+        },
+        {
+          "Index": NaN,
+          "Player": "Beau Vardion (CLARKSON)",
+          "Slugging Percentage": 0.765
+        },
+        {
+          "Index": NaN,
+          "Player": "George Farley IV (ROC)",
+          "Slugging Percentage": 0.75
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Slugging Percentage": 0.72
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Collins (SKIDMORE)",
+          "Slugging Percentage": 0.706
+        }
+      ]
+    },
+    {
+      "caption": "On Base Percentage",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Zach Rider (CLARKSON)",
+          "On Base Percentage": 0.667
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Huckabone (ROC)",
+          "On Base Percentage": 0.667
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "On Base Percentage": 0.625
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "On Base Percentage": 0.625
+        },
+        {
+          "Index": NaN,
+          "Player": "Andrew Keaveney (UNI)",
+          "On Base Percentage": 0.586
+        },
+        {
+          "Index": NaN,
+          "Player": "S. Walker iii (ITHACA)",
+          "On Base Percentage": 0.581
+        },
+        {
+          "Index": NaN,
+          "Player": "Lachlan Rudd (BARD)",
+          "On Base Percentage": 0.571
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fox-Fernandez (VASSAR)",
+          "On Base Percentage": 0.563
+        },
+        {
+          "Index": NaN,
+          "Player": "Matthew O'Neill (SKIDMORE)",
+          "On Base Percentage": 0.56
+        },
+        {
+          "Index": NaN,
+          "Player": "Mac Cady (SKIDMORE)",
+          "On Base Percentage": 0.56
+        }
+      ]
+    },
+    {
+      "caption": "On Base + Slugging PCT (OPS)",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "On Base + Slugging PCT (OPS)": 1.86
+        },
+        {
+          "Index": NaN,
+          "Player": "Zach Rider (CLARKSON)",
+          "On Base + Slugging PCT (OPS)": 1.667
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "On Base + Slugging PCT (OPS)": 1.477
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "On Base + Slugging PCT (OPS)": 1.345
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Huckabone (ROC)",
+          "On Base + Slugging PCT (OPS)": 1.334
+        },
+        {
+          "Index": NaN,
+          "Player": "Eddie Galvao (SKIDMORE)",
+          "On Base + Slugging PCT (OPS)": 1.332
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Johnson (VASSAR)",
+          "On Base + Slugging PCT (OPS)": 1.313
+        },
+        {
+          "Index": NaN,
+          "Player": "Beau Vardion (CLARKSON)",
+          "On Base + Slugging PCT (OPS)": 1.291
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Collins (SKIDMORE)",
+          "On Base + Slugging PCT (OPS)": 1.262
+        },
+        {
+          "Index": NaN,
+          "Player": "George Farley IV (ROC)",
+          "On Base + Slugging PCT (OPS)": 1.214
+        }
+      ]
+    },
+    {
+      "caption": "Runs Scored",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Runs Scored": 16
+        },
+        {
+          "Index": NaN,
+          "Player": "S. Walker iii (ITHACA)",
+          "Runs Scored": 13
+        },
+        {
+          "Index": NaN,
+          "Player": "Benjamin Garber (ROC)",
+          "Runs Scored": 12
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Runs Scored": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Runs Scored": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Runs Scored": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "Runs Scored": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Runs Scored": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Runs Scored": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Isaiah Smith (ITHACA)",
+          "Runs Scored": 10
+        }
+      ]
+    },
+    {
+      "caption": "Hits",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Hits": 18
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "Hits": 17
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Hits": 15
+        },
+        {
+          "Index": NaN,
+          "Player": "Caelan Kim (RIT)",
+          "Hits": 15
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Hits": 14
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Hits": 13
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Hits": 12
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Hits": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Hits": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Carlos Barajas (ROC)",
+          "Hits": 11
+        }
+      ]
+    },
+    {
+      "caption": "Runs Batted In",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Runs Batted In": 15
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Runs Batted In": 14
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "Runs Batted In": 13
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "Runs Batted In": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Fantel (ITHACA)",
+          "Runs Batted In": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Runs Batted In": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Runs Batted In": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Runs Batted In": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Curtis (ITHACA)",
+          "Runs Batted In": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "John Gannon (SLU)",
+          "Runs Batted In": 8
+        }
+      ]
+    },
+    {
+      "caption": "Doubles",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "John Gannon (SLU)",
+          "Doubles": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Doubles": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Doubles": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "Doubles": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Beau Vardion (CLARKSON)",
+          "Doubles": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Dylan Swarts (UNI)",
+          "Doubles": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Doubles": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Doubles": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Leandri (BARD)",
+          "Doubles": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Nayvelt (RPI)",
+          "Doubles": 3
+        }
+      ]
+    },
+    {
+      "caption": "Triples",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Jack Finnegan (SLU)",
+          "Triples": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Triples": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Johnson (VASSAR)",
+          "Triples": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Triples": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Triples": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Aidan Davenport (HOB)",
+          "Triples": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Figliolino (CLARKSON)",
+          "Triples": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jensen Bergman (VASSAR)",
+          "Triples": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Kieran McGrath (VASSAR)",
+          "Triples": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Triples": 1
+        }
+      ]
+    },
+    {
+      "caption": "Home Runs",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Home Runs": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Home Runs": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "Home Runs": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "Home Runs": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Caelan Kim (RIT)",
+          "Home Runs": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Home Runs": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "George Farley IV (ROC)",
+          "Home Runs": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Eddie Galvao (SKIDMORE)",
+          "Home Runs": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "Home Runs": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Roberto Reade (RIT)",
+          "Home Runs": 1
+        }
+      ]
+    },
+    {
+      "caption": "At Bats",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "At Bats": 51
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "At Bats": 51
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "At Bats": 48
+        },
+        {
+          "Index": NaN,
+          "Player": "Caelan Kim (RIT)",
+          "At Bats": 46
+        },
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "At Bats": 44
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "At Bats": 43
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "At Bats": 41
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "At Bats": 38
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "At Bats": 35
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "At Bats": 35
+        }
+      ]
+    },
+    {
+      "caption": "Walks",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "Walks": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Walks": 9
+        },
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Walks": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Walks": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "Walks": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Nayvelt (RPI)",
+          "Walks": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "S. Walker iii (ITHACA)",
+          "Walks": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack McKillop (UNI)",
+          "Walks": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Walks": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "Walks": 6
+        }
+      ]
+    },
+    {
+      "caption": "Hit By Pitch",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Evan Lagemann (UNI)",
+          "Hit By Pitch": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Christian Petry (HOB)",
+          "Hit By Pitch": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Hit By Pitch": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Biskupiak (VASSAR)",
+          "Hit By Pitch": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Lucas Orlovitz (ITHACA)",
+          "Hit By Pitch": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Hit By Pitch": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lapp (RPI)",
+          "Hit By Pitch": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Chotiner (RPI)",
+          "Hit By Pitch": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Eric Wallick (VASSAR)",
+          "Hit By Pitch": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "S. Walker iii (ITHACA)",
+          "Hit By Pitch": 3
+        }
+      ]
+    },
+    {
+      "caption": "Strikeouts",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "Strikeouts": 13
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Rusiecki (RIT)",
+          "Strikeouts": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "Strikeouts": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Strikeouts": 11
+        },
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Strikeouts": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lapp (RPI)",
+          "Strikeouts": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Michael Lebenson (RPI)",
+          "Strikeouts": 10
+        },
+        {
+          "Index": NaN,
+          "Player": "Ed. Morrisse (SLU)",
+          "Strikeouts": 8
+        },
+        {
+          "Index": NaN,
+          "Player": "Jarin Moses (RIT)",
+          "Strikeouts": 8
+        },
+        {
+          "Index": NaN,
+          "Player": "Aidan Annello (VASSAR)",
+          "Strikeouts": 8
+        }
+      ]
+    },
+    {
+      "caption": "Sacrifice Bunts",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Sacrifice Bunts": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Morse (RPI)",
+          "Sacrifice Bunts": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Jake Bentivenga (ROC)",
+          "Sacrifice Bunts": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Matthew O'Neill (SKIDMORE)",
+          "Sacrifice Bunts": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Owen Mcclintock (SLU)",
+          "Sacrifice Bunts": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "Sacrifice Bunts": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Leandri (BARD)",
+          "Sacrifice Bunts": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Biskupiak (VASSAR)",
+          "Sacrifice Bunts": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Benjamin Raphael (UNI)",
+          "Sacrifice Bunts": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Nico Lambros (UNI)",
+          "Sacrifice Bunts": 1
+        }
+      ]
+    },
+    {
+      "caption": "Sacrifice Flies",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Matt Curtis (ITHACA)",
+          "Sacrifice Flies": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Daddabbo (ITHACA)",
+          "Sacrifice Flies": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Matt Chotiner (RPI)",
+          "Sacrifice Flies": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack McKillop (UNI)",
+          "Sacrifice Flies": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Carlos Barajas (ROC)",
+          "Sacrifice Flies": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "John Donnellan (SLU)",
+          "Sacrifice Flies": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Finnegan (SLU)",
+          "Sacrifice Flies": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Ethan Harris (SLU)",
+          "Sacrifice Flies": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Hayes Waddell (RIT)",
+          "Sacrifice Flies": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Sacrifice Flies": 1
+        }
+      ]
+    },
+    {
+      "caption": "Stolen Bases",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Isaiah Smith (ITHACA)",
+          "Stolen Bases": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Matthew O'Neill (SKIDMORE)",
+          "Stolen Bases": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Stolen Bases": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Stolen Bases": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "George Farley IV (ROC)",
+          "Stolen Bases": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "S. Walker iii (ITHACA)",
+          "Stolen Bases": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Stolen Bases": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Xavier Webb (BARD)",
+          "Stolen Bases": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Seth Albert (CLARKSON)",
+          "Stolen Bases": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Michael Lebenson (RPI)",
+          "Stolen Bases": 3
+        }
+      ]
+    },
+    {
+      "caption": "Caught Stealing",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Caught Stealing": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Rivlin (BARD)",
+          "Caught Stealing": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Walker Abdallah (RPI)",
+          "Caught Stealing": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "S. Walker iii (ITHACA)",
+          "Caught Stealing": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Anthony Mestre (ITHACA)",
+          "Caught Stealing": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "George Farley IV (ROC)",
+          "Caught Stealing": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "John Donnellan (SLU)",
+          "Caught Stealing": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Evan Kurtz (RIT)",
+          "Caught Stealing": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Christian Petry (HOB)",
+          "Caught Stealing": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Sean Garvin (HOB)",
+          "Caught Stealing": 1
+        }
+      ]
+    },
+    {
+      "caption": "Grounded into DP",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trent Rapp (RIT)",
+          "Grounded into DP": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Matteucci (RIT)",
+          "Grounded into DP": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Slaymaker (RIT)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack O'neil (HOB)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Seth Albert (CLARKSON)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Nayvelt (RPI)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Morse (RPI)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack McKillop (UNI)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Teddy Monahan (ROC)",
+          "Grounded into DP": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jake Bentivenga (ROC)",
+          "Grounded into DP": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-03-11T23:35:40.110942+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
+  "season": 2026,
+  "sport": "baseball",
+  "keys": [
+    "game_highs_individual_fielding",
+    "game_highs_individual_hitting",
+    "game_highs_individual_pitching",
+    "game_highs_team",
+    "individual_fielding",
+    "individual_hitting",
+    "individual_pitching",
+    "leaders_fielding",
+    "leaders_hitting",
+    "leaders_pitching",
+    "overall_batting",
+    "overall_fielding",
+    "overall_pitching"
+  ]
+}

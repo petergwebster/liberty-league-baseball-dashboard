@@ -1,0 +1,1021 @@
+{
+  "generated_at": "2026-03-11T23:35:40.110942+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
+  "tables": [
+    {
+      "caption": "Earned Run Average",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Earned Run Average": 1.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Earned Run Average": 1.29
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Earned Run Average": 1.5
+        },
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Earned Run Average": 1.86
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Earned Run Average": 2.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Dutch Hamilton (RPI)",
+          "Earned Run Average": 2.16
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Earned Run Average": 2.57
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Earned Run Average": 3.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Earned Run Average": 3.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Earned Run Average": 3.65
+        }
+      ]
+    },
+    {
+      "caption": "Opposing Batting Average",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Opposing Batting Average": 0.15
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Opposing Batting Average": 0.15
+        },
+        {
+          "Index": NaN,
+          "Player": "Dutch Hamilton (RPI)",
+          "Opposing Batting Average": 0.161
+        },
+        {
+          "Index": NaN,
+          "Player": "Grant Maryott (VASSAR)",
+          "Opposing Batting Average": 0.167
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Opposing Batting Average": 0.167
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Opposing Batting Average": 0.174
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Opposing Batting Average": 0.182
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Opposing Batting Average": 0.185
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Opposing Batting Average": 0.2
+        },
+        {
+          "Index": NaN,
+          "Player": "Garrick Godin (UNI)",
+          "Opposing Batting Average": 0.206
+        }
+      ]
+    },
+    {
+      "caption": "Innings Pitched",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Innings Pitched": 19.1
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Innings Pitched": 12.1
+        },
+        {
+          "Index": NaN,
+          "Player": "Cole Tarrant (HOB)",
+          "Innings Pitched": 12.2
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Innings Pitched": 12.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Grant Maryott (VASSAR)",
+          "Innings Pitched": 10.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Innings Pitched": 9.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Garrick Godin (UNI)",
+          "Innings Pitched": 9.0
+        },
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Innings Pitched": 9.0
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Hartley (CLARKSON)",
+          "Innings Pitched": 8.2
+        },
+        {
+          "Index": NaN,
+          "Player": "Liam Riordan (RPI)",
+          "Innings Pitched": 8.2
+        }
+      ]
+    },
+    {
+      "caption": "Batters Struck Out",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Jack Luensmann (RIT)",
+          "Batters Struck Out": 17
+        },
+        {
+          "Index": NaN,
+          "Player": "Liam Miller (RIT)",
+          "Batters Struck Out": 16
+        },
+        {
+          "Index": NaN,
+          "Player": "Owen Fisher (RIT)",
+          "Batters Struck Out": 14
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Batters Struck Out": 14
+        },
+        {
+          "Index": NaN,
+          "Player": "Andrew Gaughan (RPI)",
+          "Batters Struck Out": 13
+        },
+        {
+          "Index": NaN,
+          "Player": "Grant Maryott (VASSAR)",
+          "Batters Struck Out": 13
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Merkov (RIT)",
+          "Batters Struck Out": 12
+        },
+        {
+          "Index": NaN,
+          "Player": "Joseph Wozny (RIT)",
+          "Batters Struck Out": 12
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Batters Struck Out": 12
+        },
+        {
+          "Index": NaN,
+          "Player": "Cole Tarrant (HOB)",
+          "Batters Struck Out": 11
+        }
+      ]
+    },
+    {
+      "caption": "Batters SO Looking",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Grant Maryott (VASSAR)",
+          "Batters SO Looking": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Batters SO Looking": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Batters SO Looking": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Batters SO Looking": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Batters SO Looking": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Cole Tarrant (HOB)",
+          "Batters SO Looking": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Batters SO Looking": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Batters SO Looking": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Batters SO Looking": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Batters SO Looking": 2
+        }
+      ]
+    },
+    {
+      "caption": "Wins",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Noah Clausen (SLU)",
+          "Wins": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "David Zuhlsdorf (SLU)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Jackson (SLU)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Ty Book (RIT)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jack Luensmann (RIT)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Joseph Wozny (RIT)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Moran (RIT)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Nolan Bonnell (RIT)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Wins": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Wins": 1
+        }
+      ]
+    },
+    {
+      "caption": "Losses",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Michael Flyzik (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Will Nardella (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Owen Gray (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Laprade (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Jj Humenay (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "James Morr (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Noah Clausen (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Joshua Polumbo (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Mccausland (SLU)",
+          "Losses": 0
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Jackson (SLU)",
+          "Losses": 0
+        }
+      ]
+    },
+    {
+      "caption": "Saves",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Sam Loeb (ROC)",
+          "Saves": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Laprade (SLU)",
+          "Saves": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Max Friedlander (HOB)",
+          "Saves": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Graham Benway (BARD)",
+          "Saves": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Cj Kanick (CLARKSON)",
+          "Saves": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Zac Zajac (RPI)",
+          "Saves": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Luke Zelinko (ITHACA)",
+          "Saves": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jake Del Vecchio (ROC)",
+          "Saves": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Sam Dalsimer (SKIDMORE)",
+          "Saves": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Will Markwood (SKIDMORE)",
+          "Saves": 1
+        }
+      ]
+    },
+    {
+      "caption": "Sacrifice Bunts Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Dan Horowitz (CLARKSON)",
+          "Sacrifice Bunts Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Sacrifice Bunts Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Sacrifice Bunts Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Garrick Godin (UNI)",
+          "Sacrifice Bunts Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Sacrifice Bunts Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Liam Riordan (RPI)",
+          "Sacrifice Bunts Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Sacrifice Bunts Allowed": 2
+        }
+      ]
+    },
+    {
+      "caption": "Sacrifice Flies Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Sacrifice Flies Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Sacrifice Flies Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Cole Tarrant (HOB)",
+          "Sacrifice Flies Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Liam Riordan (RPI)",
+          "Sacrifice Flies Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Noah Sternberg (VASSAR)",
+          "Sacrifice Flies Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Sacrifice Flies Allowed": 1
+        }
+      ]
+    },
+    {
+      "caption": "Hits Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Hits Allowed": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Hits Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Hits Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Hits Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Hits Allowed": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Dutch Hamilton (RPI)",
+          "Hits Allowed": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Hits Allowed": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Hits Allowed": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Grant Maryott (VASSAR)",
+          "Hits Allowed": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Greene (ITHACA)",
+          "Hits Allowed": 7
+        }
+      ]
+    },
+    {
+      "caption": "Runs Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Dutch Hamilton (RPI)",
+          "Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Runs Allowed": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Runs Allowed": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Runs Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Runs Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Runs Allowed": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Runs Allowed": 5
+        }
+      ]
+    },
+    {
+      "caption": "Earned Runs Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Earned Runs Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Earned Runs Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Earned Runs Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Earned Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Earned Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Dutch Hamilton (RPI)",
+          "Earned Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Danny Drotos (ITHACA)",
+          "Earned Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Earned Runs Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Earned Runs Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Hartley (CLARKSON)",
+          "Earned Runs Allowed": 4
+        }
+      ]
+    },
+    {
+      "caption": "Walks Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Walks Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Walks Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Walks Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Dutch Hamilton (RPI)",
+          "Walks Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Nick Palovich (SKIDMORE)",
+          "Walks Allowed": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Walks Allowed": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Walks Allowed": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Richard Zangara (ITHACA)",
+          "Walks Allowed": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Hartley (CLARKSON)",
+          "Walks Allowed": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Noah Sternberg (VASSAR)",
+          "Walks Allowed": 4
+        }
+      ]
+    },
+    {
+      "caption": "Doubles Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Trevor Kimball (HOB)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Dan Horowitz (CLARKSON)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Liam Riordan (RPI)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Noah Sternberg (VASSAR)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Addison Lee (VASSAR)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "James Nelson (ROC)",
+          "Doubles Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Hartley (CLARKSON)",
+          "Doubles Allowed": 2
+        }
+      ]
+    },
+    {
+      "caption": "Triples Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Triples Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Nathan Hartley (CLARKSON)",
+          "Triples Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Dan Horowitz (CLARKSON)",
+          "Triples Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Triples Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Grant Maryott (VASSAR)",
+          "Triples Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Noah Sternberg (VASSAR)",
+          "Triples Allowed": 1
+        }
+      ]
+    },
+    {
+      "caption": "Home Runs Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Cole Tarrant (HOB)",
+          "Home Runs Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Jacob Shirley (CLARKSON)",
+          "Home Runs Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Home Runs Allowed": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Garrick Godin (UNI)",
+          "Home Runs Allowed": 1
+        }
+      ]
+    },
+    {
+      "caption": "Wild Pitches",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Liam Miller (RIT)",
+          "Wild Pitches": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Garrick Godin (UNI)",
+          "Wild Pitches": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Charlie Lehr (BARD)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Dylan Conte (BARD)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Jackson Sprinzen (BARD)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Garret Gates (RPI)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Aidan Watts (ROC)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Brendan Ryan (ROC)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Henry Fuerst (SKIDMORE)",
+          "Wild Pitches": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Joe Laprade (SLU)",
+          "Wild Pitches": 2
+        }
+      ]
+    },
+    {
+      "caption": "Balks",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Ryan Mccausland (SLU)",
+          "Balks": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Kane (ITHACA)",
+          "Balks": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Sunil Lindsay (ROC)",
+          "Balks": 2
+        },
+        {
+          "Index": NaN,
+          "Player": "Aaron Forgues (HOB)",
+          "Balks": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Ray Stein (ITHACA)",
+          "Balks": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Alex Casey (UNI)",
+          "Balks": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Arora (ROC)",
+          "Balks": 1
+        },
+        {
+          "Index": NaN,
+          "Player": "Grayden Harris (SKIDMORE)",
+          "Balks": 1
+        }
+      ]
+    },
+    {
+      "caption": "Hit Batters",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Cole Tarrant (HOB)",
+          "Hit Batters": 7
+        },
+        {
+          "Index": NaN,
+          "Player": "Owen Fisher (RIT)",
+          "Hit Batters": 6
+        },
+        {
+          "Index": NaN,
+          "Player": "Sam Loeb (ROC)",
+          "Hit Batters": 5
+        },
+        {
+          "Index": NaN,
+          "Player": "Ty Book (RIT)",
+          "Hit Batters": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Joseph Wozny (RIT)",
+          "Hit Batters": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Nolan Bonnell (RIT)",
+          "Hit Batters": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Ryan Lora (BARD)",
+          "Hit Batters": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "Liam Riordan (RPI)",
+          "Hit Batters": 4
+        },
+        {
+          "Index": NaN,
+          "Player": "David Zuhlsdorf (SLU)",
+          "Hit Batters": 3
+        },
+        {
+          "Index": NaN,
+          "Player": "Gr. Smith (RIT)",
+          "Hit Batters": 3
+        }
+      ]
+    },
+    {
+      "caption": "Intentional Walks Allowed",
+      "rows": [
+        {
+          "Index": NaN,
+          "Player": "Teck Nash (HOB)",
+          "Intentional Walks Allowed": 1
+        }
+      ]
+    }
+  ]
+}
