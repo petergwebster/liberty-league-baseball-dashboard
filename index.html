@@ -1,10 +1,127 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Players debug</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-</head>
-<body>
-  <h1>Players debug page</h1>
-  <p id="status">Status: not started</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Players</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: #0b1220;
+        color: #e5e7eb;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 18px 16px 40px 16px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .title {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+
+      #statePill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #1f2937;
+        background: #0f172a;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .meta {
+        margin: 8px 0 16px 0;
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      .meta strong {
+        color: #e5e7eb;
+      }
+
+      #playersGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 12px;
+      }
+
+      .player-card {
+        border: 1px solid #1f2937;
+        border-radius: 16px;
+        background: #0f172a;
+        padding: 12px;
+      }
+
+      .player-name {
+        font-weight: 900;
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .player-team {
+        color: #94a3b8;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .player-stats {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: #cbd5e1;
+      }
+
+      .player-stats span {
+        border: 1px solid #1f2937;
+        background: #0b1220;
+        padding: 4px 8px;
+        border-radius: 999px;
+      }
+
+      .errorBox {
+        padding: 12px;
+        border: 1px solid #b91c1c;
+        border-radius: 12px;
+        color: #fecaca;
+        background: rgba(185, 28, 28, 0.12);
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="title">Players</div>
+        <div id="statePill">Loading...</div>
+      </div>
+
+      <div class="meta">
+        <div>Players <strong><span id="playersCount">0</span></strong></div>
+        <div>Last generated <strong><span id="lastGenerated">-</span></strong></div>
+      </div>
+
+      <div id="playersGrid"></div>
+    </div>
+
+    <!-- IMPORTANT: absolute path so it works on /players/ -->
+    <script src="/players.js"></script>
+  </body>
+</html>
