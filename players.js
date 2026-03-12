@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("PLAYERS.JS LOADED", new Date().toISOString());
+
   function byId(idVal) {
     return document.getElementById(idVal);
   }
@@ -32,7 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderPlayers(rowsVal) {
     const gridEl = byId("playersGrid");
-    if (!gridEl) return;
+    if (!gridEl) {
+      console.log("Missing #playersGrid element");
+      return;
+    }
 
     if (!rowsVal.length) {
       gridEl.innerHTML = "<div class='errorBox'>No players found in players.json</div>";
@@ -61,29 +66,47 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   (async function init() {
+    console.log("init() starting");
+
+    console.log("DOM presence",
+      "statePill", !!byId("statePill"),
+      "playersCount", !!byId("playersCount"),
+      "playersGrid", !!byId("playersGrid")
+    );
+
     safeText("statePill", "Loading...");
 
-    const resVal = await fetch("/players.json", { cache: "no-store" });
-    if (!resVal.ok) {
-      throw new Error("players.json HTTP " + resVal.status);
+    try {
+      const resVal = await fetch("/players.json", { cache: "no-store" });
+      console.log("players.json HTTP", resVal.status);
+
+      const contentTypeVal = resVal.headers.get("content-type");
+      console.log("players.json content-type", contentTypeVal);
+
+      const bodyTextVal = await resVal.text();
+      console.log("players.json first 200 chars", bodyTextVal.slice(0, 200));
+
+      if (!resVal.ok) throw new Error("players.json HTTP " + resVal.status);
+
+      let payloadVal = null;
+      try {
+        payloadVal = JSON.parse(bodyTextVal);
+      } catch (jsonErrVal) {
+        throw new Error("players.json is not valid JSON. First 200 chars: " + bodyTextVal.slice(0, 200));
+      }
+
+      const rowsVal = normalizeRows(payloadVal);
+      console.log("rowsVal length", rowsVal.length);
+
+      safeText("playersCount", rowsVal.length);
+      safeText("statePill", "Loaded player cards");
+      renderPlayers(rowsVal);
+
+      console.log("init() done");
+    } catch (eVal) {
+      console.error("init() error", eVal);
+      safeText("statePill", "Load failed");
+      safeHtml("playersGrid", "<div class='errorBox'>" + esc(eVal && eVal.message ? eVal.message : String(eVal)) + "</div>");
     }
-
-    const payloadVal = await resVal.json();
-    const rowsVal = normalizeRows(payloadVal);
-
-    safeText("playersCount", rowsVal.length);
-
-    if (payloadVal && payloadVal.meta && payloadVal.meta.generated_at) {
-      safeText("lastGenerated", payloadVal.meta.generated_at);
-    } else {
-      safeText("lastGenerated", "-");
-    }
-
-    safeText("statePill", "Loaded player cards");
-    renderPlayers(rowsVal);
-  })().catch(function (eVal) {
-    console.error(eVal);
-    safeText("statePill", "Load failed");
-    safeHtml("playersGrid", "<div class='errorBox'>" + esc(eVal && eVal.message ? eVal.message : String(eVal)) + "</div>");
-  });
+  })();
 });
