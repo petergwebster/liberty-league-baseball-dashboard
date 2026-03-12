@@ -1,6 +1,11 @@
 console.log("PLAYERS.JS LOADED", new Date().toISOString());
 alert("players.js loaded");
 
+fetch("/players.json", { cache: "no-store" })
+  .then(function (rVal) { console.log("players.json status", rVal.status); return rVal.text(); })
+  .then(function (tVal) { console.log("players.json first 200 chars", tVal.slice(0, 200)); })
+  .catch(function (eVal) { console.error("players.json fetch error", eVal); });
+
 document.addEventListener("DOMContentLoaded", function () {
   function q(idVal) {
     return document.getElementById(idVal);
