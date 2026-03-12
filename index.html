@@ -16,7 +16,7 @@
 
     .controls {
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) 120px 210px 190px;
+      grid-template-columns: minmax(0, 1.5fr) 120px 220px 200px;
       gap: 12px;
       align-items: end;
       background: #020617;
@@ -25,7 +25,7 @@
       border: 1px solid #111827;
     }
 
-    label { display: block; font-size: 11px; letter-spacing: .03em; text-transform: uppercase; color: #9ca3af; margin-bottom: 6px; font-weight: 700; }
+    label { display: block; font-size: 11px; letter-spacing: .03em; text-transform: uppercase; color: #9ca3af; margin-bottom: 6px; font-weight: 800; }
 
     input[type="text"],
     input[type="number"],
@@ -49,7 +49,7 @@
       border: 1px solid #111827;
       background: #f9fafb;
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
       color: #0b1020;
     }
@@ -74,15 +74,9 @@
       color: #e5e7eb;
     }
 
-    .card-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .card-name { font-size: 15px; font-weight: 800; }
-    .card-sub { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .card-name { font-size: 15px; font-weight: 900; }
+    .card-sub { font-size: 12px; color: #9ca3af; margin-top: 2px; font-weight: 700; }
 
     .btn-pin {
       padding: 5px 10px;
@@ -91,16 +85,11 @@
       background: #020617;
       color: #e5e7eb;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
     }
-
-    .btn-pin.pinned {
-      background: #f97316;
-      border-color: #f97316;
-      color: #020617;
-    }
+    .btn-pin.pinned { background: #f97316; border-color: #f97316; color: #020617; }
 
     .card-body {
       margin-top: 10px;
@@ -119,9 +108,8 @@
       align-items: baseline;
       font-size: 12px;
     }
-
     .metric .label { color: #9ca3af; text-transform: uppercase; letter-spacing: .04em; font-size: 10px; font-weight: 800; }
-    .metric .value { font-weight: 800; }
+    .metric .value { font-weight: 900; }
 
     .error {
       border-radius: 12px;
@@ -136,11 +124,10 @@
     @media (max-width: 900px) {
       .controls { grid-template-columns: 1fr 1fr; }
     }
-
-    @media (max-width: 640px) {
-      .controls { grid-template-columns: 1fr; }
-    }
   </style>
+
+  <!-- IMPORTANT: absolute path so this works when the page is /players/ -->
+  <script src="/players.js" defer></script>
 </head>
 
 <body>
@@ -148,50 +135,47 @@
     <h1>Liberty League – Players</h1>
     <div class="sub">
       <span id="state" class="pill">Loading</span>
+      <span>Last generated <span id="lastGenerated">-</span></span>
       <span class="pill">Count <span id="countPill">0</span></span>
-      <span class="pill">Generated <span id="lastGenerated">-</span></span>
     </div>
   </header>
 
   <main>
-    <section class="controls">
+    <div class="controls">
       <div>
-        <label for="q">Search</label>
-        <input id="q" type="text" placeholder="Search player or team" />
+        <label for="q">Search player</label>
+        <input id="q" type="text" placeholder="Type a name or team…" />
       </div>
 
       <div>
         <label for="minAB">Min AB</label>
-        <input id="minAB" type="number" value="0" min="0" step="1" />
+        <input id="minAB" type="number" min="0" step="1" value="0" />
       </div>
 
       <div>
-        <label for="minPaPct">Min PA % <span id="paPctLabel"></span></label>
-        <input id="minPaPct" type="range" value="0" min="0" max="100" step="1" />
+        <label for="minPaPct">Min PA percentile <span id="paPctLabel">0%</span></label>
+        <input id="minPaPct" type="range" min="0" max="100" step="1" value="0" />
       </div>
 
       <div>
-        <label for="sortBy">Sort</label>
+        <label for="sortBy">Sort by</label>
         <select id="sortBy">
-          <option value="ops" selected>OPS desc</option>
-          <option value="ab">AB desc</option>
-          <option value="pa">PA desc</option>
-          <option value="name">Name A→Z</option>
-          <option value="team">Team A→Z</option>
+          <option value="ops" selected>OPS</option>
+          <option value="ab">AB</option>
+          <option value="pa">PA</option>
+          <option value="name">Name</option>
+          <option value="team">Team</option>
         </select>
       </div>
-    </section>
+    </div>
 
     <div class="btnrow">
-      <button id="exportBtn">Export filtered JSON</button>
+      <button id="exportBtn">Export filtered CSV</button>
       <button id="clearPinsBtn" class="secondary">Clear pins</button>
       <button id="clearAllBtn" class="secondary">Clear all</button>
     </div>
 
     <section id="playersGrid"></section>
   </main>
-
-  <!-- IMPORTANT: absolute path -->
-  <script src="/players.js" defer></script>
 </body>
 </html>
