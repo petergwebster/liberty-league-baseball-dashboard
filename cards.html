@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Liberty League - Cards</title>
-    <link rel="stylesheet" href="./cards.css" />
-    <script defer src="./cards.js"></script>
+    <title>Liberty League - Team Cards</title>
+
+    <link rel="stylesheet" href="/index.css" />
+    <script defer src="/cards.js"></script>
   </head>
 
   <body>
@@ -15,21 +16,22 @@
         <span class="sep">|</span>
         <strong>Team cards</strong>
       </div>
+
       <div class="meta">
         <span id="state" class="pill">Loading...</span>
-        <span class="muted">Last generated <span id="lastGenerated"></span></span>
+        <span class="muted">
+          Last generated <span id="lastGenerated"></span>
+        </span>
       </div>
     </div>
 
-    <div class="controls">
-      <input id="search" placeholder="Search team" />
-      <select id="sort"></select>
-      <span id="count"></span>
+    <div class="hero">
+      <div class="heroTitle">Liberty League</div>
+      <div class="heroSub">Team cards</div>
     </div>
 
-    <div class="layout">
-      <div id="grid" class="grid"></div>
-      <div id="side" class="side"></div>
+    <div class="main">
+      <div class="panel" id="cardsWrap"></div>
     </div>
   </body>
 </html>
