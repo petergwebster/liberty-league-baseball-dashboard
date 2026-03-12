@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Liberty League - Teams</title>
 
-    <!-- CSS + JS for this page -->
-    <link rel="stylesheet" href="./index.css" />
-    <script defer src="./index.js"></script>
+    <!-- Use ABSOLUTE path so it works regardless of route -->
+    <link rel="stylesheet" href="/index.css" />
+
+    <!-- IMPORTANT: load app.js (not index.js) -->
+    <script defer src="/app.js"></script>
   </head>
 
   <body>
@@ -39,9 +41,5 @@
       <span id="count"></span>
     </div>
 
-<div class="main">
-  <div class="panel">
-    <table class="tbl">
-<thead id="thead"></thead>
-<tbody id="tbody"></tbody>
-</table>
+    <div class="main">
+      <div class="panel" id="tableWrap">
