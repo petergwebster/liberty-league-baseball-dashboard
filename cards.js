@@ -35,46 +35,43 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function renderCards(rows) {
+    if (!cardsWrapEl) return;
     cardsWrapEl.innerHTML = "";
 
+    if (!rows || !rows.length) {
+      showMessage("No rows found in live_team_stats.json");
+      return;
+    }
+
     rows.forEach((r) => {
+      // EXACT field names taken from your JSON
       const teamName = r.team != null ? r.team : "Unknown";
-      const eraVal = r.era != null ? r.era : "";
-      const wlVal = r["w-l"] != null ? r["w-l"] : "";
-      const gVal = r.g != null ? r.g : "";
-      const ipVal = r.ip != null ? r.ip : "";
-      const svVal = r.sv != null ? r.sv : "";
+      const eraVal  = r.era  != null ? r.era  : "";
+      const wlVal   = r["w-l"] != null ? r["w-l"] : "";  // note: "w-l" with a dash
+      const gVal    = r.g    != null ? r.g    : "";
+      const ipVal   = r.ip   != null ? r.ip   : "";
+      const rVal    = r.r    != null ? r.r    : "";
+      const erVal   = r.er   != null ? r.er   : "";
 
       const card = document.createElement("div");
-      card.style.border = "1px solid #ddd";
-      card.style.borderRadius = "12px";
-      card.style.padding = "14px";
-      card.style.margin = "12px 0";
-      card.style.background = "#fff";
+      card.style.border = "1px solid #1b2640";
+      card.style.borderRadius = "16px";
+      card.style.padding = "16px 18px";
+      card.style.margin = "10px 0";
+      card.style.background = "#ffffff";
 
       card.innerHTML =
-        "<div style='display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;'>" +
-        "<h3 style='margin:0;'>" +
-        teamName +
-        "</h3>" +
-        "<div style='opacity:.7; font-size:13px;'>Pitching</div>" +
+        "<div style='display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px;'>" +
+          "<h3 style='margin:0; font-size:18px;'>" + teamName + "</h3>" +
+          "<div style='font-size:12px; opacity:.7;'>Pitching summary</div>" +
         "</div>" +
-        "<div style='display:flex; gap:18px; flex-wrap:wrap; margin-top:8px; font-size:14px;'>" +
-        "<div><strong>ERA</strong> " +
-        eraVal +
-        "</div>" +
-        "<div><strong>W-L</strong> " +
-        wlVal +
-        "</div>" +
-        "<div><strong>G</strong> " +
-        gVal +
-        "</div>" +
-        "<div><strong>IP</strong> " +
-        ipVal +
-        "</div>" +
-        "<div><strong>SV</strong> " +
-        svVal +
-        "</div>" +
+        "<div style='display:flex; flex-wrap:wrap; gap:18px; margin-top:10px; font-size:14px;'>" +
+          "<div><strong>ERA</strong> " + eraVal + "</div>" +
+          "<div><strong>W-L</strong> " + wlVal + "</div>" +
+          "<div><strong>G</strong> " + gVal + "</div>" +
+          "<div><strong>IP</strong> " + ipVal + "</div>" +
+          "<div><strong>R</strong> " + rVal + "</div>" +
+          "<div><strong>ER</strong> " + erVal + "</div>" +
         "</div>";
 
       cardsWrapEl.appendChild(card);
@@ -86,34 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (lastGenEl) lastGenEl.textContent = "";
 
     if (!cardsWrapEl) {
-      throw new Error('Missing element id="cardsWrap" in cards HTML.');
+      throw new Error('Missing <div id="cardsWrap"></div> in cards HTML.');
     }
 
-    const manifestUrl = "/data/manifest.json";
-    const statsUrl = "/data/live_team_stats.json";
-
-    try {
-      const manifest = await fetchJsonOrThrow(manifestUrl);
-      if (lastGenEl) lastGenEl.textContent = manifest.generated_at || "";
-    } catch (e) {
-      if (lastGenEl) lastGenEl.textContent = "";
-    }
-
-    const payload = await fetchJsonOrThrow(statsUrl);
-    const rows = payload && Array.isArray(payload.rows) ? payload.rows : [];
-
-    if (!rows.length) {
-      setState("Loaded (0 teams)", false);
-      showMessage("Fetched " + statsUrl + " but rows[] was empty.");
-      return;
-    }
-
-    setState("Loaded team cards", false);
-    renderCards(rows);
-  } catch (err) {
-    console.error(err);
-    setState("Failed", true);
-    if (lastGenEl) lastGenEl.textContent = "(error)";
-    showMessage(String(err));
-  }
-});
+    const manifestUrl = "/data/manifest
