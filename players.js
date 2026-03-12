@@ -1,30 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
-  function byId(idVal) {
+  function q(idVal) {
     return document.getElementById(idVal);
   }
 
-  function setText(idVal, textVal) {
-    const elVal = byId(idVal);
+  function safeText(idVal, textVal) {
+    const elVal = q(idVal);
     if (!elVal) return;
     elVal.textContent = String(textVal);
   }
 
-  function setHtml(idVal, htmlVal) {
-    const elVal = byId(idVal);
+  function safeHtml(idVal, htmlVal) {
+    const elVal = q(idVal);
     if (!elVal) return;
     elVal.innerHTML = String(htmlVal);
   }
 
-  async function fetchJsonOrThrow(urlVal) {
+  async function fetchJson(urlVal) {
     const resVal = await fetch(urlVal, { cache: "no-store" });
+    const textVal = await resVal.text();
+
     if (!resVal.ok) {
-      const tVal = await resVal.text();
-      throw new Error("Fetch failed " + resVal.status + " for " + urlVal + "\n" + tVal.slice(0, 300));
+      throw new Error("HTTP " + resVal.status + " for " + urlVal + "\n" + textVal.slice(0, 400));
     }
-    return await resVal.json();
+
+    try {
+      return JSON.parse(textVal);
+    } catch (eVal) {
+      throw new Error("Response was not valid JSON for " + urlVal + "\n" + textVal.slice(0, 400));
+    }
   }
 
-  function normalizePayloadToRows(payloadVal) {
+  function normalizeRows(payloadVal) {
     if (!payloadVal) return [];
     if (Array.isArray(payloadVal)) return payloadVal;
     if (Array.isArray(payloadVal.rows)) return payloadVal.rows;
@@ -32,78 +38,59 @@ document.addEventListener("DOMContentLoaded", function () {
     return [];
   }
 
-  function escapeHtml(textVal) {
+  function esc(textVal) {
     return String(textVal)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
   }
 
-  function toNum(val) {
-    const nVal = Number(val);
-    if (Number.isFinite(nVal)) return nVal;
-    return null;
-  }
-
-  function renderCards(rowsVal) {
-    const gridEl = byId("playersGrid");
+  function render(rowsVal) {
+    const gridEl = q("playersGrid");
     if (!gridEl) return;
 
     if (!rowsVal.length) {
-      gridEl.innerHTML = "<div style='padding:12px;border:1px solid #ddd;border-radius:12px;'>No players found in JSON.</div>";
+      gridEl.innerHTML = "<div style='padding:12px;border:1px solid #444;border-radius:12px;'>No rows in players.json</div>";
       return;
     }
 
-    const cardsVal = rowsVal.slice(0, 200).map(function (rVal) {
+    gridEl.innerHTML = rowsVal.slice(0, 100).map(function (rVal) {
       const nameVal = rVal.player || rVal.name || rVal.Player || "Unknown";
       const teamVal = rVal.team || rVal.Team || "";
-      const abVal = toNum(rVal.ab != null ? rVal.ab : rVal.AB);
-      const paVal = toNum(rVal.pa != null ? rVal.pa : rVal.PA);
-      const opsVal = toNum(rVal.ops != null ? rVal.ops : rVal.OPS);
-
-      const abTxt = abVal == null ? "" : "AB " + abVal;
-      const paTxt = paVal == null ? "" : "PA " + paVal;
-      const opsTxt = opsVal == null ? "" : "OPS " + opsVal.toFixed(3);
-
       return (
         "<div style='border:1px solid #111827;border-radius:16px;padding:12px;background:#020617;color:#e5e7eb;'>" +
-          "<div style='font-weight:900;font-size:14px;'>" + escapeHtml(nameVal) + "</div>" +
-          "<div style='opacity:0.8;margin-top:2px;'>" + escapeHtml(teamVal) + "</div>" +
-          "<div style='margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;font-size:12px;opacity:0.9;'>" +
-            "<span>" + escapeHtml(abTxt) + "</span>" +
-            "<span>" + escapeHtml(paTxt) + "</span>" +
-            "<span>" + escapeHtml(opsTxt) + "</span>" +
-          "</div>" +
+          "<div style='font-weight:900;'>" + esc(nameVal) + "</div>" +
+          "<div style='opacity:0.8;'>" + esc(teamVal) + "</div>" +
         "</div>"
       );
-    });
-
-    gridEl.innerHTML = cardsVal.join("");
+    }).join("");
   }
 
   (async function init() {
     try {
-      setText("statePill", "Loading...");
-      setText("status", "Loading...");
+      safeText("statePill", "Loading...");
+      safeText("status", "Loading...");
 
-      const payloadVal = await fetchJsonOrThrow("/players.json");
-      const rowsVal = normalizePayloadToRows(payloadVal);
+      const payloadVal = await fetchJson("/players.json");
+      const rowsVal = normalizeRows(payloadVal);
 
-      setText("statePill", "Loaded player cards");
-      setText("status", "Loaded " + rowsVal.length + " players");
+      safeText("statePill", "Loaded player cards");
+      safeText("status", "Loaded " + rowsVal.length + " players");
 
       if (payloadVal && payloadVal.meta && payloadVal.meta.generated_at) {
-        setText("lastGenerated", payloadVal.meta.generated_at);
+        safeText("lastGenerated", payloadVal.meta.generated_at);
       }
 
-      renderCards(rowsVal);
+      render(rowsVal);
     } catch (errVal) {
-      setText("statePill", "Load failed");
-      setText("status", "Load failed");
-      setHtml("playersGrid", "<div style='padding:12px;border:1px solid #b91c1c;border-radius:12px;color:#b91c1c;'>"
-        + escapeHtml(errVal && errVal.message ? errVal.message : String(errVal))
-        + "</div>");
       console.error(errVal);
+      safeText("statePill", "Load failed");
+      safeHtml(
+        "playersGrid",
+        "<div style='padding:12px;border:1px solid #b91c1c;border-radius:12px;color:#b91c1c;white-space:pre-wrap;'>" +
+          esc(errVal && errVal.message ? errVal.message : String(errVal)) +
+        "</div>"
+      );
     }
   })();
 });
