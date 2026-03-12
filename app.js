@@ -28,14 +28,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   function inferRows(payload) {
     if (!payload) return [];
-
-    // Most of your new files look like { data: [...] }
     if (Array.isArray(payload.data)) return payload.data;
-
-    // Some pages might later point to { rows: [...] } (keep backward-compatible)
     if (Array.isArray(payload.rows)) return payload.rows;
 
-    // Leaders files look like { tables: [ { rows: [...] } , ... ] }
     if (Array.isArray(payload.tables) && payload.tables.length) {
       const t0 = payload.tables[0];
       if (t0 && Array.isArray(t0.rows)) return t0.rows;
@@ -45,34 +40,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     return [];
   }
 
-  try {
-    setState("Loading...", false);
-    if (lastGenEl) lastGenEl.textContent = "";
-
-    // 1) Load manifest for a single authoritative generated_at
-    const manifestResp = await fetch("./data/manifest.json", { cache: "no-store" });
-    if (!manifestResp.ok) {
-      throw new Error("Failed to fetch data/manifest.json (HTTP " + manifestResp.status + ")");
-    }
-    const manifest = await manifestResp.json();
-    const generatedAt = manifest && manifest.generated_at ? manifest.generated_at : "";
-    if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
-
-    // 2) Load one dataset to show (start with overall batting)
-    const statsResp = await fetch("./data/overall_batting.json", { cache: "no-store" });
-    if (!statsResp.ok) {
-      throw new Error("Failed to fetch data/overall_batting.json (HTTP " + statsResp.status + ")");
-    }
-    const payload = await statsResp.json();
-    const rows = inferRows(payload);
-
-    setState("Loaded overall batting", false);
-
+  function buildTable(rows) {
     if (!tableWrapEl) return;
 
     tableWrapEl.innerHTML = "";
     if (!rows.length) {
-      showMessage("No rows in data/overall_batting.json");
+      showMessage("No rows returned from dataset.");
       return;
     }
 
@@ -109,6 +82,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     table.appendChild(tbody);
 
     tableWrapEl.appendChild(table);
+  }
+
+  async function fetchJsonOrThrow(urlPath) {
+    const resp = await fetch(urlPath, { cache: "no-store" });
+    if (!resp.ok) {
+      throw new Error("Failed to fetch " + urlPath + " (HTTP " + resp.status + ")");
+    }
+    return await resp.json();
+  }
+
+  try {
+    setState("Loading...", false);
+    if (lastGenEl) lastGenEl.textContent = "";
+
+    // Use ABSOLUTE paths so this works from / and from /cards etc.
+    const manifestUrl = "/data/manifest.json";
+    const primaryDatasetUrl = "/data/overall_batting.json";
+    const fallbackDatasetUrl = "/data/live_team_stats.json";
+
+    // 1) Manifest drives "last generated"
+    const manifest = await fetchJsonOrThrow(manifestUrl);
+    const generatedAt = manifest && manifest.generated_at ? manifest.generated_at : "";
+    if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
+
+    // 2) Data: try overall_batting first, then fall back to live_team_stats
+    let payload = null;
+    let datasetLabel = "overall batting";
+
+    try {
+      payload = await fetchJsonOrThrow(primaryDatasetUrl);
+      datasetLabel = "overall batting";
+    } catch (e) {
+      console.warn("Primary dataset failed, trying fallback:", e);
+      payload = await fetchJsonOrThrow(fallbackDatasetUrl);
+      datasetLabel = "live team stats";
+    }
+
+    const rows = inferRows(payload);
+
+    setState("Loaded " + datasetLabel, false);
+    buildTable(rows);
   } catch (err) {
     console.error(err);
     setState("Failed", true);
