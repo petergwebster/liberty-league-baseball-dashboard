@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Liberty League - Players</title>
+
+    <link rel="stylesheet" href="/index.css" />
+    <script defer src="/players.js"></script>
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <a href="/">Teams table</a>
+        <span class="sep">|</span>
+        <a href="/cards/">Team cards</a>
+        <span class="sep">|</span>
+        <strong>Players</strong>
+      </div>
+
+      <div class="meta">
+        <span id="state" class="pill">Loading...</span>
+        <span class="muted">Last generated <span id="lastGenerated"></span></span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="heroTitle">Liberty League</div>
+      <div class="heroSub">Interactive player cards</div>
+    </div>
+
+    <div class="main">
+      <div class="panel">
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:end;">
+          <div style="flex:1; min-width:220px;">
+            <div class="muted" style="margin-bottom:6px;">Search player</div>
+            <input id="q" type="text" placeholder="Type a name or team..." style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;">
+          </div>
+
+          <div style="width:140px;">
+            <div class="muted" style="margin-bottom:6px;">Min AB</div>
+            <input id="minAB" type="number" value="10" min="0" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;">
+          </div>
+
+          <div style="width:220px;">
+            <div class="muted" style="margin-bottom:6px;">Min PA percentile <span id="paPctLabel"></span></div>
+            <input id="minPaPct" type="range" min="0" max="100" value="0" style="width:100%;">
+          </div>
+
+          <div style="width:220px;">
+            <div class="muted" style="margin-bottom:6px;">Sort by</div>
+            <select id="sortBy" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ddd;">
+              <option value="ops_desc">OPS (high → low)</option>
+              <option value="avg_desc">AVG (high → low)</option>
+              <option value="obp_desc">OBP (high → low)</option>
+              <option value="slg_desc">SLG (high → low)</option>
+              <option value="hr_desc">HR (high → low)</option>
+              <option value="rbi_desc">RBI (high → low)</option>
+              <option value="ab_desc">AB (high → low)</option>
+              <option value="name_asc">Name (A → Z)</option>
+            </select>
+          </div>
+
+          <div style="margin-left:auto;">
+            <div class="muted" style="margin-bottom:6px;">Players</div>
+            <div id="countPill" class="pill">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:12px;">
+        <div style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;">
+          <div class="muted">
+            Pinned comparisons. Export downloads the current filtered grid as CSV.
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="exportBtn" style="padding:10px 12px; border-radius:10px; border:1px solid #ddd; background:#fff; cursor:pointer;">Export filtered CSV</button>
+            <button id="clearPinsBtn" style="padding:10px 12px; border-radius:10px; border:1px solid #ddd; background:#fff; cursor:pointer;">Clear pins</button>
+            <button id="clearAllBtn" style="padding:10px 12px; border-radius:10px; border:1px solid #ddd; background:#fff; cursor:pointer;">Clear all</button>
+          </div>
+        </div>
+        <div id="pinnedRow" style="margin-top:10px;"></div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:12px; margin-top:12px;">
+        <div class="panel">
+          <div id="playersGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px;"></div>
+        </div>
+
+        <div class="panel">
+          <div id="detail">
+            <div style="font-weight:700; font-size:16px; margin-bottom:6px;">Pick a player</div>
+            <div class="muted">Click any card to see details and pin for comparison.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
