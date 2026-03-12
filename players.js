@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const stateEl = document.getElementById("state");
-  const lastGeneratedEl = document.getElementById("lastGenerated");
   const countPillEl = document.getElementById("countPill");
+  const lastGeneratedEl = document.getElementById("lastGenerated");
   const playersGridEl = document.getElementById("playersGrid");
 
   const qEl = document.getElementById("q");
@@ -18,139 +18,128 @@ document.addEventListener("DOMContentLoaded", function () {
   let viewRows = [];
   let pinned = new Set();
 
-  function setState(txt, isError) {
+  function setState(textVal, isErrorVal) {
     if (!stateEl) return;
-    stateEl.textContent = txt;
-    stateEl.style.background = isError ? "#7f1d1d" : "#111827";
-    stateEl.style.color = isError ? "#fee2e2" : "#e5e7eb";
-    stateEl.style.border = "1px solid " + (isError ? "#fca5a5" : "#111827");
+    stateEl.textContent = textVal;
+    stateEl.style.background = isErrorVal ? "#7f1d1d" : "#111827";
+    stateEl.style.color = isErrorVal ? "#fee2e2" : "#e5e7eb";
+    stateEl.style.border = isErrorVal ? "1px solid #fca5a5" : "1px solid #111827";
   }
 
-  function renderErrorBox(msg) {
-    return '<div class="error">Error: ' + String(msg) + "</div>";
+  function renderErrorBox(msgVal) {
+    return '<div class="error">Error: ' + String(msgVal) + "</div>";
   }
 
-  function toNum(v) {
-    const n = Number(v);
-    return Number.isFinite(n) ? n : 0;
+  function toNum(vVal) {
+    const nVal = Number(vVal);
+    return Number.isFinite(nVal) ? nVal : 0;
   }
 
-  function fmtOps(v) {
-    const n = Number(v);
-    if (!Number.isFinite(n)) return "-";
-    return n.toFixed(3);
+  function pctStr(pVal) {
+    const nVal = toNum(pVal);
+    const pctVal = nVal * 100;
+    return pctVal.toFixed(1).replace(/\.0$/, "") + "%";
   }
 
-  function pctStrFromFraction(frac) {
-    const n = Number(frac);
-    if (!Number.isFinite(n)) return "-";
-    return (n * 100).toFixed(0) + "%";
+  function opsStr(vVal) {
+    const nVal = toNum(vVal);
+    return nVal.toFixed(3);
   }
 
-  async function fetchJsonOrThrow(url) {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("Fetch failed " + url + " (" + res.status + ")");
-    return await res.json();
-  }
-
-  function normalizePayloadToRows(payload) {
-    if (!payload) return [];
-    if (Array.isArray(payload)) return payload;
-    if (payload.rows && Array.isArray(payload.rows)) return payload.rows;
+  function normalizePayloadToRows(payloadVal) {
+    if (!payloadVal) return [];
+    if (Array.isArray(payloadVal)) return payloadVal;
+    if (payloadVal.rows && Array.isArray(payloadVal.rows)) return payloadVal.rows;
     return [];
   }
 
-  function getId(row, idx) {
-    if (row && row.id != null) return String(row.id);
-    if (row && row.player && row.team) return String(row.player) + " :: " + String(row.team);
-    return "row-" + String(idx);
+  function getId(rowVal, idxVal) {
+    if (rowVal && rowVal.id != null) return String(rowVal.id);
+    if (rowVal && rowVal.player && rowVal.team) return String(rowVal.player) + " :: " + String(rowVal.team);
+    return "row-" + String(idxVal);
   }
 
-  function rowMatchesQuery(row, q) {
-    if (!q) return true;
-    const hay = (
-      String(row.player || row.name || "") +
-      " " +
-      String(row.team || "") +
-      " " +
-      String(row.pos || row.position || "")
-    ).toLowerCase();
-    return hay.indexOf(q) >= 0;
-  }
-
-  function sortRows(rows, sortBy) {
-    const copy = rows.slice();
-    copy.sort(function (a, b) {
-      if (sortBy === "name") return String(a.player || a.name || "").localeCompare(String(b.player || b.name || ""));
-      if (sortBy === "team") return String(a.team || "").localeCompare(String(b.team || ""));
-      if (sortBy === "ab") return toNum(b.ab) - toNum(a.ab);
-      if (sortBy === "pa") return toNum(b.pa) - toNum(a.pa);
-      return toNum(b.ops) - toNum(a.ops);
+  function fetchJsonOrThrow(urlVal) {
+    return fetch(urlVal, { cache: "no-store" }).then(function (resVal) {
+      if (!resVal.ok) throw new Error("Request failed: " + urlVal + " (" + resVal.status + ")");
+      return resVal.json();
     });
-    return copy;
   }
 
-  function applyFilters() {
-    const q = qEl ? qEl.value.trim().toLowerCase() : "";
-    const minAB = minABEl ? toNum(minABEl.value) : 0;
-    const minPaPct = minPaPctEl ? toNum(minPaPctEl.value) : 0;
-    const sortBy = sortByEl ? sortByEl.value : "ops";
+  function renderCard(rowVal) {
+    const idVal = rowVal.id;
+    const isPinnedVal = pinned.has(idVal);
 
-    if (paPctLabelEl) paPctLabelEl.textContent = String(minPaPct) + "%";
+    const nameVal = rowVal.player || rowVal.name || "(no name)";
+    const teamVal = rowVal.team || "-";
 
-    let rows = allRows.filter(function (row) {
-      if (!rowMatchesQuery(row, q)) return false;
+    const abVal = toNum(rowVal.ab);
+    const paVal = toNum(rowVal.pa);
 
-      if (toNum(row.ab) < minAB) return false;
+    const paPctVal = rowVal.pa_pct != null ? rowVal.pa_pct : null;
+    const paPctDisplayVal = paPctVal == null ? "-" : pctStr(paPctVal);
 
-      const frac = row.pa_pct;
-      const pct = Number.isFinite(Number(frac)) ? Number(frac) * 100 : 0;
-      if (pct < minPaPct) return false;
+    const opsVal = rowVal.ops != null ? opsStr(rowVal.ops) : "-";
 
-      return true;
-    });
-
-    rows = sortRows(rows, sortBy);
-    viewRows = rows;
-  }
-
-  function renderCard(row) {
-    const id = row.id;
-    const isPinned = pinned.has(id);
-
-    const name = row.player || row.name || "(no name)";
-    const team = row.team || "-";
-
-    const ab = toNum(row.ab);
-    const pa = toNum(row.pa);
-    const ops = fmtOps(row.ops);
-    const paPct = pctStrFromFraction(row.pa_pct);
-
-    const btnClass = isPinned ? "btn-pin pinned" : "btn-pin";
-    const btnText = isPinned ? "Unpin" : "Pin";
+    const btnClassVal = isPinnedVal ? "btn-pin pinned" : "btn-pin";
+    const btnTextVal = isPinnedVal ? "Pinned" : "Pin";
 
     return (
       '<article class="card">' +
         '<div class="card-head">' +
           '<div>' +
-            '<div class="card-name">' + String(name) + "</div>" +
-            '<div class="card-sub">' + String(team) + "</div>" +
+            '<div class="card-name">' + String(nameVal) + "</div>" +
+            '<div class="card-sub">' + String(teamVal) + "</div>" +
           "</div>" +
-          '<button class="' + btnClass + '" data-action="pin" data-id="' + String(id) + '">' + btnText + "</button>" +
+          '<button class="' + btnClassVal + '" data-action="pin" data-id="' + String(idVal) + '">' + btnTextVal + "</button>" +
         "</div>" +
+
         '<div class="card-body">' +
-          '<div class="metric"><span class="label">AB</span><span class="value">' + String(ab) + "</span></div>" +
-          '<div class="metric"><span class="label">PA</span><span class="value">' + String(pa) + "</span></div>" +
-          '<div class="metric"><span class="label">PA %</span><span class="value">' + String(paPct) + "</span></div>" +
-          '<div class="metric"><span class="label">OPS</span><span class="value">' + String(ops) + "</span></div>" +
+          '<div class="metric"><span class="label">AB</span><span class="value">' + String(abVal) + "</span></div>" +
+          '<div class="metric"><span class="label">PA</span><span class="value">' + String(paVal) + "</span></div>" +
+          '<div class="metric"><span class="label">PA %</span><span class="value">' + String(paPctDisplayVal) + "</span></div>" +
+          '<div class="metric"><span class="label">OPS</span><span class="value">' + String(opsVal) + "</span></div>" +
         "</div>" +
       "</article>"
     );
   }
 
+  function applyFilters() {
+    const qVal = qEl ? qEl.value.trim().toLowerCase() : "";
+    const minABVal = minABEl ? toNum(minABEl.value) : 0;
+    const minPaPctVal = minPaPctEl ? toNum(minPaPctEl.value) : 0;
+    const sortByVal = sortByEl ? sortByEl.value : "ops";
+
+    if (paPctLabelEl) paPctLabelEl.textContent = String(minPaPctVal) + "%";
+
+    viewRows = allRows.filter(function (rowVal) {
+      if (toNum(rowVal.ab) < minABVal) return false;
+
+      const paPctRawVal = rowVal.pa_pct != null ? toNum(rowVal.pa_pct) * 100 : 0;
+      if (paPctRawVal < minPaPctVal) return false;
+
+      if (qVal) {
+        const hayVal = (String(rowVal.player || rowVal.name || "") + " " + String(rowVal.team || "")).toLowerCase();
+        if (!hayVal.includes(qVal)) return false;
+      }
+
+      return true;
+    });
+
+    viewRows.sort(function (aVal, bVal) {
+      if (sortByVal === "name") {
+        return String(aVal.player || aVal.name || "").localeCompare(String(bVal.player || bVal.name || ""));
+      }
+      if (sortByVal === "ab") return toNum(bVal.ab) - toNum(aVal.ab);
+      if (sortByVal === "pa") return toNum(bVal.pa) - toNum(aVal.pa);
+      return toNum(bVal.ops) - toNum(aVal.ops);
+    });
+  }
+
   function renderGrid() {
     if (!playersGridEl) return;
     playersGridEl.innerHTML = viewRows.map(renderCard).join("");
+
     if (countPillEl) countPillEl.textContent = String(viewRows.length);
   }
 
@@ -160,46 +149,45 @@ document.addEventListener("DOMContentLoaded", function () {
     if (minPaPctEl) minPaPctEl.addEventListener("input", function () { applyFilters(); renderGrid(); });
     if (sortByEl) sortByEl.addEventListener("change", function () { applyFilters(); renderGrid(); });
 
-    document.addEventListener("click", function (evt) {
-      const t = evt.target;
-      if (!t || !t.matches) return;
-      if (!t.matches('button[data-action="pin"]')) return;
+    document.addEventListener("click", function (evtVal) {
+      const tVal = evtVal.target;
+      if (!tVal || !tVal.matches) return;
+      if (!tVal.matches('button[data-action="pin"]')) return;
 
-      const id = t.getAttribute("data-id");
-      if (!id) return;
+      const idVal = tVal.getAttribute("data-id");
+      if (!idVal) return;
 
-      if (pinned.has(id)) pinned.delete(id);
-      else pinned.add(id);
+      if (pinned.has(idVal)) pinned.delete(idVal);
+      else pinned.add(idVal);
 
       renderGrid();
     });
 
     if (exportBtn) {
       exportBtn.addEventListener("click", function () {
-        const cols = ["player", "team", "ab", "pa", "pa_pct", "ops"];
-        const lines = [];
-        lines.push(cols.join(","));
+        const colsVal = ["player", "team", "ab", "pa", "pa_pct", "ops"];
+        const linesVal = [];
+        linesVal.push(colsVal.join(","));
 
-        viewRows.forEach(function (row) {
-          const vals = cols.map(function (c) {
-            const raw = row[c] == null ? "" : String(row[c]);
-            const safe = '"' + raw.replace(/"/g, '""') + '"';
-            return safe;
+        viewRows.forEach(function (rowVal) {
+          const valsVal = colsVal.map(function (cVal) {
+            const rawVal = rowVal[cVal] == null ? "" : String(rowVal[cVal]);
+            return '"' + rawVal.replace(/"/g, '""') + '"';
           });
-          lines.push(vals.join(","));
+          linesVal.push(valsVal.join(","));
         });
 
-        const csv = lines.join("\n");
-        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
+        const csvVal = linesVal.join("\n");
+        const blobVal = new Blob([csvVal], { type: "text/csv;charset=utf-8" });
+        const urlVal = URL.createObjectURL(blobVal);
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "players_filtered.csv";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+        const aVal = document.createElement("a");
+        aVal.href = urlVal;
+        aVal.download = "players_filtered.csv";
+        document.body.appendChild(aVal);
+        aVal.click();
+        aVal.remove();
+        URL.revokeObjectURL(urlVal);
       });
     }
 
@@ -227,18 +215,17 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       setState("Loading", false);
 
-      // IMPORTANT: absolute path (works from /players/)
-      const payload = await fetchJsonOrThrow("/players.json");
-      const rows = normalizePayloadToRows(payload);
+      const payloadVal = await fetchJsonOrThrow("/players.json");
+      const rowsVal = normalizePayloadToRows(payloadVal);
 
-      allRows = rows.map(function (row, idx) {
-        const copy = Object.assign({}, row);
-        copy.id = getId(row, idx);
-        return copy;
+      allRows = rowsVal.map(function (rowVal, idxVal) {
+        const copyVal = Object.assign({}, rowVal);
+        copyVal.id = getId(rowVal, idxVal);
+        return copyVal;
       });
 
-      if (payload && payload.meta && payload.meta.generated_at && lastGeneratedEl) {
-        lastGeneratedEl.textContent = String(payload.meta.generated_at);
+      if (payloadVal && payloadVal.meta && payloadVal.meta.generated_at && lastGeneratedEl) {
+        lastGeneratedEl.textContent = String(payloadVal.meta.generated_at);
       } else if (lastGeneratedEl) {
         lastGeneratedEl.textContent = "-";
       }
@@ -248,8 +235,8 @@ document.addEventListener("DOMContentLoaded", function () {
       renderGrid();
 
       setState("Loaded player cards", false);
-    } catch (err) {
-      if (playersGridEl) playersGridEl.innerHTML = renderErrorBox(err && err.message ? err.message : String(err));
+    } catch (errVal) {
+      if (playersGridEl) playersGridEl.innerHTML = renderErrorBox(errVal && errVal.message ? errVal.message : String(errVal));
       setState("Load failed", true);
     }
   })();
