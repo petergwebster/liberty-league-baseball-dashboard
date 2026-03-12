@@ -14,49 +14,64 @@ document.addEventListener("DOMContentLoaded", async function () {
     stateEl.style.fontSize = "12px";
   }
 
-  function showMessage(msg) {
+  function showBox(txt) {
     if (!cardsWrapEl) return;
-    cardsWrapEl.innerHTML = "";
-    const pre = document.createElement("pre");
-    pre.style.whiteSpace = "pre-wrap";
-    pre.style.padding = "12px";
-    pre.style.border = "1px solid #ddd";
-    pre.style.borderRadius = "10px";
-    pre.textContent = msg;
-    cardsWrapEl.appendChild(pre);
+    const box = document.createElement("pre");
+    box.style.whiteSpace = "pre-wrap";
+    box.style.padding = "12px";
+    box.style.border = "1px solid #ddd";
+    box.style.borderRadius = "10px";
+    box.style.background = "#fafafa";
+    box.style.color = "#111";
+    box.textContent = txt;
+    cardsWrapEl.appendChild(box);
   }
 
   async function fetchJsonOrThrow(urlPath) {
     const resp = await fetch(urlPath, { cache: "no-store" });
-    if (!resp.ok) {
-      throw new Error("Failed to fetch " + urlPath + " (HTTP " + resp.status + ")");
-    }
+    if (!resp.ok) throw new Error("Failed to fetch " + urlPath + " (HTTP " + resp.status + ")");
     return await resp.json();
   }
 
-  function safeVal(v) {
+  function s(v) {
     if (v === null || v === undefined) return "";
     return String(v);
+  }
+
+  function pick(r, keys) {
+    for (let i = 0; i < keys.length; i++) {
+      const k = keys[i];
+      if (r && Object.prototype.hasOwnProperty.call(r, k) && r[k] !== null && r[k] !== undefined) {
+        return r[k];
+      }
+    }
+    return "";
   }
 
   function renderCards(rows) {
     cardsWrapEl.innerHTML = "";
 
     if (!rows || !rows.length) {
-      showMessage("No rows found in payload.rows");
+      showBox("No rows found in payload.rows");
       return;
     }
 
+    // Debug panel: show what keys actually exist in production
+    const sampleKeys = Object.keys(rows[0] || {}).sort();
+    showBox("Sample keys from first row:\n" + sampleKeys.join(", "));
+
     rows.forEach((r) => {
-      const teamName = safeVal(r.team) || "Unknown";
-      const eraVal = safeVal(r.era);
-      const wlVal = safeVal(r["w-l"]);   // IMPORTANT: key has a dash
-      const gVal = safeVal(r.g);
-      const ipVal = safeVal(r.ip);
-      const rVal = safeVal(r.r);
-      const erVal = safeVal(r.er);
-      const soVal = safeVal(r.so);
-      const bbVal = safeVal(r.bb);
+      const teamName = s(pick(r, ["team", "Team", "name", "school"])) || "Unknown";
+
+      // These are common variants; includes the important dashed key
+      const eraVal = s(pick(r, ["era", "ERA"]));
+      const wlVal = s(pick(r, ["w-l", "wl", "W-L", "record"]));
+      const gVal = s(pick(r, ["g", "G", "games"]));
+      const ipVal = s(pick(r, ["ip", "IP"]));
+      const rVal = s(pick(r, ["r", "R", "runs"]));
+      const erVal = s(pick(r, ["er", "ER"]));
+      const soVal = s(pick(r, ["so", "SO", "k", "K"]));
+      const bbVal = s(pick(r, ["bb", "BB"]));
 
       const card = document.createElement("div");
       card.style.border = "1px solid #1b2640";
@@ -91,13 +106,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (lastGenEl) lastGenEl.textContent = "";
 
     if (!cardsWrapEl) {
-      throw new Error('Missing element id="cardsWrap" in cards/index.html');
+      throw new Error('Missing element id="cardsWrap" in cards HTML.');
     }
 
     const manifestUrl = "/data/manifest.json";
     const statsUrl = "/data/live_team_stats.json";
 
-    // manifest optional
+    // Manifest is optional
     try {
       const manifest = await fetchJsonOrThrow(manifestUrl);
       if (lastGenEl) lastGenEl.textContent = manifest.generated_at ? manifest.generated_at : "";
@@ -114,6 +129,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error(err);
     setState("Failed", true);
     if (lastGenEl) lastGenEl.textContent = "(error)";
-    showMessage(String(err));
+    cardsWrapEl.innerHTML = "";
+    showBox(String(err));
   }
 });
