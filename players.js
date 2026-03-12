@@ -11,105 +11,135 @@ document.addEventListener("DOMContentLoaded", function () {
   const sortByEl = document.getElementById("sortBy");
 
   const exportBtn = document.getElementById("exportBtn");
+  const clearPinsBtn = document.getElementById("clearPinsBtn");
   const clearAllBtn = document.getElementById("clearAllBtn");
 
   let allRows = [];
   let viewRows = [];
+  let pinned = new Set();
 
-  function setState(txt, isError) {
+  function setState(textVal, isErrorVal) {
     if (!stateEl) return;
-    stateEl.textContent = String(txt);
-    stateEl.style.background = isError ? "#fff3f3" : "#f2f2f2";
-    stateEl.style.border = isError ? "1px solid #ffcccc" : "1px solid transparent";
+    stateEl.textContent = textVal;
+    stateEl.style.background = isErrorVal ? "#ffe6e6" : "#f2f2f2";
+    stateEl.style.color = isErrorVal ? "#a00" : "#333";
   }
 
-  function renderErrorBox(msg) {
-    return '<div class="error"><div style="font-weight:800;margin-bottom:6px;">Error</div><div style="white-space:pre-wrap;">' +
-      String(msg) +
-      "</div></div>";
+  function renderErrorBox(msgVal) {
+    return '<div class="error">Error: ' + String(msgVal) + "</div>";
   }
 
-  async function fetchJsonOrThrow(url) {
-    const resp = await fetch(url, { cache: "no-store" });
-    if (!resp.ok) throw new Error("Fetch failed " + resp.status + " for " + url);
-    return await resp.json();
+  function fetchJsonOrThrow(urlVal) {
+    return fetch(urlVal, { cache: "no-store" }).then(function (resVal) {
+      if (!resVal.ok) {
+        throw new Error("Request failed: " + urlVal + " (" + resVal.status + ")");
+      }
+      return resVal.json();
+    });
   }
 
-  function normalizePayloadToRows(payload) {
-    if (Array.isArray(payload)) return payload;
-    if (payload && Array.isArray(payload.rows)) return payload.rows;
+  function normalizePayloadToRows(payloadVal) {
+    if (!payloadVal) return [];
+    if (Array.isArray(payloadVal)) return payloadVal;
+    if (payloadVal.rows && Array.isArray(payloadVal.rows)) return payloadVal.rows;
     return [];
   }
 
-  function toNum(val) {
-    const n = Number(val);
-    return Number.isFinite(n) ? n : 0;
+  function getRowId(rowVal, idxVal) {
+    if (rowVal.id != null) return String(rowVal.id);
+    if (rowVal.player && rowVal.team) return String(rowVal.player) + " :: " + String(rowVal.team);
+    return "row-" + String(idxVal);
   }
 
-  function getText(row, key) {
-    const v = row && row[key] != null ? row[key] : "";
-    return String(v);
+  function toNum(vVal) {
+    const nVal = Number(vVal);
+    return Number.isFinite(nVal) ? nVal : 0;
   }
 
-  function renderCard(row) {
-    const player = getText(row, "player");
-    const team = getText(row, "team");
-    const ab = toNum(row.ab);
-    const pa = toNum(row.pa);
-    const ops = row.ops != null ? String(row.ops) : "";
+  function toPctStr(vVal) {
+    const nVal = toNum(vVal) * 100;
+    const sVal = nVal.toFixed(1);
+    return sVal.endsWith(".0") ? sVal.slice(0, -2) : sVal;
+  }
+
+  function opsStr(vVal) {
+    return toNum(vVal).toFixed(3);
+  }
+
+  function renderCard(rowVal) {
+    const idVal = rowVal.id;
+    const isPinnedVal = pinned.has(idVal);
+
+    const nameVal = rowVal.player || rowVal.name || "(no name)";
+    const teamVal = rowVal.team || "-";
+
+    const abVal = toNum(rowVal.ab);
+    const paVal = toNum(rowVal.pa);
+    const opsVal = opsStr(rowVal.ops);
+
+    const paPctVal = rowVal.pa_pct != null ? rowVal.pa_pct : rowVal.paPercent;
+    const paPctStrVal = paPctVal != null ? toPctStr(paPctVal) + "%" : "-";
+
+    const pinClassVal = isPinnedVal ? "btn-pin pinned" : "btn-pin";
+    const pinTextVal = isPinnedVal ? "Unpin" : "Pin";
 
     return (
-      '<div class="card">' +
-        '<div style="font-weight:900;font-size:15px;">' + player + "</div>" +
-        '<div class="muted" style="margin-top:4px;">' + team + "</div>" +
-        '<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">' +
-          '<div><div class="muted">AB</div><div style="font-weight:800;">' + ab + "</div></div>" +
-          '<div><div class="muted">PA</div><div style="font-weight:800;">' + pa + "</div></div>" +
-          '<div><div class="muted">OPS</div><div style="font-weight:800;">' + ops + "</div></div>" +
+      '<article class="card" data-id="' + idVal + '">' +
+        '<div class="card-head">' +
+          '<div>' +
+            '<div class="card-name">' + String(nameVal) + "</div>" +
+            '<div class="card-sub">' + String(teamVal) + "</div>" +
+          "</div>" +
+          '<button class="' + pinClassVal + '" data-action="pin" data-id="' + idVal + '">' + pinTextVal + "</button>" +
         "</div>" +
-      "</div>"
+        '<div class="card-body">' +
+          '<div class="metric"><span class="label">AB</span><span class="value">' + String(abVal) + "</span></div>" +
+          '<div class="metric"><span class="label">PA</span><span class="value">' + String(paVal) + "</span></div>" +
+          '<div class="metric"><span class="label">PA %</span><span class="value">' + String(paPctStrVal) + "</span></div>" +
+          '<div class="metric"><span class="label">OPS</span><span class="value">' + String(opsVal) + "</span></div>" +
+        "</div>" +
+      "</article>"
     );
   }
 
   function applyFilters() {
-    const q = qEl ? qEl.value.trim().toLowerCase() : "";
-    const minAB = minABEl ? toNum(minABEl.value) : 0;
-    const minPaPct = minPaPctEl ? toNum(minPaPctEl.value) : 0;
+    const qVal = qEl ? qEl.value.trim().toLowerCase() : "";
+    const minABVal = minABEl ? toNum(minABEl.value) : 0;
+    const minPaPctVal = minPaPctEl ? toNum(minPaPctEl.value) : 0;
+    const sortByVal = sortByEl ? sortByEl.value : "ops";
 
-    if (paPctLabelEl) paPctLabelEl.textContent = String(minPaPct);
+    if (paPctLabelEl) paPctLabelEl.textContent = String(minPaPctVal) + "%";
 
-    viewRows = allRows.filter(function (row) {
-      const player = getText(row, "player").toLowerCase();
-      const team = getText(row, "team").toLowerCase();
+    viewRows = allRows.filter(function (rowVal) {
+      if (toNum(rowVal.ab) < minABVal) return false;
 
-      const ab = toNum(row.ab);
-      const pa = toNum(row.pa);
+      const paPctRawVal = rowVal.pa_pct != null ? rowVal.pa_pct : rowVal.paPercent;
+      const pctVal = paPctRawVal != null ? toNum(paPctRawVal) * 100 : 0;
+      if (pctVal < minPaPctVal) return false;
 
-      const matchesQ = !q || player.includes(q) || team.includes(q);
-      const matchesAB = ab >= minAB;
-
-      // If your dataset has no total PA reference, this still behaves nicely:
-      // minPaPct acts like a minimum PA threshold when interpreted as a percent of 100.
-      const matchesPA = pa >= (minPaPct / 100) * 0;
-
-      return matchesQ && matchesAB && matchesPA;
+      if (qVal) {
+        const hayVal = (
+          String(rowVal.player || rowVal.name || "") +
+          " " +
+          String(rowVal.team || "")
+        ).toLowerCase();
+        if (!hayVal.includes(qVal)) return false;
+      }
+      return true;
     });
 
-    const sortBy = sortByEl ? sortByEl.value : "ops";
-
-    viewRows.sort(function (a, b) {
-      if (sortBy === "player") return getText(a, "player").localeCompare(getText(b, "player"));
-      if (sortBy === "team") return getText(a, "team").localeCompare(getText(b, "team"));
-      if (sortBy === "ab") return toNum(b.ab) - toNum(a.ab);
-      if (sortBy === "pa") return toNum(b.pa) - toNum(a.pa);
-      return toNum(b.ops) - toNum(a.ops);
+    viewRows.sort(function (aVal, bVal) {
+      if (sortByVal === "name") return String(aVal.player || aVal.name || "").localeCompare(String(bVal.player || bVal.name || ""));
+      if (sortByVal === "team") return String(aVal.team || "").localeCompare(String(bVal.team || ""));
+      if (sortByVal === "ab") return toNum(bVal.ab) - toNum(aVal.ab);
+      if (sortByVal === "pa") return toNum(bVal.pa) - toNum(aVal.pa);
+      return toNum(bVal.ops) - toNum(aVal.ops);
     });
   }
 
   function renderGrid() {
     if (!playersGridEl) return;
     playersGridEl.innerHTML = viewRows.map(renderCard).join("");
-
     if (countPillEl) countPillEl.textContent = String(viewRows.length);
   }
 
@@ -121,15 +151,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (exportBtn) {
       exportBtn.addEventListener("click", function () {
-        const blob = new Blob([JSON.stringify(viewRows, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "players_filtered.json";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+        const blobVal = new Blob([JSON.stringify(viewRows, null, 2)], { type: "application/json" });
+        const urlVal = URL.createObjectURL(blobVal);
+        const aVal = document.createElement("a");
+        aVal.href = urlVal;
+        aVal.download = "players_filtered.json";
+        document.body.appendChild(aVal);
+        aVal.click();
+        aVal.remove();
+        URL.revokeObjectURL(urlVal);
+      });
+    }
+
+    if (clearPinsBtn) {
+      clearPinsBtn.addEventListener("click", function () {
+        pinned = new Set();
+        renderGrid();
       });
     }
 
@@ -144,6 +181,21 @@ document.addEventListener("DOMContentLoaded", function () {
         setState("Loaded player cards", false);
       });
     }
+
+    document.addEventListener("click", function (evtVal) {
+      const targetVal = evtVal.target;
+      if (!targetVal) return;
+      if (!targetVal.matches) return;
+      if (!targetVal.matches('button[data-action="pin"]')) return;
+
+      const idVal = targetVal.getAttribute("data-id");
+      if (!idVal) return;
+
+      if (pinned.has(idVal)) pinned.delete(idVal);
+      else pinned.add(idVal);
+
+      renderGrid();
+    });
   }
 
   (async function init() {
@@ -151,13 +203,17 @@ document.addEventListener("DOMContentLoaded", function () {
       setState("Loading", false);
 
       // IMPORTANT: absolute path so it works from /players/
-      const payload = await fetchJsonOrThrow("/players.json");
-      const rows = normalizePayloadToRows(payload);
+      const payloadVal = await fetchJsonOrThrow("/players.json");
+      const rowsVal = normalizePayloadToRows(payloadVal);
 
-      allRows = rows;
+      allRows = rowsVal.map(function (rowVal, idxVal) {
+        const mergedVal = Object.assign({}, rowVal);
+        mergedVal.id = getRowId(rowVal, idxVal);
+        return mergedVal;
+      });
 
-      if (payload && payload.meta && payload.meta.generated_at && lastGenEl) {
-        lastGenEl.textContent = String(payload.meta.generated_at);
+      if (payloadVal && payloadVal.meta && payloadVal.meta.generated_at && lastGenEl) {
+        lastGenEl.textContent = String(payloadVal.meta.generated_at);
       } else if (lastGenEl) {
         lastGenEl.textContent = "-";
       }
@@ -167,8 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
       renderGrid();
 
       setState("Loaded player cards", false);
-    } catch (err) {
-      if (playersGridEl) playersGridEl.innerHTML = renderErrorBox(String(err && err.message ? err.message : err));
+    } catch (errVal) {
+      if (playersGridEl) playersGridEl.innerHTML = renderErrorBox(String(errVal && errVal.message ? errVal.message : errVal));
       setState("Load failed", true);
     }
   })();
