@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     cardsWrapEl.innerHTML = "";
     const pre = document.createElement("pre");
     pre.style.whiteSpace = "pre-wrap";
-    pre.style.padding = "10px";
+    pre.style.padding = "12px";
     pre.style.border = "1px solid #ddd";
-    pre.style.borderRadius = "8px";
+    pre.style.borderRadius = "10px";
     pre.textContent = msg;
     cardsWrapEl.appendChild(pre);
   }
@@ -34,36 +34,42 @@ document.addEventListener("DOMContentLoaded", async function () {
     return await resp.json();
   }
 
+  function safeVal(v) {
+    if (v === null || v === undefined) return "";
+    return String(v);
+  }
+
   function renderCards(rows) {
-    if (!cardsWrapEl) return;
     cardsWrapEl.innerHTML = "";
 
     if (!rows || !rows.length) {
-      showMessage("No rows found in live_team_stats.json");
+      showMessage("No rows found in payload.rows");
       return;
     }
 
     rows.forEach((r) => {
-      // EXACT field names taken from your JSON
-      const teamName = r.team != null ? r.team : "Unknown";
-      const eraVal  = r.era  != null ? r.era  : "";
-      const wlVal   = r["w-l"] != null ? r["w-l"] : "";  // note: "w-l" with a dash
-      const gVal    = r.g    != null ? r.g    : "";
-      const ipVal   = r.ip   != null ? r.ip   : "";
-      const rVal    = r.r    != null ? r.r    : "";
-      const erVal   = r.er   != null ? r.er   : "";
+      const teamName = safeVal(r.team) || "Unknown";
+      const eraVal = safeVal(r.era);
+      const wlVal = safeVal(r["w-l"]);   // IMPORTANT: key has a dash
+      const gVal = safeVal(r.g);
+      const ipVal = safeVal(r.ip);
+      const rVal = safeVal(r.r);
+      const erVal = safeVal(r.er);
+      const soVal = safeVal(r.so);
+      const bbVal = safeVal(r.bb);
 
       const card = document.createElement("div");
       card.style.border = "1px solid #1b2640";
       card.style.borderRadius = "16px";
       card.style.padding = "16px 18px";
-      card.style.margin = "10px 0";
-      card.style.background = "#ffffff";
+      card.style.margin = "12px 0";
+      card.style.background = "#fff";
+      card.style.color = "#111";
 
       card.innerHTML =
-        "<div style='display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px;'>" +
+        "<div style='display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;'>" +
           "<h3 style='margin:0; font-size:18px;'>" + teamName + "</h3>" +
-          "<div style='font-size:12px; opacity:.7;'>Pitching summary</div>" +
+          "<div style='font-size:12px; opacity:.7;'>Team pitching</div>" +
         "</div>" +
         "<div style='display:flex; flex-wrap:wrap; gap:18px; margin-top:10px; font-size:14px;'>" +
           "<div><strong>ERA</strong> " + eraVal + "</div>" +
@@ -72,6 +78,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           "<div><strong>IP</strong> " + ipVal + "</div>" +
           "<div><strong>R</strong> " + rVal + "</div>" +
           "<div><strong>ER</strong> " + erVal + "</div>" +
+          "<div><strong>SO</strong> " + soVal + "</div>" +
+          "<div><strong>BB</strong> " + bbVal + "</div>" +
         "</div>";
 
       cardsWrapEl.appendChild(card);
@@ -83,7 +91,29 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (lastGenEl) lastGenEl.textContent = "";
 
     if (!cardsWrapEl) {
-      throw new Error('Missing <div id="cardsWrap"></div> in cards HTML.');
+      throw new Error('Missing element id="cardsWrap" in cards/index.html');
     }
 
-    const manifestUrl = "/data/manifest
+    const manifestUrl = "/data/manifest.json";
+    const statsUrl = "/data/live_team_stats.json";
+
+    // manifest optional
+    try {
+      const manifest = await fetchJsonOrThrow(manifestUrl);
+      if (lastGenEl) lastGenEl.textContent = manifest.generated_at ? manifest.generated_at : "";
+    } catch (e) {
+      if (lastGenEl) lastGenEl.textContent = "";
+    }
+
+    const payload = await fetchJsonOrThrow(statsUrl);
+    const rows = payload && Array.isArray(payload.rows) ? payload.rows : [];
+
+    setState("Loaded team cards", false);
+    renderCards(rows);
+  } catch (err) {
+    console.error(err);
+    setState("Failed", true);
+    if (lastGenEl) lastGenEl.textContent = "(error)";
+    showMessage(String(err));
+  }
+});
