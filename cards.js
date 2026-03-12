@@ -35,13 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   function renderCards(rows) {
-    if (!cardsWrapEl) return;
     cardsWrapEl.innerHTML = "";
-
-    if (!rows || !rows.length) {
-      showMessage("No rows found in live_team_stats.json");
-      return;
-    }
 
     rows.forEach((r) => {
       const teamName = r.team != null ? r.team : "Unknown";
@@ -53,20 +47,34 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const card = document.createElement("div");
       card.style.border = "1px solid #ddd";
-      card.style.borderRadius = "10px";
-      card.style.padding = "12px";
-      card.style.margin = "10px 0";
+      card.style.borderRadius = "12px";
+      card.style.padding = "14px";
+      card.style.margin = "12px 0";
+      card.style.background = "#fff";
 
       card.innerHTML =
-        "<h3 style='margin:0 0 6px 0;'>" +
+        "<div style='display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;'>" +
+        "<h3 style='margin:0;'>" +
         teamName +
         "</h3>" +
-        "<div style='display:flex; gap:16px; flex-wrap:wrap; font-size:14px;'>" +
-        "<div><strong>ERA</strong> " + eraVal + "</div>" +
-        "<div><strong>W-L</strong> " + wlVal + "</div>" +
-        "<div><strong>G</strong> " + gVal + "</div>" +
-        "<div><strong>IP</strong> " + ipVal + "</div>" +
-        "<div><strong>SV</strong> " + svVal + "</div>" +
+        "<div style='opacity:.7; font-size:13px;'>Pitching</div>" +
+        "</div>" +
+        "<div style='display:flex; gap:18px; flex-wrap:wrap; margin-top:8px; font-size:14px;'>" +
+        "<div><strong>ERA</strong> " +
+        eraVal +
+        "</div>" +
+        "<div><strong>W-L</strong> " +
+        wlVal +
+        "</div>" +
+        "<div><strong>G</strong> " +
+        gVal +
+        "</div>" +
+        "<div><strong>IP</strong> " +
+        ipVal +
+        "</div>" +
+        "<div><strong>SV</strong> " +
+        svVal +
+        "</div>" +
         "</div>";
 
       cardsWrapEl.appendChild(card);
@@ -78,25 +86,27 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (lastGenEl) lastGenEl.textContent = "";
 
     if (!cardsWrapEl) {
-      throw new Error('Missing <div id="cardsWrap"></div> in cards page HTML.');
+      throw new Error('Missing element id="cardsWrap" in cards HTML.');
     }
 
     const manifestUrl = "/data/manifest.json";
     const statsUrl = "/data/live_team_stats.json";
 
-    // Manifest is optional
     try {
       const manifest = await fetchJsonOrThrow(manifestUrl);
-      const generatedAt =
-        manifest && manifest.generated_at ? manifest.generated_at : "";
-      if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
+      if (lastGenEl) lastGenEl.textContent = manifest.generated_at || "";
     } catch (e) {
       if (lastGenEl) lastGenEl.textContent = "";
-      console.warn("Manifest not loaded:", e);
     }
 
     const payload = await fetchJsonOrThrow(statsUrl);
     const rows = payload && Array.isArray(payload.rows) ? payload.rows : [];
+
+    if (!rows.length) {
+      setState("Loaded (0 teams)", false);
+      showMessage("Fetched " + statsUrl + " but rows[] was empty.");
+      return;
+    }
 
     setState("Loaded team cards", false);
     renderCards(rows);
