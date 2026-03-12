@@ -1,45 +1,86 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Liberty League - Teams</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Liberty League – Players</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; }
+    header { padding: 16px 18px; border-bottom: 1px solid #e6e6e6; background: #fff; position: sticky; top: 0; }
+    h1 { margin: 0; font-size: 18px; font-weight: 700; }
+    .sub { margin-top: 6px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #444; }
+    .pill { padding: 4px 10px; border-radius: 999px; background: #f2f2f2; color: #333; font-weight: 600; }
+    main { padding: 16px 18px; }
+    .controls { display: grid; grid-template-columns: 1fr 160px 160px 220px; gap: 10px; align-items: end; }
+    label { display: block; font-size: 12px; color: #555; margin-bottom: 6px; }
+    input[type="text"], input[type="number"], select { width: 100%; padding: 8px 10px; border: 1px solid #d9d9d9; border-radius: 8px; font-size: 14px; }
+    input[type="range"] { width: 100%; }
+    .btnrow { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+    button { padding: 9px 12px; border-radius: 10px; border: 1px solid #d9d9d9; background: #fff; cursor: pointer; font-weight: 700; }
+    #playersGrid { margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ececec; border-radius: 14px; padding: 12px; background: #fff; }
+    .muted { color: #666; font-size: 12px; }
+    .error { border: 1px solid #ffcccc; background: #fff3f3; padding: 10px 12px; border-radius: 10px; }
+    #detail { margin-top: 12px; }
+    #pinnedRow { margin-top: 10px; }
+    @media (max-width: 880px) { .controls { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
 
-    <!-- Use ABSOLUTE path so it works regardless of route -->
-    <link rel="stylesheet" href="/index.css" />
-
-    <!-- IMPORTANT: load app.js (not index.js) -->
-    <script defer src="/app.js"></script>
-  </head>
-
-  <body>
-    <div class="top">
-      <div class="nav">
-        <strong>Teams table</strong>
-        <span class="sep">|</span>
-        <a href="/cards">Team cards</a>
-      </div>
-
-      <div class="meta">
-        <span id="state" class="pill">Loading...</span>
-        <span class="muted">
-          Last generated <span id="lastGenerated"></span>
-        </span>
-      </div>
+<body>
+  <header>
+    <h1>Liberty League – Players</h1>
+    <div class="sub">
+      <span id="state" class="pill">Loading</span>
+      <span class="muted">Last generated <span id="lastGenerated">-</span></span>
+      <span class="pill">Count <span id="countPill">0</span></span>
     </div>
+  </header>
 
-    <div class="hero">
-      <div class="heroTitle">Liberty League</div>
-      <div class="heroSub">
-        Search, sort, and click a team to jump to its card.
-      </div>
-    </div>
-
+  <main>
     <div class="controls">
-      <input id="search" placeholder="Search team" />
-      <select id="sort"></select>
-      <span id="count"></span>
+      <div>
+        <label for="q">Search</label>
+        <input id="q" type="text" placeholder="Search name, team, position" />
+      </div>
+
+      <div>
+        <label for="minAB">Min AB</label>
+        <input id="minAB" type="number" value="0" min="0" step="1" />
+      </div>
+
+      <div>
+        <label for="minPaPct">Min PA % <span id="paPctLabel" class="muted"></span></label>
+        <input id="minPaPct" type="range" value="0" min="0" max="100" step="1" />
+      </div>
+
+      <div>
+        <label for="sortBy">Sort</label>
+        <select id="sortBy">
+          <option value="ops">OPS</option>
+          <option value="avg">AVG</option>
+          <option value="obp">OBP</option>
+          <option value="slg">SLG</option>
+          <option value="hr">HR</option>
+          <option value="rbi">RBI</option>
+          <option value="ab">AB</option>
+          <option value="pa">PA</option>
+        </select>
+      </div>
     </div>
 
-    <div class="main">
-      <div class="panel" id="tableWrap">
+    <div class="btnrow">
+      <button id="exportBtn" type="button">Export</button>
+      <button id="clearPinsBtn" type="button">Clear pins</button>
+      <button id="clearAllBtn" type="button">Clear all</button>
+    </div>
+
+    <div id="pinnedRow"></div>
+    <div id="playersGrid"></div>
+    <div id="detail"></div>
+  </main>
+
+  <!-- IMPORTANT: absolute path so /players/ loads the root script -->
+  <script src="/players.js" defer></script>
+</body>
+</html>
