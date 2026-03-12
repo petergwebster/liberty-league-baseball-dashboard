@@ -1,1 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Liberty League - Team Cards</title>
 
+    <link rel="stylesheet" href="/index.css" />
+    <script defer src="/cards.js"></script>
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="nav">
+        <a href="/">Teams table</a>
+        <span class="sep">|</span>
+        <strong>Team cards</strong>
+      </div>
+
+      <div class="meta">
+        <span id="state" class="pill">Loading...</span>
+        <span class="muted">
+          Last generated <span id="lastGenerated"></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="heroTitle">Liberty League</div>
+      <div class="heroSub">Team cards</div>
+    </div>
+
+    <div class="main">
+      <div class="panel" id="cardsWrap"></div>
+    </div>
+  </body>
+</html>
