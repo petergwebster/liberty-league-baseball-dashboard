@@ -9,6 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     elVal.textContent = String(textVal);
   }
 
+  function safeHtml(idVal, htmlVal) {
+    const elVal = byId(idVal);
+    if (!elVal) return;
+    elVal.innerHTML = String(htmlVal);
+  }
+
   function esc(textVal) {
     return String(textVal)
       .replace(/&/g, "&amp;")
@@ -16,9 +22,22 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/>/g, "&gt;");
   }
 
+  function normalizeRows(payloadVal) {
+    if (!payloadVal) return [];
+    if (Array.isArray(payloadVal)) return payloadVal;
+    if (Array.isArray(payloadVal.rows)) return payloadVal.rows;
+    if (Array.isArray(payloadVal.players)) return payloadVal.players;
+    return [];
+  }
+
   function renderPlayers(rowsVal) {
     const gridEl = byId("playersGrid");
     if (!gridEl) return;
+
+    if (!rowsVal.length) {
+      gridEl.innerHTML = "<div class='errorBox'>No players found in players.json</div>";
+      return;
+    }
 
     gridEl.innerHTML = rowsVal.map(function (pVal) {
       const nameVal = pVal.player || pVal.name || "Unknown";
@@ -45,16 +64,26 @@ document.addEventListener("DOMContentLoaded", function () {
     safeText("statePill", "Loading...");
 
     const resVal = await fetch("/players.json", { cache: "no-store" });
-    if (!resVal.ok) throw new Error("players.json HTTP " + resVal.status);
-    const payloadVal = await resVal.json();
+    if (!resVal.ok) {
+      throw new Error("players.json HTTP " + resVal.status);
+    }
 
-    const rowsVal = Array.isArray(payloadVal) ? payloadVal : (payloadVal.rows || payloadVal.players || []);
-    safeText("statePill", "Loaded player cards");
+    const payloadVal = await resVal.json();
+    const rowsVal = normalizeRows(payloadVal);
+
     safeText("playersCount", rowsVal.length);
 
+    if (payloadVal && payloadVal.meta && payloadVal.meta.generated_at) {
+      safeText("lastGenerated", payloadVal.meta.generated_at);
+    } else {
+      safeText("lastGenerated", "-");
+    }
+
+    safeText("statePill", "Loaded player cards");
     renderPlayers(rowsVal);
   })().catch(function (eVal) {
     console.error(eVal);
     safeText("statePill", "Load failed");
+    safeHtml("playersGrid", "<div class='errorBox'>" + esc(eVal && eVal.message ? eVal.message : String(eVal)) + "</div>");
   });
 });
