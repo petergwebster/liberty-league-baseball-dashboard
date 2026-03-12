@@ -1,1 +1,16 @@
-
+[
+  {
+    "player": "Jane Doe",
+    "team": "RPI",
+    "ab": 120,
+    "pa": 140,
+    "ops": 0.812
+  },
+  {
+    "player": "John Smith",
+    "team": "RIT",
+    "ab": 98,
+    "pa": 110,
+    "ops": 0.755
+  }
+]
