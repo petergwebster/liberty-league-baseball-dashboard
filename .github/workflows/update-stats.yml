@@ -41,12 +41,6 @@ jobs:
         run: |
           python build_live_stats.py
 
-      - name: Normalize hitting filename (if patched exists)
-        run: |
-          if [ -f data/individual_hitting_patched.json ]; then
-            cp -f data/individual_hitting_patched.json data/individual_hitting.json
-          fi
-
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
