@@ -1,305 +1,147 @@
-{
-  "generated_at": "2026-03-11T23:52:49.099950+00:00",
-  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
-  "mode": "requests",
-  "rows": [
-    {
-      "team": "Hobart",
-      "index": "",
-      "era": "4.07",
-      "w-l": "6-5",
-      "g": "11",
-      "sho": "1",
-      "sv": "2",
-      "ip": "79.2",
-      "h": "81",
-      "r": "44",
-      "er": "36",
-      "bb": "38",
-      "so": "57-24",
-      "2b": "14",
-      "3b": "4",
-      "hr": "2",
-      "ab": "301",
-      "b/avg": ".269",
-      "wp": "4",
-      "hbp": "20",
-      "bk": "1",
-      "sfa": "4",
-      "sha": "2",
-      "wins": 6,
-      "losses": 5
-    },
-    {
-      "team": "Skidmore",
-      "index": "",
-      "era": "5.00",
-      "w-l": "5-1",
-      "g": "6",
-      "sho": "0",
-      "sv": "3",
-      "ip": "45.0",
-      "h": "38",
-      "r": "31",
-      "er": "25",
-      "bb": "29",
-      "so": "50-18",
-      "2b": "6",
-      "3b": "0",
-      "hr": "4",
-      "ab": "168",
-      "b/avg": ".226",
-      "wp": "7",
-      "hbp": "6",
-      "bk": "1",
-      "sfa": "2",
-      "sha": "3",
-      "wins": 5,
-      "losses": 1
-    },
-    {
-      "team": "RPI",
-      "index": "",
-      "era": "5.82",
-      "w-l": "3-5",
-      "g": "8",
-      "sho": "0",
-      "sv": "1",
-      "ip": "68.0",
-      "h": "84",
-      "r": "55",
-      "er": "44",
-      "bb": "32",
-      "so": "59-13",
-      "2b": "21",
-      "3b": "4",
-      "hr": "2",
-      "ab": "283",
-      "b/avg": ".297",
-      "wp": "7",
-      "hbp": "13",
-      "bk": "0",
-      "sfa": "4",
-      "sha": "5",
-      "wins": 3,
-      "losses": 5
-    },
-    {
-      "team": "Clarkson",
-      "index": "",
-      "era": "5.85",
-      "w-l": "3-2",
-      "g": "5",
-      "sho": "1",
-      "sv": "1",
-      "ip": "40.0",
-      "h": "41",
-      "r": "29",
-      "er": "26",
-      "bb": "22",
-      "so": "30-5",
-      "2b": "6",
-      "3b": "3",
-      "hr": "1",
-      "ab": "157",
-      "b/avg": ".261",
-      "wp": "8",
-      "hbp": "6",
-      "bk": "0",
-      "sfa": "1",
-      "sha": "2",
-      "wins": 3,
-      "losses": 2
-    },
-    {
-      "team": "RIT",
-      "index": "",
-      "era": "6.09",
-      "w-l": "5-7",
-      "g": "12",
-      "sho": "0",
-      "sv": "0",
-      "ip": "106.1",
-      "h": "93",
-      "r": "86",
-      "er": "72",
-      "bb": "77",
-      "so": "119-43",
-      "2b": "17",
-      "3b": "3",
-      "hr": "5",
-      "ab": "397",
-      "b/avg": ".234",
-      "wp": "12",
-      "hbp": "36",
-      "bk": "0",
-      "sfa": "4",
-      "sha": "6",
-      "wins": 5,
-      "losses": 7
-    },
-    {
-      "team": "Rochester",
-      "index": "",
-      "era": "6.33",
-      "w-l": "6-1",
-      "g": "7",
-      "sho": "1",
-      "sv": "4",
-      "ip": "54.0",
-      "h": "64",
-      "r": "42",
-      "er": "38",
-      "bb": "23",
-      "so": "43-14",
-      "2b": "7",
-      "3b": "2",
-      "hr": "4",
-      "ab": "214",
-      "b/avg": ".299",
-      "wp": "8",
-      "hbp": "15",
-      "bk": "3",
-      "sfa": "3",
-      "sha": "4",
-      "wins": 6,
-      "losses": 1
-    },
-    {
-      "team": "St. Lawrence",
-      "index": "",
-      "era": "6.48",
-      "w-l": "4-3",
-      "g": "7",
-      "sho": "1",
-      "sv": "2",
-      "ip": "50.0",
-      "h": "59",
-      "r": "41",
-      "er": "36",
-      "bb": "31",
-      "so": "41-8",
-      "2b": "13",
-      "3b": "1",
-      "hr": "1",
-      "ab": "196",
-      "b/avg": ".301",
-      "wp": "6",
-      "hbp": "10",
-      "bk": "2",
-      "sfa": "2",
-      "sha": "4",
-      "wins": 4,
-      "losses": 3
-    },
-    {
-      "team": "Vassar",
-      "index": "",
-      "era": "6.95",
-      "w-l": "1-5",
-      "g": "6",
-      "sho": "0",
-      "sv": "0",
-      "ip": "44.0",
-      "h": "45",
-      "r": "56",
-      "er": "34",
-      "bb": "42",
-      "so": "45-15",
-      "2b": "10",
-      "3b": "5",
-      "hr": "0",
-      "ab": "177",
-      "b/avg": ".254",
-      "wp": "6",
-      "hbp": "10",
-      "bk": "0",
-      "sfa": "2",
-      "sha": "6",
-      "wins": 1,
-      "losses": 5
-    },
-    {
-      "team": "Union",
-      "index": "",
-      "era": "7.02",
-      "w-l": "2-4",
-      "g": "6",
-      "sho": "0",
-      "sv": "0",
-      "ip": "50.0",
-      "h": "48",
-      "r": "46",
-      "er": "39",
-      "bb": "39",
-      "so": "27-13",
-      "2b": "12",
-      "3b": "1",
-      "hr": "5",
-      "ab": "182",
-      "b/avg": ".264",
-      "wp": "8",
-      "hbp": "18",
-      "bk": "1",
-      "sfa": "5",
-      "sha": "3",
-      "wins": 2,
-      "losses": 4
-    },
-    {
-      "team": "Ithaca",
-      "index": "",
-      "era": "7.26",
-      "w-l": "4-2",
-      "g": "6",
-      "sho": "0",
-      "sv": "1",
-      "ip": "48.1",
-      "h": "53",
-      "r": "59",
-      "er": "39",
-      "bb": "48",
-      "so": "48-17",
-      "2b": "12",
-      "3b": "2",
-      "hr": "1",
-      "ab": "196",
-      "b/avg": ".270",
-      "wp": "8",
-      "hbp": "19",
-      "bk": "3",
-      "sfa": "0",
-      "sha": "1",
-      "wins": 4,
-      "losses": 2
-    },
-    {
-      "team": "Bard",
-      "index": "",
-      "era": "12.32",
-      "w-l": "2-3",
-      "g": "5",
-      "sho": "1",
-      "sv": "1",
-      "ip": "38.0",
-      "h": "51",
-      "r": "56",
-      "er": "52",
-      "bb": "35",
-      "so": "45-13",
-      "2b": "13",
-      "3b": "2",
-      "hr": "7",
-      "ab": "167",
-      "b/avg": ".305",
-      "wp": "18",
-      "hbp": "16",
-      "bk": "0",
-      "sfa": "2",
-      "sha": "1",
-      "wins": 2,
-      "losses": 3
+import json
+import re
+from datetime import datetime, timezone
+
+import requests
+from bs4 import BeautifulSoup
+
+SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
+OUTFILE = "live_team_stats.json"
+
+def norm_header(txt_val):
+  return re.sub(r"\s+", " ", (txt_val or "").strip()).lower()
+
+def extract_table_rows(table_el):
+  header_cells = table_el.select("thead th")
+  if not header_cells:
+    header_cells = table_el.select("tr th")
+
+  headers = [norm_header(th.get_text(" ", strip=True)) for th in header_cells]
+  headers = [h for h in headers if h]
+
+  body_rows = table_el.select("tbody tr")
+  if not body_rows:
+    all_rows = table_el.select("tr")
+    body_rows = all_rows[1:] if len(all_rows) > 1 else []
+
+  parsed_rows = []
+  for tr in body_rows:
+    tds = tr.find_all(["td", "th"])
+    if not tds:
+      continue
+
+    row_obj = {}
+    for i in range(min(len(headers), len(tds))):
+      key = headers[i]
+      val = tds[i].get_text(" ", strip=True)
+      row_obj[key] = val
+
+    if len(row_obj) > 0:
+      parsed_rows.append(row_obj)
+
+  return headers, parsed_rows
+
+def is_team_batting_table(headers):
+  header_set = set(headers)
+
+  if "team" not in header_set:
+    return False
+
+  # Must-have batting columns
+  required = ["avg", "ab", "r", "h"]
+  for req in required:
+    if req not in header_set:
+      return False
+
+  # Strong indicators this is the OVERALL batting team totals table
+  batting_plus = ["rbi", "ob%", "slg%"]
+  plus_hits = 0
+  for m in batting_plus:
+    if m in header_set:
+      plus_hits += 1
+  if plus_hits < 2:
+    return False
+
+  # Reject pitching tables
+  pitching_markers = ["era", "ip", "sho", "sv", "wp", "bk", "b/avg", "w-l"]
+  for m in pitching_markers:
+    if m in header_set:
+      return False
+
+  # Reject fielding tables
+  fielding_markers = ["fld%", "po", "a", "e", "dp", "pb", "ci"]
+  fielding_hits = 0
+  for m in fielding_markers:
+    if m in header_set:
+      fielding_hits += 1
+  if fielding_hits >= 4:
+    return False
+
+  return True
+
+def pick_team_batting_table(soup):
+  for t in soup.find_all("table"):
+    headers, rows = extract_table_rows(t)
+    if not headers or not rows:
+      continue
+    if is_team_batting_table(headers):
+      return headers, rows
+  return None
+
+def main():
+  generated_at = datetime.now(timezone.utc).isoformat()
+  mode_used = "requests"
+
+  try:
+    resp = requests.get(
+      SOURCE_URL,
+      timeout=30,
+      headers={"User-Agent": "Mozilla/5.0 (compatible; liberty-league-stats-bot/1.0)"},
+    )
+    resp.raise_for_status()
+
+    soup = BeautifulSoup(resp.text, "lxml")
+    picked = pick_team_batting_table(soup)
+
+    if picked is None:
+      payload = {
+        "generated_at": generated_at,
+        "source_url": SOURCE_URL,
+        "mode": mode_used,
+        "rows": [],
+        "error": "Could not locate OVERALL team batting table (signature match failed)"
+      }
+    else:
+      headers, rows = picked
+
+      cleaned_rows = []
+      for r in rows:
+        r2 = dict(r)
+
+        if "index" in r2 and (r2["index"] == "" or r2["index"] is None):
+          del r2["index"]
+
+        cleaned_rows.append(r2)
+
+      payload = {
+        "generated_at": generated_at,
+        "source_url": SOURCE_URL,
+        "mode": mode_used,
+        "rows": cleaned_rows,
+        "error": None
+      }
+
+  except Exception as exc:
+    payload = {
+      "generated_at": generated_at,
+      "source_url": SOURCE_URL,
+      "mode": mode_used,
+      "rows": [],
+      "error": str(exc)
     }
-  ],
-  "error": null
-}
+
+  with open(OUTFILE, "w", encoding="utf-8") as f:
+    json.dump(payload, f, ensure_ascii=False, indent=2)
+
+if __name__ == "__main__":
+  main()
