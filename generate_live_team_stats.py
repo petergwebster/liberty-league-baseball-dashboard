@@ -8,12 +8,8 @@ from bs4 import BeautifulSoup
 SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 OUTFILE = "live_team_stats.json"
 
-print("SOURCE_URL=" + SOURCE_URL)
-
-
 def norm_header(txt_val):
   return re.sub(r"\s+", " ", (txt_val or "").strip()).lower()
-
 
 def extract_table_rows(table_el):
   header_cells = table_el.select("thead th")
@@ -45,8 +41,7 @@ def extract_table_rows(table_el):
 
   return headers, parsed_rows
 
-
-def pick_team_batting_table_from_soup(soup):
+def pick_overall_team_batting_table(soup):
   tables = soup.find_all("table")
   best = None
   best_score = -10**9
@@ -59,80 +54,55 @@ def pick_team_batting_table_from_soup(soup):
     header_set = set(headers)
     score = 0
 
-    if any(h == "team" or h.startswith("team") for h in header_set):
-      score += 10
+    # must be a team table
+    if "team" in header_set:
+      score += 20
     else:
-      score -= 50
+      continue
 
+    # markers that match OVERALL -> Batting (from your screenshot)
     batting_markers = [
-      "avg", "g", "ab", "r", "h", "2b", "3b", "hr", "rbi",
-      "tb", "slg%", "bb", "hbp", "so", "gdp", "ob%", "sf", "sh", "sb-att"
+      "avg","g","ab","r","h","2b","3b","hr","rbi","tb","slg%","bb","hbp","so",
+      "gdp","ob%","sf","sh","sb-att"
     ]
     for m in batting_markers:
       if m in header_set:
-        score += 4
+        score += 5
 
-    pitching_markers = ["era", "ip", "sho", "sv", "wp", "bk", "b/avg", "w-l"]
+    # penalize pitching-only tables so we don't accidentally pick them
+    pitching_markers = ["era","ip","sho","sv","wp","bk","b/avg","w-l"]
     for m in pitching_markers:
+      if m in header_set:
+        score -= 10
+
+    # penalize fielding-only tables
+    fielding_markers = ["fld%","po","a","e","dp","pb","ci"]
+    for m in fielding_markers:
       if m in header_set:
         score -= 6
 
-    fielding_markers = ["fld%", "po", "a", "e", "dp", "pb", "ci"]
-    for m in fielding_markers:
-      if m in header_set:
-        score -= 3
-
     if score > best_score:
       best_score = score
-      best = (headers, rows)
+      best = (headers, rows, score)
 
   return best
-
-
-def get_html_via_requests():
-  resp = requests.get(
-    SOURCE_URL,
-    timeout=30,
-    headers={
-      "User-Agent": "Mozilla/5.0 (compatible; liberty-league-stats-bot/1.0)"
-    },
-  )
-  resp.raise_for_status()
-  return resp.text
-
-
-def get_html_via_playwright():
-  from playwright.sync_api import sync_playwright
-
-  with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)
-    page = browser.new_page()
-    page.goto(SOURCE_URL, wait_until="networkidle", timeout=60000)
-    page.wait_for_timeout(2000)
-    html = page.content()
-    browser.close()
-
-  return html
-
 
 def main():
   generated_at = datetime.now(timezone.utc).isoformat()
   mode_used = "requests"
-  html = ""
-  soup = None
 
   try:
-    html = get_html_via_requests()
-    soup = BeautifulSoup(html, "lxml")
-    picked = pick_team_batting_table_from_soup(soup)
+    resp = requests.get(
+      SOURCE_URL,
+      timeout=30,
+      headers={"User-Agent": "Mozilla/5.0 (compatible; liberty-league-stats-bot/1.0)"},
+    )
+    resp.raise_for_status()
 
-    if not picked:
-      mode_used = "playwright"
-      html = get_html_via_playwright()
-      soup = BeautifulSoup(html, "lxml")
-      picked = pick_team_batting_table_from_soup(soup)
+    soup = BeautifulSoup(resp.text, "lxml")
+    picked = pick_overall_team_batting_table(soup)
 
-    if not picked:
+    if picked is None:
       payload = {
         "generated_at": generated_at,
         "source_url": SOURCE_URL,
@@ -141,12 +111,21 @@ def main():
         "error": "Could not locate OVERALL team batting table on page"
       }
     else:
-      headers, rows = picked
+      headers, rows, score_val = picked
+
+      # clean: remove empty index column if present
+      cleaned_rows = []
+      for r in rows:
+        r2 = dict(r)
+        if "index" in r2 and (r2["index"] == "" or r2["index"] is None):
+          del r2["index"]
+        cleaned_rows.append(r2)
+
       payload = {
         "generated_at": generated_at,
         "source_url": SOURCE_URL,
         "mode": mode_used,
-        "rows": rows,
+        "rows": cleaned_rows,
         "error": None
       }
 
@@ -161,7 +140,6 @@ def main():
 
   with open(OUTFILE, "w", encoding="utf-8") as f:
     json.dump(payload, f, ensure_ascii=False, indent=2)
-
 
 if __name__ == "__main__":
   main()
