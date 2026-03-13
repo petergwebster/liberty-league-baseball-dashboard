@@ -44,4 +44,3 @@ jobs:
           git status --porcelain
           git commit -m "Update stats JSON" || echo "No changes to commit"
           git push
-          
