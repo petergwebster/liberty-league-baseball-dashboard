@@ -1,17 +1,14 @@
 name: Update stats
-
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 * * * *"
-
 permissions:
   contents: write
 
 jobs:
   update-stats:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,14 +31,26 @@ jobs:
         run: |
           python -m playwright install --with-deps chromium
 
-      - name: Generate live_team_stats.json
+      - name: Generate team stats into /data
         run: |
           python generate_live_team_stats.py
+          mkdir -p data
+          mv -f live_team_stats.json data/live_team_stats.json
+
+      - name: Generate individual stats into /data
+        run: |
+          python build_live_stats.py
+
+      - name: Normalize hitting filename (if patched exists)
+        run: |
+          if [ -f data/individual_hitting_patched.json ]; then
+            cp -f data/individual_hitting_patched.json data/individual_hitting.json
+          fi
 
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add live_team_stats.json
-          git commit -m "Update live_team_stats.json" || echo "No changes to commit"
+          git add data/live_team_stats.json data/individual_hitting.json
+          git commit -m "Update stats JSON" || echo "No changes to commit"
           git push
