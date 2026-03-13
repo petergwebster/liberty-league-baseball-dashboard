@@ -1,243 +1,129 @@
-console.log("index.js DEPLOY CHECK v6");
-
 document.addEventListener("DOMContentLoaded", async function () {
   const stateEl = document.getElementById("state");
   const lastGenEl = document.getElementById("lastGenerated");
-  const searchEl = document.getElementById("search");
-  const sortEl = document.getElementById("sort");
-  const countEl = document.getElementById("count");
-  const theadEl = document.getElementById("thead");
-  const tbodyEl = document.getElementById("tbody");
+  const tableWrapEl = document.getElementById("tableWrap");
 
-  function setState(txt) {
-    if (stateEl) stateEl.textContent = txt;
+  function setState(msg, isError) {
+    if (!stateEl) return;
+    stateEl.textContent = msg;
+    stateEl.style.background = isError ? "#ffe5e5" : "#e8f5e9";
+    stateEl.style.border = "1px solid " + (isError ? "#ffb3b3" : "#b7e1bc");
+    stateEl.style.padding = "2px 8px";
+    stateEl.style.borderRadius = "999px";
+    stateEl.style.display = "inline-block";
+    stateEl.style.fontSize = "12px";
   }
 
-  function normalize(s) {
-    return String(s || "").toLowerCase().trim().replace(/\s+/g, " ");
+  function showMessage(msg) {
+    if (!tableWrapEl) return;
+    tableWrapEl.innerHTML = "";
+    const pre = document.createElement("pre");
+    pre.style.whiteSpace = "pre-wrap";
+    pre.style.padding = "10px";
+    pre.style.border = "1px solid #ddd";
+    pre.style.borderRadius = "8px";
+    pre.textContent = msg;
+    tableWrapEl.appendChild(pre);
   }
 
-  function pickFirst(obj, keys) {
-    for (let idx = 0; idx < keys.length; idx++) {
-      const k = keys[idx];
-      if (
-        obj &&
-        Object.prototype.hasOwnProperty.call(obj, k) &&
-        obj[k] !== null &&
-        obj[k] !== undefined
-      ) return obj[k];
+  function inferRows(payload) {
+    if (!payload) return [];
+    if (Array.isArray(payload.data)) return payload.data;
+    if (Array.isArray(payload.rows)) return payload.rows;
+    if (Array.isArray(payload.tables) && payload.tables.length) {
+      const t0 = payload.tables[0];
+      if (t0 && Array.isArray(t0.rows)) return t0.rows;
+      if (t0 && Array.isArray(t0.data)) return t0.data;
     }
-    return null;
+    return [];
   }
 
-  function asNum(v) {
-    const n = Number(v);
-    return Number.isFinite(n) ? n : null;
-  }
-
-  function getTeamName(r) {
-    return r.team || r.Team || r.school || r.School || r.name || r.Name || "Unknown";
-  }
-
-  function inferLastGenerated(payload, rows) {
-    const top = pickFirst(payload, ["lastGenerated", "last_generated", "generatedAt", "generated_at"]);
-    if (top) return top;
-    if (rows && rows.length > 0) {
-      const v = pickFirst(rows[0], ["lastGenerated", "last_generated", "generatedAt", "generated_at"]);
-      if (v) return v;
+  function buildTable(rows) {
+    if (!tableWrapEl) return;
+    tableWrapEl.innerHTML = "";
+    if (!rows.length) {
+      showMessage("No rows returned from dataset.");
+      return;
     }
-    return "";
-  }
 
-  function buildCols(rows) {
-    const seen = {};
-    const cols = [];
+    const cols = Array.from(
+      rows.reduce((set, r) => {
+        Object.keys(r || {}).forEach((k) => set.add(k));
+        return set;
+      }, new Set())
+    );
 
-    cols.push({ key: "team", label: "Team", numeric: false });
+    const table = document.createElement("table");
+    table.border = "1";
 
-    const sample = rows && rows.length ? rows[0] : null;
-    if (!sample) return cols;
-
-    Object.keys(sample).forEach(function (k) {
-      const lk = String(k || "").toLowerCase();
-      if (lk === "team" || lk === "name" || lk === "school") return;
-      if (lk.indexOf("lastgenerated") !== -1) return;
-
-      if (!seen[k]) {
-        seen[k] = true;
-        cols.push({ key: k, label: k, numeric: true });
-      }
-    });
-
-    return cols;
-  }
-
-  function renderHeader(cols) {
-    if (!theadEl) return;
-    const tr = document.createElement("tr");
-
-    cols.forEach(function (c) {
+    const thead = document.createElement("thead");
+    const trHead = document.createElement("tr");
+    cols.forEach((c) => {
       const th = document.createElement("th");
-      th.textContent = c.label;
-      if (c.numeric) th.className = "num";
-      tr.appendChild(th);
+      th.textContent = c;
+      trHead.appendChild(th);
     });
+    thead.appendChild(trHead);
+    table.appendChild(thead);
 
-    theadEl.innerHTML = "";
-    theadEl.appendChild(tr);
-  }
-
-  function renderBody(rows, cols) {
-    if (!tbodyEl) return;
-
-    tbodyEl.innerHTML = "";
-
-    rows.forEach(function (r) {
+    const tbody = document.createElement("tbody");
+    rows.forEach((r) => {
       const tr = document.createElement("tr");
-
-      cols.forEach(function (c) {
+      cols.forEach((c) => {
         const td = document.createElement("td");
-
-        if (c.key === "team") {
-          td.textContent = getTeamName(r);
-        } else {
-          const v = pickFirst(r, [c.key, c.key.toUpperCase()]);
-          td.textContent = (v === null || v === undefined) ? "" : String(v);
-
-          const n = asNum(v);
-          if (n !== null) td.className = "num";
-        }
-
+        td.textContent = r[c] != null ? r[c] : "";
         tr.appendChild(td);
       });
-
-      tr.addEventListener("click", function () {
-        const teamName = getTeamName(r);
-        window.location.href = "/cards#" + encodeURIComponent(teamName);
-      });
-
-      tbodyEl.appendChild(tr);
+      tbody.appendChild(tr);
     });
+    table.appendChild(tbody);
 
-    if (countEl) countEl.textContent = String(rows.length);
+    tableWrapEl.appendChild(table);
   }
 
-  function populateSortOptions(cols) {
-    if (!sortEl) return;
-
-    sortEl.innerHTML = "";
-
-    const opts = [];
-    opts.push({ value: "team_asc", label: "Team (A-Z)" });
-
-    cols.forEach(function (c) {
-      if (c.key === "team") return;
-      opts.push({ value: c.key + "_desc", label: c.label + " (high-low)" });
-    });
-
-    opts.forEach(function (o) {
-      const opt = document.createElement("option");
-      opt.value = o.value;
-      opt.textContent = o.label;
-      sortEl.appendChild(opt);
-    });
+  async function fetchJsonOrThrow(urlPath) {
+    const resp = await fetch(urlPath, { cache: "no-store" });
+    if (!resp.ok) {
+      throw new Error("Failed to fetch " + urlPath + " (HTTP " + resp.status + ")");
+    }
+    return await resp.json();
   }
 
-  function sortRows(rows, sortKey) {
-    const tmp = rows.slice(0);
+  try {
+    setState("Loading...", false);
+    if (lastGenEl) lastGenEl.textContent = "";
 
-    if (sortKey === "team_asc") {
-      tmp.sort(function (a, b) {
-        const an = normalize(getTeamName(a));
-        const bn = normalize(getTeamName(b));
-        if (an < bn) return -1;
-        if (an > bn) return 1;
-        return 0;
-      });
-      return tmp;
+    // Use ABSOLUTE paths so this works from / and from /cards etc.
+    const manifestUrl = "/data/manifest.json";
+
+    // Updated: use live_team_stats as primary (this is what the workflow updates)
+    const primaryDatasetUrl = "/data/live_team_stats.json";
+    const fallbackDatasetUrl = "/data/overall_batting.json";
+
+    // 1) Manifest drives "last generated"
+    const manifest = await fetchJsonOrThrow(manifestUrl);
+    const generatedAt = manifest && manifest.generated_at ? manifest.generated_at : "";
+    if (lastGenEl) lastGenEl.textContent = generatedAt || "(unknown)";
+
+    // 2) Data: try live_team_stats first, then fall back to overall_batting
+    let payload = null;
+    let datasetLabel = "live team stats";
+    try {
+      payload = await fetchJsonOrThrow(primaryDatasetUrl);
+      datasetLabel = "live team stats";
+    } catch (e) {
+      console.warn("Primary dataset failed, trying fallback:", e);
+      payload = await fetchJsonOrThrow(fallbackDatasetUrl);
+      datasetLabel = "overall batting";
     }
 
-    const parts = String(sortKey || "").split("_");
-    const key = parts[0];
-    const dir = parts.length > 1 ? parts[1] : "desc";
-
-    tmp.sort(function (a, b) {
-      const av = asNum(pickFirst(a, [key, key.toUpperCase()]));
-      const bv = asNum(pickFirst(b, [key, key.toUpperCase()]));
-
-      if (av === null && bv === null) return 0;
-      if (av === null) return 1;
-      if (bv === null) return -1;
-
-      return dir === "asc" ? (av - bv) : (bv - av);
-    });
-
-    return tmp;
-  }
-
-  function apply(rows, cols) {
-    const q = searchEl ? normalize(searchEl.value) : "";
-    const sortKey = sortEl ? String(sortEl.value || "team_asc") : "team_asc";
-
-    const filtered = rows.filter(function (r) {
-      return normalize(getTeamName(r)).indexOf(q) !== -1;
-    });
-
-    const sorted = sortRows(filtered, sortKey);
-    renderBody(sorted, cols);
-  }
-
-  if (!theadEl || !tbodyEl) {
-    setState("Missing table IDs");
-    console.log("theadEl", theadEl);
-    console.log("tbodyEl", tbodyEl);
-    return;
-  }
-
-  setState("Fetching…");
-
-  const jsonUrl = "./live_team_stats.json";
-  let resp;
-
-  try {
-    resp = await fetch(jsonUrl, { cache: "no-store" });
+    const rows = inferRows(payload);
+    setState("Loaded " + datasetLabel, false);
+    buildTable(rows);
   } catch (err) {
-    setState("Fetch failed");
-    return;
-  }
-
-  if (!resp.ok) {
-    setState("HTTP " + String(resp.status));
-    return;
-  }
-
-  let payload;
-  try {
-    payload = await resp.json();
-  } catch (err) {
-    setState("Bad JSON");
-    return;
-  }
-
-  const rows = Array.isArray(payload) ? payload : (payload.rows || payload.data || []);
-  const allRows = rows.slice(0);
-
-  setState("Loaded " + String(allRows.length));
-
-  if (lastGenEl) {
-    lastGenEl.textContent = String(inferLastGenerated(payload, allRows) || "");
-  }
-
-  const cols = buildCols(allRows);
-  renderHeader(cols);
-  populateSortOptions(cols);
-  apply(allRows, cols);
-
-  if (searchEl) {
-    searchEl.addEventListener("input", function () { apply(allRows, cols); });
-  }
-
-  if (sortEl) {
-    sortEl.addEventListener("change", function () { apply(allRows, cols); });
+    console.error(err);
+    setState("Failed", true);
+    if (lastGenEl) lastGenEl.textContent = "(error)";
+    showMessage(String(err));
   }
 });
