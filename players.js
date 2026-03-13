@@ -1,25 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
-  function byId(idVal) {
-    return document.getElementById(idVal);
-  }
-
-  function setText(idVal, textVal) {
-    const elVal = byId(idVal);
-    if (!elVal) return;
-    elVal.textContent = String(textVal);
-  }
-
-  function setHtml(idVal, htmlVal) {
-    const elVal = byId(idVal);
-    if (!elVal) return;
-    elVal.innerHTML = String(htmlVal);
-  }
-
   function esc(textVal) {
     return String(textVal)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
+  }
+
+  function byId(idVal) {
+    return document.getElementById(idVal);
+  }
+
+  function setTextById(idVal, textVal) {
+    const elVal = byId(idVal);
+    if (!elVal) return false;
+    elVal.textContent = String(textVal);
+    return true;
+  }
+
+  function setVisibleLoadingText(textVal) {
+    const allEls = Array.from(document.querySelectorAll("body *"));
+    allEls.forEach(function (elVal) {
+      if (!elVal || !elVal.childNodes || elVal.childNodes.length !== 1) return;
+      if (elVal.childNodes[0].nodeType !== Node.TEXT_NODE) return;
+
+      const tVal = (elVal.textContent || "").trim();
+      if (tVal === "Loading..." || tVal === "Loading…") {
+        elVal.textContent = String(textVal);
+      }
+    });
+  }
+
+  function setVisiblePlayersCount(countVal) {
+    const allEls = Array.from(document.querySelectorAll("body *"));
+    allEls.forEach(function (elVal) {
+      const tVal = (elVal.textContent || "").trim();
+      if (tVal === "Players 0") {
+        elVal.textContent = "Players " + String(countVal);
+      }
+    });
   }
 
   function normalizeRows(payloadVal) {
@@ -35,14 +53,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!gridEl) return;
 
     if (!rowsVal.length) {
-      gridEl.innerHTML = "<div class='errorBox'>No players found in players.json</div>";
+      gridEl.innerHTML = "<div style='padding:12px; border:1px solid #b91c1c; border-radius:12px; color:#b91c1c; font-weight:800;'>No players found</div>";
       return;
     }
 
     gridEl.innerHTML = rowsVal.map(function (pVal) {
       const nameVal = pVal.player || pVal.name || "Unknown";
       const teamVal = pVal.team || "";
-
       const abVal = pVal.ab != null ? String(pVal.ab) : "";
       const paVal = pVal.pa != null ? String(pVal.pa) : "";
       const opsVal = pVal.ops != null ? String(pVal.ops) : "";
@@ -62,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   (async function init() {
-    setText("statePill", "Loading...");
+    setTextById("statePill", "Loading...");
+    setVisibleLoadingText("Loading...");
 
     try {
       const resVal = await fetch("/players.json", { cache: "no-store" });
@@ -71,20 +89,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const payloadVal = await resVal.json();
       const rowsVal = normalizeRows(payloadVal);
 
-      setText("playersCount", rowsVal.length);
+      setTextById("playersCount", rowsVal.length);
+      setVisiblePlayersCount(rowsVal.length);
 
-      if (payloadVal && payloadVal.meta && payloadVal.meta.generated_at) {
-        setText("lastGenerated", payloadVal.meta.generated_at);
-      } else {
-        setText("lastGenerated", "-");
-      }
+      setTextById("statePill", "Loaded");
+      setVisibleLoadingText("Loaded");
 
-      setText("statePill", "Loaded");
       renderPlayers(rowsVal);
     } catch (eVal) {
       console.error(eVal);
-      setText("statePill", "Load failed");
-      setHtml("playersGrid", "<div class='errorBox'>" + esc(eVal && eVal.message ? eVal.message : String(eVal)) + "</div>");
+      setTextById("statePill", "Load failed");
+      setVisibleLoadingText("Load failed");
+
+      const gridEl = byId("playersGrid");
+      if (gridEl) {
+        gridEl.innerHTML = "<div style='padding:12px; border:1px solid #b91c1c; border-radius:12px; color:#fecaca; background: rgba(185, 28, 28, 0.12); white-space:pre-wrap;'>" +
+          esc(eVal && eVal.message ? eVal.message : String(eVal)) +
+        "</div>";
+      }
     }
   })();
 });
