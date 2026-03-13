@@ -41,51 +41,43 @@ def extract_table_rows(table_el):
 
   return headers, parsed_rows
 
-def pick_overall_team_batting_table(soup):
-  tables = soup.find_all("table")
-  best = None
-  best_score = -10**9
+def is_team_batting_table(headers):
+  header_set = set(headers)
 
-  for t in tables:
+  if "team" not in header_set:
+    return False
+
+  # Must-have batting columns
+  required = ["avg", "ab", "r", "h"]
+  for req in required:
+    if req not in header_set:
+      return False
+
+  # Strong batting indicators (helps avoid grabbing pitching/fielding)
+  batting_plus = ["rbi", "ob%", "slg%"]
+  plus_hits = 0
+  for m in batting_plus:
+    if m in header_set:
+      plus_hits += 1
+  if plus_hits < 2:
+    return False
+
+  # Reject pitching tables
+  pitching_markers = ["era", "ip", "sho", "sv", "wp", "bk", "b/avg", "w-l"]
+  for m in pitching_markers:
+    if m in header_set:
+      return False
+
+  return True
+
+def pick_team_batting_table(soup):
+  for t in soup.find_all("table"):
     headers, rows = extract_table_rows(t)
     if not headers or not rows:
       continue
-
-    header_set = set(headers)
-    score = 0
-
-    # must be a team table
-    if "team" in header_set:
-      score += 20
-    else:
-      continue
-
-    # markers that match OVERALL -> Batting (from your screenshot)
-    batting_markers = [
-      "avg","g","ab","r","h","2b","3b","hr","rbi","tb","slg%","bb","hbp","so",
-      "gdp","ob%","sf","sh","sb-att"
-    ]
-    for m in batting_markers:
-      if m in header_set:
-        score += 5
-
-    # penalize pitching-only tables so we don't accidentally pick them
-    pitching_markers = ["era","ip","sho","sv","wp","bk","b/avg","w-l"]
-    for m in pitching_markers:
-      if m in header_set:
-        score -= 10
-
-    # penalize fielding-only tables
-    fielding_markers = ["fld%","po","a","e","dp","pb","ci"]
-    for m in fielding_markers:
-      if m in header_set:
-        score -= 6
-
-    if score > best_score:
-      best_score = score
-      best = (headers, rows, score)
-
-  return best
+    if is_team_batting_table(headers):
+      return headers, rows
+  return None
 
 def main():
   generated_at = datetime.now(timezone.utc).isoformat()
@@ -100,7 +92,7 @@ def main():
     resp.raise_for_status()
 
     soup = BeautifulSoup(resp.text, "lxml")
-    picked = pick_overall_team_batting_table(soup)
+    picked = pick_team_batting_table(soup)
 
     if picked is None:
       payload = {
@@ -108,17 +100,25 @@ def main():
         "source_url": SOURCE_URL,
         "mode": mode_used,
         "rows": [],
-        "error": "Could not locate OVERALL team batting table on page"
+        "error": "Could not locate OVERALL team batting table (signature match failed)"
       }
     else:
-      headers, rows, score_val = picked
+      headers, rows = picked
 
-      # clean: remove empty index column if present
       cleaned_rows = []
       for r in rows:
         r2 = dict(r)
+
+        # Drop useless index column if present
         if "index" in r2 and (r2["index"] == "" or r2["index"] is None):
           del r2["index"]
+
+        # Drop fielding columns so this stays strictly batting/offense
+        fielding_keys = ["po", "a", "e", "fld%"]
+        for fk in fielding_keys:
+          if fk in r2:
+            del r2[fk]
+
         cleaned_rows.append(r2)
 
       payload = {
