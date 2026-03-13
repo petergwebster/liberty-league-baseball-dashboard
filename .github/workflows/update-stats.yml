@@ -26,10 +26,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Playwright browsers
-        run: |
-          python -m playwright install --with-deps chromium
-
       - name: Generate team stats into /data
         run: |
           python generate_live_team_stats.py
@@ -48,3 +44,4 @@ jobs:
           git status --porcelain
           git commit -m "Update stats JSON" || echo "No changes to commit"
           git push
+          
