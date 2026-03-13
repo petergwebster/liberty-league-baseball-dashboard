@@ -7,10 +7,13 @@ from bs4 import BeautifulSoup
 
 SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
 OUTFILE = "live_team_stats.json"
+
 print("SOURCE_URL=" + SOURCE_URL)
+
 
 def norm_header(txt_val):
   return re.sub(r"\s+", " ", (txt_val or "").strip()).lower()
+
 
 def extract_table_rows(table_el):
   header_cells = table_el.select("thead th")
@@ -42,11 +45,11 @@ def extract_table_rows(table_el):
 
   return headers, parsed_rows
 
-def pick_team_table_from_soup(soup):
-  tables = soup.find_all("table")
 
+def pick_team_batting_table_from_soup(soup):
+  tables = soup.find_all("table")
   best = None
-  best_score = -1
+  best_score = -10**9
 
   for t in tables:
     headers, rows = extract_table_rows(t)
@@ -54,16 +57,30 @@ def pick_team_table_from_soup(soup):
       continue
 
     header_set = set(headers)
-
     score = 0
+
     if any(h == "team" or h.startswith("team") for h in header_set):
-      score += 6
-    if any("w-l" in h or h == "wl" for h in header_set):
-      score += 4
-    if any("pct" in h or "percentage" in h for h in header_set):
-      score += 2
-    if any("conf" in h or "conference" in h for h in header_set):
-      score += 1
+      score += 10
+    else:
+      score -= 50
+
+    batting_markers = [
+      "avg", "g", "ab", "r", "h", "2b", "3b", "hr", "rbi",
+      "tb", "slg%", "bb", "hbp", "so", "gdp", "ob%", "sf", "sh", "sb-att"
+    ]
+    for m in batting_markers:
+      if m in header_set:
+        score += 4
+
+    pitching_markers = ["era", "ip", "sho", "sv", "wp", "bk", "b/avg", "w-l"]
+    for m in pitching_markers:
+      if m in header_set:
+        score -= 6
+
+    fielding_markers = ["fld%", "po", "a", "e", "dp", "pb", "ci"]
+    for m in fielding_markers:
+      if m in header_set:
+        score -= 3
 
     if score > best_score:
       best_score = score
@@ -71,37 +88,6 @@ def pick_team_table_from_soup(soup):
 
   return best
 
-def parse_wl(text_val):
-  m = re.search(r"(\d+)\s*[-/]\s*(\d+)", text_val or "")
-  if not m:
-    return None, None
-  return int(m.group(1)), int(m.group(2))
-
-def normalize_rows(rows):
-  normalized = []
-  for r in rows:
-    team_name = ""
-    wl_text = ""
-
-    for k in r.keys():
-      if k == "team" or k.startswith("team"):
-        team_name = r.get(k, "")
-      if "w-l" in k or k == "wl":
-        wl_text = r.get(k, "")
-
-    wins, losses = parse_wl(wl_text)
-
-    out_row = {"team": team_name}
-    out_row.update(r)
-
-    if wins is not None:
-      out_row["wins"] = wins
-    if losses is not None:
-      out_row["losses"] = losses
-
-    normalized.append(out_row)
-
-  return normalized
 
 def get_html_via_requests():
   resp = requests.get(
@@ -114,6 +100,7 @@ def get_html_via_requests():
   resp.raise_for_status()
   return resp.text
 
+
 def get_html_via_playwright():
   from playwright.sync_api import sync_playwright
 
@@ -124,11 +111,12 @@ def get_html_via_playwright():
     page.wait_for_timeout(2000)
     html = page.content()
     browser.close()
+
   return html
+
 
 def main():
   generated_at = datetime.now(timezone.utc).isoformat()
-
   mode_used = "requests"
   html = ""
   soup = None
@@ -136,38 +124,29 @@ def main():
   try:
     html = get_html_via_requests()
     soup = BeautifulSoup(html, "lxml")
-    picked = pick_team_table_from_soup(soup)
+    picked = pick_team_batting_table_from_soup(soup)
 
     if not picked:
       mode_used = "playwright"
       html = get_html_via_playwright()
       soup = BeautifulSoup(html, "lxml")
-      picked = pick_team_table_from_soup(soup)
+      picked = pick_team_batting_table_from_soup(soup)
 
     if not picked:
       payload = {
         "generated_at": generated_at,
         "source_url": SOURCE_URL,
         "mode": mode_used,
-        "rows": [
-          {"metric": "scrape_status", "value": "OK"},
-          {"metric": "mode", "value": mode_used},
-          {"metric": "page_title", "value": soup.title.get_text(strip=True) if soup and soup.title else ""},
-          {"metric": "tables_count", "value": str(len(soup.find_all("table"))) if soup else "0"},
-          {"metric": "links_count", "value": str(len(soup.find_all("a"))) if soup else "0"},
-          {"metric": "html_text_len", "value": str(len(html))}
-        ],
-        "error": None
+        "rows": [],
+        "error": "Could not locate OVERALL team batting table on page"
       }
     else:
       headers, rows = picked
-      normalized_rows = normalize_rows(rows)
-
       payload = {
         "generated_at": generated_at,
         "source_url": SOURCE_URL,
         "mode": mode_used,
-        "rows": normalized_rows,
+        "rows": rows,
         "error": None
       }
 
@@ -182,6 +161,7 @@ def main():
 
   with open(OUTFILE, "w", encoding="utf-8") as f:
     json.dump(payload, f, ensure_ascii=False, indent=2)
+
 
 if __name__ == "__main__":
   main()
