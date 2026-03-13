@@ -1,147 +1,294 @@
-import json
-import re
-from datetime import datetime, timezone
-
-import requests
-from bs4 import BeautifulSoup
-
-SOURCE_URL = "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026"
-OUTFILE = "live_team_stats.json"
-
-def norm_header(txt_val):
-  return re.sub(r"\s+", " ", (txt_val or "").strip()).lower()
-
-def extract_table_rows(table_el):
-  header_cells = table_el.select("thead th")
-  if not header_cells:
-    header_cells = table_el.select("tr th")
-
-  headers = [norm_header(th.get_text(" ", strip=True)) for th in header_cells]
-  headers = [h for h in headers if h]
-
-  body_rows = table_el.select("tbody tr")
-  if not body_rows:
-    all_rows = table_el.select("tr")
-    body_rows = all_rows[1:] if len(all_rows) > 1 else []
-
-  parsed_rows = []
-  for tr in body_rows:
-    tds = tr.find_all(["td", "th"])
-    if not tds:
-      continue
-
-    row_obj = {}
-    for i in range(min(len(headers), len(tds))):
-      key = headers[i]
-      val = tds[i].get_text(" ", strip=True)
-      row_obj[key] = val
-
-    if len(row_obj) > 0:
-      parsed_rows.append(row_obj)
-
-  return headers, parsed_rows
-
-def is_team_batting_table(headers):
-  header_set = set(headers)
-
-  if "team" not in header_set:
-    return False
-
-  # Must-have batting columns
-  required = ["avg", "ab", "r", "h"]
-  for req in required:
-    if req not in header_set:
-      return False
-
-  # Strong indicators this is the OVERALL batting team totals table
-  batting_plus = ["rbi", "ob%", "slg%"]
-  plus_hits = 0
-  for m in batting_plus:
-    if m in header_set:
-      plus_hits += 1
-  if plus_hits < 2:
-    return False
-
-  # Reject pitching tables
-  pitching_markers = ["era", "ip", "sho", "sv", "wp", "bk", "b/avg", "w-l"]
-  for m in pitching_markers:
-    if m in header_set:
-      return False
-
-  # Reject fielding tables
-  fielding_markers = ["fld%", "po", "a", "e", "dp", "pb", "ci"]
-  fielding_hits = 0
-  for m in fielding_markers:
-    if m in header_set:
-      fielding_hits += 1
-  if fielding_hits >= 4:
-    return False
-
-  return True
-
-def pick_team_batting_table(soup):
-  for t in soup.find_all("table"):
-    headers, rows = extract_table_rows(t)
-    if not headers or not rows:
-      continue
-    if is_team_batting_table(headers):
-      return headers, rows
-  return None
-
-def main():
-  generated_at = datetime.now(timezone.utc).isoformat()
-  mode_used = "requests"
-
-  try:
-    resp = requests.get(
-      SOURCE_URL,
-      timeout=30,
-      headers={"User-Agent": "Mozilla/5.0 (compatible; liberty-league-stats-bot/1.0)"},
-    )
-    resp.raise_for_status()
-
-    soup = BeautifulSoup(resp.text, "lxml")
-    picked = pick_team_batting_table(soup)
-
-    if picked is None:
-      payload = {
-        "generated_at": generated_at,
-        "source_url": SOURCE_URL,
-        "mode": mode_used,
-        "rows": [],
-        "error": "Could not locate OVERALL team batting table (signature match failed)"
-      }
-    else:
-      headers, rows = picked
-
-      cleaned_rows = []
-      for r in rows:
-        r2 = dict(r)
-
-        if "index" in r2 and (r2["index"] == "" or r2["index"] is None):
-          del r2["index"]
-
-        cleaned_rows.append(r2)
-
-      payload = {
-        "generated_at": generated_at,
-        "source_url": SOURCE_URL,
-        "mode": mode_used,
-        "rows": cleaned_rows,
-        "error": None
-      }
-
-  except Exception as exc:
-    payload = {
-      "generated_at": generated_at,
-      "source_url": SOURCE_URL,
-      "mode": mode_used,
-      "rows": [],
-      "error": str(exc)
+{
+  "generated_at": "2026-03-13T01:55:05.420462+00:00",
+  "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
+  "mode": "requests",
+  "rows": [
+    {
+      "team": "Ithaca",
+      "avg": ".365",
+      "g": "6",
+      "ab": "219",
+      "r": "77",
+      "h": "80",
+      "2b": "10",
+      "3b": "3",
+      "hr": "9",
+      "rbi": "71",
+      "tb": "123",
+      "slg%": ".562",
+      "bb": "37",
+      "hbp": "11",
+      "so": "50",
+      "gdp": "0",
+      "ob%": "0.469",
+      "sf": "6",
+      "sh": "0",
+      "sb-att": "23-27",
+      "po": "145",
+      "a": "56",
+      "e": "17",
+      "fld%": ".922"
+    },
+    {
+      "team": "Rochester",
+      "avg": ".349",
+      "g": "9",
+      "ab": "275",
+      "r": "69",
+      "h": "96",
+      "2b": "19",
+      "3b": "2",
+      "hr": "3",
+      "rbi": "62",
+      "tb": "128",
+      "slg%": ".465",
+      "bb": "27",
+      "hbp": "15",
+      "so": "51",
+      "gdp": "6",
+      "ob%": "0.430",
+      "sf": "4",
+      "sh": "10",
+      "sb-att": "8-14",
+      "po": "201",
+      "a": "94",
+      "e": "17",
+      "fld%": ".946"
+    },
+    {
+      "team": "Skidmore",
+      "avg": ".342",
+      "g": "7",
+      "ab": "222",
+      "r": "64",
+      "h": "76",
+      "2b": "17",
+      "3b": "4",
+      "hr": "5",
+      "rbi": "55",
+      "tb": "116",
+      "slg%": ".523",
+      "bb": "28",
+      "hbp": "6",
+      "so": "31",
+      "gdp": "3",
+      "ob%": "0.423",
+      "sf": "4",
+      "sh": "6",
+      "sb-att": "21-24",
+      "po": "162",
+      "a": "50",
+      "e": "12",
+      "fld%": ".946"
+    },
+    {
+      "team": "Bard",
+      "avg": ".331",
+      "g": "5",
+      "ab": "142",
+      "r": "31",
+      "h": "47",
+      "2b": "7",
+      "3b": "0",
+      "hr": "1",
+      "rbi": "30",
+      "tb": "57",
+      "slg%": ".401",
+      "bb": "15",
+      "hbp": "9",
+      "so": "33",
+      "gdp": "0",
+      "ob%": "0.420",
+      "sf": "3",
+      "sh": "2",
+      "sb-att": "6-11",
+      "po": "114",
+      "a": "31",
+      "e": "9",
+      "fld%": ".942"
+    },
+    {
+      "team": "Union",
+      "avg": ".285",
+      "g": "6",
+      "ab": "214",
+      "r": "45",
+      "h": "61",
+      "2b": "12",
+      "3b": "2",
+      "hr": "2",
+      "rbi": "37",
+      "tb": "83",
+      "slg%": ".388",
+      "bb": "32",
+      "hbp": "17",
+      "so": "44",
+      "gdp": "1",
+      "ob%": "0.412",
+      "sf": "4",
+      "sh": "2",
+      "sb-att": "8-9",
+      "po": "150",
+      "a": "49",
+      "e": "11",
+      "fld%": ".948"
+    },
+    {
+      "team": "St. Lawrence",
+      "avg": ".272",
+      "g": "7",
+      "ab": "206",
+      "r": "32",
+      "h": "56",
+      "2b": "11",
+      "3b": "2",
+      "hr": "0",
+      "rbi": "30",
+      "tb": "71",
+      "slg%": ".345",
+      "bb": "20",
+      "hbp": "3",
+      "so": "39",
+      "gdp": "1",
+      "ob%": "0.341",
+      "sf": "3",
+      "sh": "2",
+      "sb-att": "6-7",
+      "po": "150",
+      "a": "69",
+      "e": "7",
+      "fld%": ".969"
+    },
+    {
+      "team": "RIT",
+      "avg": ".271",
+      "g": "12",
+      "ab": "443",
+      "r": "85",
+      "h": "120",
+      "2b": "28",
+      "3b": "3",
+      "hr": "8",
+      "rbi": "71",
+      "tb": "178",
+      "slg%": ".402",
+      "bb": "63",
+      "hbp": "17",
+      "so": "91",
+      "gdp": "6",
+      "ob%": "0.380",
+      "sf": "4",
+      "sh": "5",
+      "sb-att": "10-11",
+      "po": "319",
+      "a": "116",
+      "e": "17",
+      "fld%": ".962"
+    },
+    {
+      "team": "Hobart",
+      "avg": ".262",
+      "g": "11",
+      "ab": "313",
+      "r": "68",
+      "h": "82",
+      "2b": "17",
+      "3b": "4",
+      "hr": "2",
+      "rbi": "60",
+      "tb": "113",
+      "slg%": ".361",
+      "bb": "40",
+      "hbp": "17",
+      "so": "73",
+      "gdp": "5",
+      "ob%": "0.369",
+      "sf": "7",
+      "sh": "2",
+      "sb-att": "15-19",
+      "po": "238",
+      "a": "103",
+      "e": "9",
+      "fld%": ".974"
+    },
+    {
+      "team": "RPI",
+      "avg": ".255",
+      "g": "8",
+      "ab": "267",
+      "r": "49",
+      "h": "68",
+      "2b": "12",
+      "3b": "1",
+      "hr": "5",
+      "rbi": "38",
+      "tb": "97",
+      "slg%": ".363",
+      "bb": "31",
+      "hbp": "15",
+      "so": "64",
+      "gdp": "4",
+      "ob%": "0.357",
+      "sf": "6",
+      "sh": "6",
+      "sb-att": "10-16",
+      "po": "204",
+      "a": "72",
+      "e": "17",
+      "fld%": ".942"
+    },
+    {
+      "team": "Clarkson",
+      "avg": ".244",
+      "g": "7",
+      "ab": "209",
+      "r": "32",
+      "h": "51",
+      "2b": "13",
+      "3b": "1",
+      "hr": "0",
+      "rbi": "28",
+      "tb": "66",
+      "slg%": ".316",
+      "bb": "22",
+      "hbp": "6",
+      "so": "51",
+      "gdp": "1",
+      "ob%": "0.331",
+      "sf": "2",
+      "sh": "1",
+      "sb-att": "7-8",
+      "po": "162",
+      "a": "50",
+      "e": "12",
+      "fld%": ".946"
+    },
+    {
+      "team": "Vassar",
+      "avg": ".234",
+      "g": "7",
+      "ab": "197",
+      "r": "33",
+      "h": "46",
+      "2b": "6",
+      "3b": "4",
+      "hr": "2",
+      "rbi": "29",
+      "tb": "66",
+      "slg%": ".335",
+      "bb": "26",
+      "hbp": "18",
+      "so": "70",
+      "gdp": "1",
+      "ob%": "0.369",
+      "sf": "3",
+      "sh": "1",
+      "sb-att": "5-7",
+      "po": "150",
+      "a": "57",
+      "e": "18",
+      "fld%": ".920"
     }
-
-  with open(OUTFILE, "w", encoding="utf-8") as f:
-    json.dump(payload, f, ensure_ascii=False, indent=2)
-
-if __name__ == "__main__":
-  main()
+  ],
+  "error": null
+}
