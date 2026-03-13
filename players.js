@@ -1,17 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("PLAYERS.JS LOADED", new Date().toISOString());
-
   function byId(idVal) {
     return document.getElementById(idVal);
   }
 
-  function safeText(idVal, textVal) {
+  function setText(idVal, textVal) {
     const elVal = byId(idVal);
     if (!elVal) return;
     elVal.textContent = String(textVal);
   }
 
-  function safeHtml(idVal, htmlVal) {
+  function setHtml(idVal, htmlVal) {
     const elVal = byId(idVal);
     if (!elVal) return;
     elVal.innerHTML = String(htmlVal);
@@ -24,23 +22,15 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/>/g, "&gt;");
   }
 
-  function normalizeRows(payloadVal) {
-    if (!payloadVal) return [];
-    if (Array.isArray(payloadVal)) return payloadVal;
-    if (Array.isArray(payloadVal.rows)) return payloadVal.rows;
-    if (Array.isArray(payloadVal.players)) return payloadVal.players;
-    return [];
-  }
-
   function renderPlayers(rowsVal) {
     const gridEl = byId("playersGrid");
     if (!gridEl) {
-      console.log("Missing #playersGrid element");
+      console.log("Missing #playersGrid in HTML");
       return;
     }
 
-    if (!rowsVal.length) {
-      gridEl.innerHTML = "<div class='errorBox'>No players found in players.json</div>";
+    if (!rowsVal || !rowsVal.length) {
+      gridEl.innerHTML = "<div style='padding:12px; border:1px solid #b91c1c; border-radius:12px; color:#b91c1c; font-weight:700;'>No players found</div>";
       return;
     }
 
@@ -52,13 +42,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const opsVal = pVal.ops != null ? String(pVal.ops) : "";
 
       return (
-        "<div class='player-card'>" +
-          "<div class='player-name'>" + esc(nameVal) + "</div>" +
-          "<div class='player-team'>" + esc(teamVal) + "</div>" +
-          "<div class='player-stats'>" +
-            "<span>AB " + esc(abVal) + "</span>" +
-            "<span>PA " + esc(paVal) + "</span>" +
-            "<span>OPS " + esc(opsVal) + "</span>" +
+        "<div style='padding:12px; border:1px solid #e5e7eb; border-radius:14px; margin-bottom:10px; background:#ffffff;'>" +
+          "<div style='font-weight:900; font-size:16px;'>" + esc(nameVal) + "</div>" +
+          "<div style='opacity:0.7; font-weight:700; margin:4px 0 10px 0;'>" + esc(teamVal) + "</div>" +
+          "<div style='display:flex; gap:12px; flex-wrap:wrap; font-size:13px;'>" +
+            "<div>AB " + esc(abVal) + "</div>" +
+            "<div>PA " + esc(paVal) + "</div>" +
+            "<div>OPS " + esc(opsVal) + "</div>" +
           "</div>" +
         "</div>"
       );
@@ -66,47 +56,32 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   (async function init() {
-    console.log("init() starting");
+    console.log("players.js running");
 
-    console.log("DOM presence",
-      "statePill", !!byId("statePill"),
-      "playersCount", !!byId("playersCount"),
-      "playersGrid", !!byId("playersGrid")
-    );
-
-    safeText("statePill", "Loading...");
+    setText("statePill", "Loading...");
 
     try {
       const resVal = await fetch("/players.json", { cache: "no-store" });
-      console.log("players.json HTTP", resVal.status);
-
-      const contentTypeVal = resVal.headers.get("content-type");
-      console.log("players.json content-type", contentTypeVal);
-
-      const bodyTextVal = await resVal.text();
-      console.log("players.json first 200 chars", bodyTextVal.slice(0, 200));
+      console.log("players.json status", resVal.status);
 
       if (!resVal.ok) throw new Error("players.json HTTP " + resVal.status);
 
-      let payloadVal = null;
-      try {
-        payloadVal = JSON.parse(bodyTextVal);
-      } catch (jsonErrVal) {
-        throw new Error("players.json is not valid JSON. First 200 chars: " + bodyTextVal.slice(0, 200));
-      }
+      const payloadVal = await resVal.json();
+      const rowsVal = Array.isArray(payloadVal) ? payloadVal : (payloadVal.rows || payloadVal.players || []);
 
-      const rowsVal = normalizeRows(payloadVal);
-      console.log("rowsVal length", rowsVal.length);
+      setText("playersCount", rowsVal.length);
+      setText("statePill", "Loaded");
 
-      safeText("playersCount", rowsVal.length);
-      safeText("statePill", "Loaded player cards");
       renderPlayers(rowsVal);
-
-      console.log("init() done");
     } catch (eVal) {
-      console.error("init() error", eVal);
-      safeText("statePill", "Load failed");
-      safeHtml("playersGrid", "<div class='errorBox'>" + esc(eVal && eVal.message ? eVal.message : String(eVal)) + "</div>");
+      console.error(eVal);
+      setText("statePill", "Load failed");
+      setHtml(
+        "playersGrid",
+        "<div style='padding:12px; border:1px solid #b91c1c; border-radius:12px; color:#b91c1c; font-weight:700; white-space:pre-wrap;'>" +
+          esc(eVal && eVal.message ? eVal.message : String(eVal)) +
+        "</div>"
+      );
     }
   })();
 });
