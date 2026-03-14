@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-14T22:13:06.017818+00:00",
+  "generated_at": "2026-03-14T23:16:09.328951+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "mode": "requests",
   "rows": [
@@ -115,9 +115,9 @@
     },
     {
       "team": "Union",
-      "avg": ".300",
+      "avg": ".301",
       "g": "8",
-      "ab": "283",
+      "ab": "282",
       "r": "68",
       "h": "85",
       "2b": "20",
@@ -125,14 +125,14 @@
       "hr": "5",
       "rbi": "59",
       "tb": "130",
-      "slg%": ".459",
+      "slg%": ".461",
       "bb": "42",
       "hbp": "21",
       "so": "57",
       "gdp": "1",
-      "ob%": "0.422",
+      "ob%": "0.423",
       "sf": "5",
-      "sh": "2",
+      "sh": "3",
       "sb-att": "10-13"
     },
     {
