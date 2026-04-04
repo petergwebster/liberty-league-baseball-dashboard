@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-04T12:27:36.773300+00:00",
+  "generated_at": "2026-04-04T13:43:36.338727+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "mode": "requests",
   "rows": [
@@ -49,25 +49,25 @@
     },
     {
       "team": "Hobart",
-      "avg": ".309",
+      "avg": ".310",
       "g": "24",
       "ab": "745",
       "r": "183",
-      "h": "230",
+      "h": "231",
       "2b": "44",
       "3b": "15",
       "hr": "7",
       "rbi": "166",
-      "tb": "325",
-      "slg%": ".436",
+      "tb": "326",
+      "slg%": ".438",
       "bb": "98",
       "hbp": "41",
       "so": "151",
       "gdp": "9",
-      "ob%": "0.411",
+      "ob%": "0.412",
       "sf": "13",
       "sh": "9",
-      "sb-att": "56-65"
+      "sb-att": "56-66"
     },
     {
       "team": "Skidmore",
