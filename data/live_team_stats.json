@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-08T01:11:52.239727+00:00",
+  "generated_at": "2026-04-08T04:25:35.287893+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "mode": "requests",
   "rows": [
@@ -67,7 +67,7 @@
       "ob%": "0.419",
       "sf": "10",
       "sh": "6",
-      "sb-att": "45-55"
+      "sb-att": "45-56"
     },
     {
       "team": "Hobart",
