@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-10T01:12:43.238951+00:00",
+  "generated_at": "2026-04-10T04:35:52.550018+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "mode": "requests",
   "rows": [
@@ -98,12 +98,12 @@
       "ab": "734",
       "r": "166",
       "h": "219",
-      "2b": "44",
+      "2b": "45",
       "3b": "7",
       "hr": "16",
       "rbi": "149",
-      "tb": "325",
-      "slg%": ".443",
+      "tb": "326",
+      "slg%": ".444",
       "bb": "115",
       "hbp": "46",
       "so": "168",
