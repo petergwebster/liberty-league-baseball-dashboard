@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-26T14:31:12.276108+00:00",
+  "generated_at": "2026-05-26T17:49:21.930964+00:00",
   "source_url": "https://libertyleagueathletics.com/stats.aspx?path=baseball&year=2026",
   "mode": "requests",
   "rows": [
@@ -85,11 +85,11 @@
       "bb": "228",
       "hbp": "104",
       "so": "306",
-      "gdp": "18",
+      "gdp": "17",
       "ob%": "0.419",
       "sf": "29",
       "sh": "20",
-      "sb-att": "124-145"
+      "sb-att": "124-144"
     },
     {
       "team": "RIT",
